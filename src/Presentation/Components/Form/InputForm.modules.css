@@ -1,0 +1,43 @@
+.input_container {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  /* border: 1px solid #ccc; */
+  /* border-radius: 16px; */
+}
+
+.input_container input {
+  /* padding: 20px 24px 20px 24px; */
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.container_input_icon {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.span_form_error {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.input_borderless {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+}
+
+.input_borderless:focus {
+  outline: 1px solid #000000;
+}
+
+.input_error {
+  outline: 1px solid #ff0000;
+}
