@@ -6,8 +6,7 @@ import useViewModelCamera from "./PageCameraViewModel";
 import "./PageCamera.modules.css";
 
 const PageCamera: React.FC = () => {
-  const { captureImage, setCaptureImage, webcamRef, capture } =
-    useViewModelCamera();
+  const { captureImage, webcamRef, capture } = useViewModelCamera();
 
   return (
     <div className="container_camera_page">
@@ -18,7 +17,7 @@ const PageCamera: React.FC = () => {
         <img
           className="captured_image"
           src={captureImage}
-          alt="captured image"
+          alt="result captured"
         />
       ) : null}
       <ButtonCamera

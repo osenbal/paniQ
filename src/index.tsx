@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./Presentation/App";
 import MainLayout from "./Presentation/Layouts/MainLayout";
-import DashboardLayout from "./Presentation/Layouts/DashboardLayout";
+// import DashboardLayout from "./Presentation/Layouts/DashboardLayout";
 import { Provider } from "react-redux";
 import { store } from "./Domain/Store/store";
 import * as serviceWorkerRegistration from "./Data/Serviceworker/serviceWorkerRegistration";

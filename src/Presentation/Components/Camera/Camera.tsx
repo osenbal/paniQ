@@ -1,7 +1,6 @@
-import { type } from "os";
 import React from "react";
 import WebCam from "react-webcam";
-import ButtonCamera from "../Button/ButtonCamera";
+// import ButtonCamera from "../Button/ButtonCamera";
 
 type Props = {
   webcamRef: React.MutableRefObject<WebCam | null>;
