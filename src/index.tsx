@@ -5,7 +5,7 @@ import MainLayout from "./Presentation/Layouts/MainLayout";
 // import DashboardLayout from "./Presentation/Layouts/DashboardLayout";
 import { Provider } from "react-redux";
 import { store } from "./Domain/Store/store";
-import * as serviceWorkerRegistration from "./Data/Serviceworker/serviceWorkerRegistration";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import "./Api/apiInterceptor";
 
