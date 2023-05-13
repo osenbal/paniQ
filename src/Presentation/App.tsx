@@ -4,7 +4,7 @@ import DashboardLayout from "./Layouts/DashboardLayout";
 import Spinner from "./Components/Spinner";
 import "./App.css";
 
-import { AuthMiddleware } from "./Middleware/auth.middleware";
+// import { AuthMiddleware } from "./Middleware/auth.middleware";
 
 const Todos = lazy(() => import("./Pages/Todos/TodoListView"));
 const Login = lazy(() => import("./Pages/Login/LoginView"));
