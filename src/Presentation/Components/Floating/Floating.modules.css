@@ -1,0 +1,59 @@
+.container_floating {
+  position: relative;
+}
+
+.wrap_floating_button_group {
+  position: fixed;
+}
+
+.float_button_group {
+  right: 6vw;
+  bottom: 100px;
+}
+
+.floating_overlay {
+  transition: all 0.3s ease-in-out;
+
+  position: fixed;
+  width: 100vw;
+  background-color: rgba(60, 57, 57, 0.7);
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 768px;
+}
+
+@media screen and (min-width: 480px) {
+  .float_button_group {
+    right: 4vw;
+  }
+}
+
+@media screen and (min-width: 576px) {
+}
+
+@media screen and (min-width: 784px) {
+  .float_button_group {
+    right: 7vw;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .float_button_group {
+    right: 14vw;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .float_button_group {
+    right: 23vw;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .float_button_group {
+    right: 31.4vw;
+  }
+}

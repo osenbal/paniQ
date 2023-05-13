@@ -11,9 +11,11 @@ type Props = {
   border?: boolean;
   style?: React.CSSProperties;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: any) => void;
   label?: string;
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
+  className?: string;
   rest?: any;
 };
 
@@ -26,12 +28,14 @@ const InputForm: React.FC<Props> = ({
   error = "",
   label = "label",
   onChange,
+  onKeyDown,
   icon,
   iconPosition = "left",
+  className,
   ...rest
 }: Props) => {
   return (
-    <div className="container_input_form">
+    <div className={`container_input_form ` + className}>
       <label htmlFor={label}>
         <span>{label}</span>
       </label>
@@ -59,6 +63,7 @@ const InputForm: React.FC<Props> = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
           {...rest}
         />
         {iconPosition === "right" ? (
