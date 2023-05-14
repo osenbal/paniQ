@@ -8,6 +8,7 @@ const NotificationRequest = () => {
     if (state.permission === "default" || state.permission === "unknown") {
       requestNotificationPermission();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const requestNotificationPermission = () => {

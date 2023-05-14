@@ -78,7 +78,7 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// request notification permission
+//  push notification
 self.addEventListener("push", (event) => {
   const data = event.data?.json();
   if (data) {
