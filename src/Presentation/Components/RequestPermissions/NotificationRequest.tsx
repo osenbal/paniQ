@@ -58,7 +58,7 @@ const NotificationRequest = () => {
           Request notification permission
         </button>
 
-        <button onClick={sendNotif}></button>
+        <button onClick={sendNotif}>Send notification</button>
       </div>
     </>
   );
