@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./Presentation/App";
 import MainLayout from "./Presentation/Layouts/MainLayout";
-import { Notifications } from "react-push-notification";
 // import DashboardLayout from "./Presentation/Layouts/DashboardLayout";
 import { Provider } from "react-redux";
 import { store } from "./Domain/Store/store";
@@ -20,7 +19,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <MainLayout>
-        <Notifications />
         <App />
       </MainLayout>
     </Provider>
