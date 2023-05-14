@@ -17,7 +17,7 @@ const Navigation: React.FC = () => {
             height: "82px",
             bottom: 0,
             backgroundColor: "#ffffff",
-            padding: "0 24px",
+            padding: "0 16px",
           }}
         >
           <li>

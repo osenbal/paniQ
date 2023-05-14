@@ -32,14 +32,14 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <NotificationRequest />
       <div className="page">
         <button onClick={buttonClick} className="button">
           Hello world.
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

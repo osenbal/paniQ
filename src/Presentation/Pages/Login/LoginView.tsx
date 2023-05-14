@@ -15,53 +15,54 @@ export default function TodoListView() {
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   return (
-    <div>
+    <>
       <Meta>
         <title>Login | PaniQ</title>
       </Meta>
+      <div className="container px-6">
+        <h1
+          className="font_title20 text-center"
+          style={{ marginBottom: "58px", marginTop: "44px" }}
+        >
+          Login
+        </h1>
 
-      <h1
-        className="font_title20 text-center"
-        style={{ marginBottom: "58px", marginTop: "44px" }}
-      >
-        Login
-      </h1>
+        <InputForm
+          placeholder="Masukan NIM / NIP..."
+          label="NIM / NIP"
+          value={nim}
+          onChange={(e) => setNim(e.target.value)}
+          style={{ marginBottom: "20px", height: "64px" }}
+        />
 
-      <InputForm
-        placeholder="Masukan NIM / NIP..."
-        label="NIM / NIP"
-        value={nim}
-        onChange={(e) => setNim(e.target.value)}
-        style={{ marginBottom: "20px", height: "64px" }}
-      />
+        <InputForm
+          placeholder="Masukan password ..."
+          label="Password"
+          value={password}
+          type={showPassword ? "text" : "password"}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ marginBottom: "64px", height: "64px" }}
+          icon={
+            showPassword ? (
+              <OpenEye alt="show password" onClick={handleShowPassword} />
+            ) : (
+              <CloseEye alt="hidden password" onClick={handleShowPassword} />
+            )
+          }
+          iconPosition="right"
+        />
 
-      <InputForm
-        placeholder="Masukan password ..."
-        label="Password"
-        value={password}
-        type={showPassword ? "text" : "password"}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ marginBottom: "64px", height: "64px" }}
-        icon={
-          showPassword ? (
-            <OpenEye alt="show password" onClick={handleShowPassword} />
-          ) : (
-            <CloseEye alt="hidden password" onClick={handleShowPassword} />
-          )
-        }
-        iconPosition="right"
-      />
+        <Button
+          onClick={login}
+          style={{ width: "100%", height: "64px", marginBottom: "54px" }}
+        >
+          Login
+        </Button>
 
-      <Button
-        onClick={login}
-        style={{ width: "100%", height: "64px", marginBottom: "54px" }}
-      >
-        Login
-      </Button>
-
-      <div className="flex justify-center">
-        <LogoApp />
+        <div className="flex justify-center">
+          <LogoApp />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
