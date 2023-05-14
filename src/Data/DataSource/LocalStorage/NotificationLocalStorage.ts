@@ -2,7 +2,6 @@ import LocalStorage from "./LocalStorage";
 
 class NotificationLocalStorage {
   public static getNotifications(): boolean {
-    console.log("getNotifications : ", LocalStorage.get("notifications"));
     return LocalStorage.get("notifications");
   }
 

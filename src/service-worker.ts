@@ -13,6 +13,7 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
+import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -73,27 +74,60 @@ registerRoute(
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener("message", (event) => {
+  console.log("message", event);
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
 });
 
-//  push notification
-self.addEventListener("push", (event) => {
-  const data = event.data?.json();
-  if (data) {
-    const { title, body, icon, url } = data;
+// Any other custom service worker logic can go here.
+const showLocalNotification = (
+  title: string,
+  body: any,
+  swRegistration: any
+) => {
+  const options = {
+    body,
+    // here you can add more properties like icon, image, vibrate, etc.
+  };
+  swRegistration.showNotification(title, options);
+};
 
-    event.waitUntil(
-      self.registration.showNotification(title, {
-        body,
-        icon,
-        data: {
-          url,
-        },
-      })
+const saveSubscription = async (subscription: any) => {
+  const SERVER_URL = "http://localhost:4000/save-subscription";
+  const response = await fetch(SERVER_URL, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(subscription),
+  });
+  return response.json();
+};
+
+self.addEventListener("activate", async () => {
+  // This will be called only once when the service worker is activated.
+  console.log("service worker activate");
+  try {
+    const applicationServerKey = urlB64ToUint8Array(
+      "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
     );
+    const options = { applicationServerKey, userVisibleOnly: true };
+    const subscription = await self.registration.pushManager.subscribe(options);
+    const response = await saveSubscription(subscription);
+    console.log(JSON.stringify(subscription));
+  } catch (err) {
+    console.log("Error", err);
   }
 });
 
-// Any other custom service worker logic can go here.
+//  push notification
+self.addEventListener("push", (event) => {
+  console.log("Push Notification received", event);
+  if (event.data) {
+    console.log("Push event!! ", event.data.text());
+    showLocalNotification("Yolo", event.data.text(), self.registration);
+  } else {
+    console.log("Push event but no data");
+  }
+});

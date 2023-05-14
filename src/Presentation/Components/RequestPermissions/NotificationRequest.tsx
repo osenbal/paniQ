@@ -45,12 +45,13 @@ const NotificationRequest = () => {
   return (
     <>
       <Modal
-        title="Apakah anda mengijinkan notifikasi untuk app ini ?"
+        title="Allow Notifications ?"
         open={open}
         onOk={requestNotificationPermission}
         onCancel={rejectNotificationPermission}
-        okText="Setuju"
-        cancelText="Tidak"
+        okText="Allow"
+        cancelText="Don't Allow"
+        closable={false}
         maskClosable={false}
         okButtonProps={{
           style: { backgroundColor: "#00EBC7", color: "#00214D" },
