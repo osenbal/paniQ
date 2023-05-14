@@ -12,5 +12,4 @@ const urlB64ToUint8Array = (base64String: any) => {
   }
   return outputArray;
 };
-
 export default urlB64ToUint8Array;
