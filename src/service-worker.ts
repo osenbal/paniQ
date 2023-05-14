@@ -94,7 +94,7 @@ const showLocalNotification = (
 };
 
 const saveSubscription = async (subscription: any) => {
-  const SERVER_URL = "http://localhost:4000/save-subscription";
+  const SERVER_URL = `${process.env.REACT_APP_BASE_API_URL}/subscription`;
   const response = await fetch(SERVER_URL, {
     method: "post",
     headers: {
@@ -124,7 +124,6 @@ self.addEventListener("activate", async () => {
 
 //  push notification
 self.addEventListener("push", (event) => {
-  console.log("Push Notification received", event);
   if (event.data) {
     console.log("Push event!! ", event.data.text());
     showLocalNotification("Yolo", event.data.text(), self.registration);
