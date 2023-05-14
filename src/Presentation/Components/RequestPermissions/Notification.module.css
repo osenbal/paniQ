@@ -1,0 +1,13 @@
+.permissionRequestor {
+  text-align: center;
+}
+
+.button {
+  margin-top: 1rem;
+  background-color: steelblue;
+  padding: 0.5rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+}
