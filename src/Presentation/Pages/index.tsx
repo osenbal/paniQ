@@ -10,7 +10,7 @@ const Index: React.FC = () => {
     //   theme: "darkblue",
     //   native: false, // when using native, your OS will handle theming.
     // });
-    if (Notification.permission == "granted") {
+    if (Notification.permission === "granted") {
       navigator.serviceWorker.getRegistration().then(function (reg: any) {
         var options = {
           body: "Here is a notification body!",
