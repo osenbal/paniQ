@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
 import CheckSupportedBrowser from "@/utils/CheckSupportedBrowser";
+import NotificationLocalStorage from "@/Data/DataSource/LocalStorage/NotificationLocalStorage";
 
 const NotificationRequest = () => {
   const [open, setOpen] = useState(false);
@@ -18,7 +19,10 @@ const NotificationRequest = () => {
       CheckSupportedBrowser.serviceWorker() &&
       CheckSupportedBrowser.pushManager()
     ) {
-      if (Notification.permission === "default") {
+      if (
+        Notification.permission === "default" &&
+        NotificationLocalStorage.getNotifications() === null
+      ) {
         showModal();
       }
     }
@@ -34,6 +38,7 @@ const NotificationRequest = () => {
   };
 
   const rejectNotificationPermission = () => {
+    NotificationLocalStorage.setNotifications(false);
     hideModal();
   };
 
