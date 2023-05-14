@@ -3,13 +3,6 @@ import NotificationRequest from "@/Presentation/Components/RequestPermissions/No
 
 const Index: React.FC = () => {
   const buttonClick = () => {
-    // addNotification({
-    //   title: "Warning",
-    //   subtitle: "This is a subtitle",
-    //   message: "This is a very long message",
-    //   theme: "darkblue",
-    //   native: false, // when using native, your OS will handle theming.
-    // });
     if (Notification.permission === "granted") {
       navigator.serviceWorker.getRegistration().then(function (reg: any) {
         var options = {
