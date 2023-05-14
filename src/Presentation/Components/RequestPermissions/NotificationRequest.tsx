@@ -51,6 +51,7 @@ const NotificationRequest = () => {
         onCancel={rejectNotificationPermission}
         okText="Setuju"
         cancelText="Tidak"
+        maskClosable={false}
         okButtonProps={{
           style: { backgroundColor: "#00EBC7", color: "#00214D" },
         }}
