@@ -4,7 +4,7 @@ import { Button } from "antd";
 
 type Props = {
   onClick?: () => void;
-  className: string;
+  className?: string;
   rest?: any;
 };
 
@@ -15,7 +15,15 @@ const ButtonCamera: React.FC<Props> = ({ onClick, className, rest }) => {
         onClick={onClick}
         className={className}
         type="primary"
-        icon={<img src={IconCaptureCamera} alt="capture camera" />}
+        // size="large"
+        style={{ width: "64px", height: "64px" }}
+        icon={
+          <img
+            style={{ width: "32px" }}
+            src={IconCaptureCamera}
+            alt="capture camera"
+          />
+        }
         {...rest}
       />
     </>

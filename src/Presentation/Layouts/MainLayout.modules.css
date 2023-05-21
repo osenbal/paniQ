@@ -26,16 +26,16 @@
   .mainLayout_container {
     margin: 0 24vw;
   }
-}
+}*/
 
 @media screen and (min-width: 1200px) {
   .mainLayout_container {
-    margin: 0 32vw;
+    max-width: 465px;
   }
 }
 
 @media screen and (min-width: 1400px) {
-  .mainLayout_container {
+  /* .mainLayout_container {
     margin: 0 36vw;
-  }
-} */
+  } */
+}

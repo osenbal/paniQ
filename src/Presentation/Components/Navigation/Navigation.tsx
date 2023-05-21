@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import IconHome from "@/Assets/Icons/icon_home.svg";
 import IconCamera from "@/Assets/Icons/icon_camera.svg";
 import IconProfile from "@/Assets/Icons/icon_profile.svg";
@@ -21,10 +22,18 @@ const Navigation: React.FC = () => {
           }}
         >
           <li>
-            <img style={{ cursor: "pointer" }} src={IconHome} alt="home" />
+            <NavLink to="/">
+              <img style={{ cursor: "pointer" }} src={IconHome} alt="home" />
+            </NavLink>
           </li>
           <li>
-            <img style={{ cursor: "pointer" }} src={IconCamera} alt="camera" />
+            <NavLink to="/camera">
+              <img
+                style={{ cursor: "pointer" }}
+                src={IconCamera}
+                alt="camera"
+              />
+            </NavLink>
           </li>
           <li>
             <img

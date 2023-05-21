@@ -12,7 +12,7 @@ const Floating: React.FC = () => {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <div className="container_floating ">
+    <div className="container_floating">
       <div className={open ? "floating_overlay" : ""}>
         <FloatButton.Group
           icon={

@@ -1,43 +1,29 @@
 import React from "react";
 import NotificationRequest from "@/Presentation/Components/RequestPermissions/NotificationRequest";
+import CardPost from "@/Presentation/Components/CardPost/CardPost";
+
+import post from "@/Data/DataSource/Dummy/Posts";
 
 const Index: React.FC = () => {
-  const buttonClick = () => {
-    if (Notification.permission === "granted") {
-      navigator.serviceWorker.getRegistration().then(function (reg: any) {
-        var options = {
-          body: "Here is a notification body!",
-          icon: "images/example.png",
-          vibrate: [100, 50, 100],
-          data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1,
-          },
-          actions: [
-            {
-              action: "explore",
-              title: "Explore this new world",
-              icon: "images/checkmark.png",
-            },
-            {
-              action: "close",
-              title: "Close notification",
-              icon: "images/xmark.png",
-            },
-          ],
-        };
-        reg.showNotification("Hello world!", options);
-      });
-    }
-  };
-
   return (
     <>
       <NotificationRequest />
       <div className="page">
-        <button onClick={buttonClick} className="button">
-          Hello world.
-        </button>
+        <div style={{ marginTop: "8px", paddingBottom: "100px" }}>
+          {post.map((item, index) => (
+            <CardPost
+              key={index}
+              userName={item.userName}
+              userMajor={item.userMajor}
+              userImage={item.userProfilePicture}
+              postImage={item.post.image}
+              postTitle={item.post.title}
+              postDescription={item.post.description}
+              postDate={item.post.createdAt}
+              characteristics={item.post.characteristics}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

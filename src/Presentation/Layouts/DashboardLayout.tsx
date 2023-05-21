@@ -11,7 +11,7 @@ const DashboardLayout: React.FC = () => {
   return (
     <>
       <TopBar search={search} setSearch={setSearch} />
-      <main className="flex-1 overflow-auto px-3">
+      <main className="flex-1 overflow-auto" style={{ height: "100vh" }}>
         <Outlet />
       </main>
       <Floating />

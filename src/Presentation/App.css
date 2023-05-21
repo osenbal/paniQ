@@ -86,3 +86,23 @@
   font-size: 10px;
   font-weight: 400;
 }
+
+.color_white {
+  color: #ffffff;
+}
+
+.color_black {
+  color: #000000;
+}
+
+.color_gray {
+  color: #f2f4f6;
+}
+
+.color_aqua {
+  color: #00ebc7;
+}
+
+.color_navyBlue {
+  color: #1b2d45;
+}

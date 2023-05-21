@@ -36,20 +36,21 @@
     right: 24vw;
     width: 52vw !important;
   }
-}
+} */
 
 @media screen and (min-width: 1200px) {
   .navigation_margin {
-    left: 32vw;
+    max-width: 465px;
+    /* left: 32vw;
     right: 32vw;
-    width: 36vw !important;
+    width: 36vw !important; */
   }
 }
 
 @media screen and (min-width: 1400px) {
-  .navigation_margin {
+  /* .navigation_margin {
     left: 36vw;
     right: 36vw;
     width: 28vw !important;
-  }
-} */
+  } */
+}
