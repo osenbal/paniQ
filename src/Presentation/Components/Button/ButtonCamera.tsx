@@ -16,7 +16,7 @@ const ButtonCamera: React.FC<Props> = ({ onClick, className, rest }) => {
         className={className}
         type="primary"
         // size="large"
-        style={{ width: "64px", height: "64px" }}
+        style={{ width: "78px", height: "78px" }}
         icon={
           <img
             style={{ width: "32px" }}

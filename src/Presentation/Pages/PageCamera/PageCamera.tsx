@@ -33,7 +33,6 @@ const PageCamera: React.FC = () => {
   };
 
   const onFlipCamera = (): void => {
-    // flip camera
     if (webcamRef.current) {
       if (facingMode === "user") {
         setFacingMode("environment");
@@ -52,7 +51,7 @@ const PageCamera: React.FC = () => {
 
   return (
     <div className="container_camera_page">
-      <div style={{ height: "20%" }}></div>
+      <div style={{ height: "20%", width: "100%" }}></div>
       {!captureImage && !uploadImage ? (
         <>
           <div className="container_camera">
@@ -68,8 +67,8 @@ const PageCamera: React.FC = () => {
               style={{
                 backgroundColor: "#ffffff",
                 borderRadius: "50%",
-                width: "64px",
-                height: "64px",
+                width: "58px",
+                height: "58px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -78,7 +77,6 @@ const PageCamera: React.FC = () => {
             >
               <input
                 id="uploadImage"
-                value={uploadImage}
                 onChange={(e) => {
                   if (e.target.files) {
                     setUploadImage(e.target.files[0]);
@@ -102,7 +100,7 @@ const PageCamera: React.FC = () => {
                 type="primary"
                 shape="circle"
                 size="large"
-                style={{ width: "64px", height: "64px" }}
+                style={{ width: "58px", height: "58px" }}
                 onClick={onFlipCamera}
               >
                 flip
@@ -123,14 +121,17 @@ const PageCamera: React.FC = () => {
           </div>
         </>
       ) : null}
+
       {captureImage || uploadImage ? (
         <>
-          {captureImage ? (
-            <img src={captureImage} alt="result captured" />
-          ) : null}
-          {uploadImage ? (
-            <img src={URL.createObjectURL(uploadImage)} alt="uploaded" />
-          ) : null}
+          <div className="container_camera">
+            {captureImage ? (
+              <img src={captureImage} alt="result captured" />
+            ) : null}
+            {uploadImage ? (
+              <img src={URL.createObjectURL(uploadImage)} alt="uploaded" />
+            ) : null}
+          </div>
           <div className="container_control_camera flex flex-row justify-around align-center items-center w-full">
             <Button
               className="btn_capture_image"

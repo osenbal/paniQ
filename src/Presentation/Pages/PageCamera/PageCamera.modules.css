@@ -1,3 +1,14 @@
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
 .container_camera_page {
   position: relative;
   width: 100vw;
@@ -8,15 +19,17 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  max-width: 412px;
+  max-width: 540px;
   margin: 0 auto;
 }
 
 .container_camera {
-  height: 412px;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .camera {
