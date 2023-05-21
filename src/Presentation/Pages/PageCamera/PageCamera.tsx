@@ -79,15 +79,10 @@ const PageCamera: React.FC = () => {
         const track: any = stream.getVideoTracks()[0];
 
         // check if camera has torch support
-        if (typeof track.getCapabilities === "function") {
-          const capabilites = track.getCapabilities();
-          setFlashLight(!flashLight);
-          if (capabilites.torch) {
-            track.applyConstraints({
-              advanced: [{ torch: true }],
-            });
-          }
-        }
+        // setFlashLight(!flashLight);
+        track.applyConstraints({
+          advanced: [{ torch: true }],
+        });
       });
     }
   };
