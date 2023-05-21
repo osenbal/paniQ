@@ -20,8 +20,8 @@ const Camera: React.FC<Props> = ({
   facingMode,
   rest,
 }) => {
-  const desiredAspectRatio = 4 / 3;
-  const maxHeight = 400; // Maximum height based on your requirements
+  const desiredAspectRatio = 4 / 4;
+  const maxHeight = 412; // Maximum height based on your requirements
   // Calculate the width based on the desired aspect ratio and maximum height
   const width = Math.floor(maxHeight * desiredAspectRatio);
 
@@ -32,7 +32,7 @@ const Camera: React.FC<Props> = ({
         audio={false}
         ref={webcamRef}
         scoped={true}
-        mirrored={true}
+        // mirrored={true}
         screenshotFormat="image/jpeg"
         videoConstraints={{
           facingMode: facingMode,

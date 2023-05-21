@@ -14,17 +14,18 @@ const PageCamera: React.FC = () => {
     capture,
     setCaptureImage,
     activeDeviceId,
-    setActiveDeviceId,
-    devices,
+    // setActiveDeviceId,
+    // devices,
     facingMode,
     setFacingMode,
   } = useViewModelCamera();
 
-  // const [imageUrl, setImageUrl] = React.useState<string>();
+  const [uploadImage, setUploadImage] = React.useState<any>(null);
   // const [loading, setLoading] = React.useState(false);
 
   const onCancleCapture = (): void => {
     setCaptureImage("");
+    setUploadImage(null);
   };
 
   const onCheckCapture = (): void => {
@@ -51,14 +52,17 @@ const PageCamera: React.FC = () => {
 
   return (
     <div className="container_camera_page">
-      {!captureImage ? (
+      <div style={{ height: "20%" }}></div>
+      {!captureImage && !uploadImage ? (
         <>
-          <Camera
-            facingMode={facingMode}
-            activeDeviceId={activeDeviceId}
-            className="camera"
-            webcamRef={webcamRef}
-          />
+          <div className="container_camera">
+            <Camera
+              facingMode={facingMode}
+              activeDeviceId={activeDeviceId}
+              className="camera"
+              webcamRef={webcamRef}
+            />
+          </div>
           <div className="container_control_camera flex flex-row justify-around align-center items-center w-full">
             <label
               style={{
@@ -72,7 +76,17 @@ const PageCamera: React.FC = () => {
               }}
               htmlFor="uploadImage"
             >
-              <input id="uploadImage" type="file" style={{ display: "none" }} />
+              <input
+                id="uploadImage"
+                value={uploadImage}
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setUploadImage(e.target.files[0]);
+                  }
+                }}
+                type="file"
+                style={{ display: "none" }}
+              />
               {uploadButton}
             </label>
 
@@ -88,12 +102,13 @@ const PageCamera: React.FC = () => {
                 type="primary"
                 shape="circle"
                 size="large"
+                style={{ width: "64px", height: "64px" }}
                 onClick={onFlipCamera}
               >
                 flip
               </Button>
 
-              <select
+              {/* <select
                 onChange={(event) => {
                   setActiveDeviceId(event.target.value);
                 }}
@@ -103,18 +118,19 @@ const PageCamera: React.FC = () => {
                     {d.label}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
           </div>
         </>
       ) : null}
-      {captureImage ? (
+      {captureImage || uploadImage ? (
         <>
-          <img
-            className="captured_image"
-            src={captureImage}
-            alt="result captured"
-          />
+          {captureImage ? (
+            <img src={captureImage} alt="result captured" />
+          ) : null}
+          {uploadImage ? (
+            <img src={URL.createObjectURL(uploadImage)} alt="uploaded" />
+          ) : null}
           <div className="container_control_camera flex flex-row justify-around align-center items-center w-full">
             <Button
               className="btn_capture_image"
