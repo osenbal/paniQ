@@ -1,8 +1,16 @@
 import React from "react";
 import Camera from "@/Presentation/Components/Camera/Camera";
 import ButtonCamera from "@/Presentation/Components/Button/ButtonCamera";
-import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import CropedImageDialog from "@/Presentation/Components/ImgDialog/CropedImageDialog";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "@/utils/cropImage";
+
+import IconFlipCamera from "@/Assets/Icons/icon_flipCamera.svg";
+import IconGallery from "@/Assets/Icons/icon_gallery.svg";
+import IconCross from "@/Assets/Icons/icon_cross.svg";
+import IconCheck from "@/Assets/Icons/icon_check.svg";
+
 import useViewModelCamera from "./PageCameraViewModel";
 
 import "./PageCamera.modules.css";
@@ -14,22 +22,44 @@ const PageCamera: React.FC = () => {
     capture,
     setCaptureImage,
     activeDeviceId,
-    // setActiveDeviceId,
-    // devices,
     facingMode,
     setFacingMode,
   } = useViewModelCamera();
 
-  const [uploadImage, setUploadImage] = React.useState<any>(null);
-  // const [loading, setLoading] = React.useState(false);
+  const [crop, setCrop] = React.useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = React.useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
+  const [croppedImage, setCroppedImage] = React.useState(null);
+  const [flashLight, setFlashLight] = React.useState(false);
+
+  const onCropComplete = React.useCallback(
+    (croppedArea: any, croppedAreaPixels: any) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const showCroppedImage = React.useCallback(async () => {
+    try {
+      const croppedImage: any = await getCroppedImg(
+        captureImage,
+        croppedAreaPixels,
+        0
+      );
+      setCroppedImage(croppedImage);
+    } catch (e) {
+      console.error(e);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [croppedAreaPixels]);
 
   const onCancleCapture = (): void => {
     setCaptureImage("");
-    setUploadImage(null);
-  };
-
-  const onCheckCapture = (): void => {
-    // redirect to create post page
+    setCroppedImage(null);
+    setCroppedAreaPixels(null);
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
   };
 
   const onFlipCamera = (): void => {
@@ -42,17 +72,42 @@ const PageCamera: React.FC = () => {
     }
   };
 
-  const uploadButton = (
-    <div className="flex flex-col justify-center align-center items-center">
-      <PlusOutlined />
-      <div>Upload</div>
-    </div>
-  );
+  const toggleFlashLight = (): void => {
+    const SUPPORTS_MEDIA_DEVICES = "mediaDevices" in navigator;
+    if (SUPPORTS_MEDIA_DEVICES) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+        const track: any = stream.getVideoTracks()[0];
+
+        // check if camera has torch support
+        if (typeof track.getCapabilities === "function") {
+          const capabilites = track.getCapabilities();
+          setFlashLight(!flashLight);
+          if (capabilites.torch) {
+            setFlashLight(!flashLight);
+
+            track.applyConstraints({
+              advanced: [{ torch: !flashLight }],
+            });
+          }
+        }
+      });
+    }
+  };
 
   return (
     <div className="container_camera_page">
-      <div style={{ height: "20%", width: "100%" }}></div>
-      {!captureImage && !uploadImage ? (
+      <div style={{ height: "20%", width: "100%" }}>
+        <Button
+          onClick={toggleFlashLight}
+          type="primary"
+          shape="circle"
+          size="large"
+          style={{ width: "58px", height: "58px" }}
+        >
+          Flash
+        </Button>
+      </div>
+      {!captureImage ? (
         <>
           <div className="container_camera">
             <Camera
@@ -79,13 +134,19 @@ const PageCamera: React.FC = () => {
                 id="uploadImage"
                 onChange={(e) => {
                   if (e.target.files) {
-                    setUploadImage(e.target.files[0]);
+                    setCaptureImage(URL.createObjectURL(e.target.files[0]));
                   }
                 }}
                 type="file"
                 style={{ display: "none" }}
               />
-              {uploadButton}
+              <div className="flex flex-col justify-center align-center items-center">
+                <img
+                  src={IconGallery}
+                  alt="gallery"
+                  style={{ width: "32px", height: "32px", cursor: "pointer" }}
+                />
+              </div>
             </label>
 
             <ButtonCamera
@@ -101,35 +162,35 @@ const PageCamera: React.FC = () => {
                 shape="circle"
                 size="large"
                 style={{ width: "58px", height: "58px" }}
+                icon={
+                  <img
+                    src={IconFlipCamera}
+                    alt="flip camera"
+                    style={{ width: "32px" }}
+                  />
+                }
                 onClick={onFlipCamera}
-              >
-                flip
-              </Button>
-
-              {/* <select
-                onChange={(event) => {
-                  setActiveDeviceId(event.target.value);
-                }}
-              >
-                {devices.map((d) => (
-                  <option key={d.deviceId} value={d.deviceId}>
-                    {d.label}
-                  </option>
-                ))}
-              </select> */}
+              ></Button>
             </div>
           </div>
         </>
       ) : null}
 
-      {captureImage || uploadImage ? (
+      {captureImage ? (
         <>
           <div className="container_camera">
             {captureImage ? (
-              <img src={captureImage} alt="result captured" />
-            ) : null}
-            {uploadImage ? (
-              <img src={URL.createObjectURL(uploadImage)} alt="uploaded" />
+              <Cropper
+                image={captureImage}
+                crop={crop}
+                zoom={zoom}
+                aspect={4 / 4}
+                onCropChange={setCrop}
+                onCropComplete={onCropComplete}
+                onZoomChange={setZoom}
+                // rotation={rotation}
+                // onRotationChange={setRotation}
+              />
             ) : null}
           </div>
           <div className="container_control_camera flex flex-row justify-around align-center items-center w-full">
@@ -139,21 +200,45 @@ const PageCamera: React.FC = () => {
               shape="circle"
               size="large"
               onClick={onCancleCapture}
-            >
-              Button Cancel
-            </Button>
+              style={{ width: "64px", height: "64px", cursor: "pointer" }}
+              icon={
+                <img
+                  src={IconCross}
+                  alt="cancel"
+                  style={{ width: "32px", height: "32px", cursor: "pointer" }}
+                />
+              }
+            />
+
             <Button
+              onClick={showCroppedImage}
               className="btn_capture_image"
               type="primary"
               shape="circle"
               size="large"
-              onClick={onCheckCapture}
-            >
-              Button Check
-            </Button>
+              style={{ width: "64px", height: "64px", cursor: "pointer" }}
+              icon={
+                <img
+                  src={IconCheck}
+                  alt="check"
+                  style={{ width: "32px", height: "32px", cursor: "pointer" }}
+                />
+              }
+            ></Button>
           </div>
         </>
       ) : null}
+
+      <CropedImageDialog
+        img={croppedImage}
+        position="bottom"
+        onClose={() => {
+          setCroppedImage(null);
+          setZoom(1);
+          setCrop({ x: 0, y: 0 });
+          setCroppedAreaPixels(null);
+        }}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import IconCaptureCamera from "@/Assets/Icons/icon_captureCamera.svg";
+// import IconCaptureCamera from "@/Assets/Icons/icon_captureCamera.svg";
 import { Button } from "antd";
 
 type Props = {
@@ -17,13 +17,13 @@ const ButtonCamera: React.FC<Props> = ({ onClick, className, rest }) => {
         type="primary"
         // size="large"
         style={{ width: "78px", height: "78px" }}
-        icon={
-          <img
-            style={{ width: "32px" }}
-            src={IconCaptureCamera}
-            alt="capture camera"
-          />
-        }
+        // icon={
+        //   <img
+        //     style={{ width: "32px" }}
+        //     src={IconCaptureCamera}
+        //     alt="capture camera"
+        //   />
+        // }
         {...rest}
       />
     </>
