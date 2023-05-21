@@ -75,22 +75,16 @@ const PageCamera: React.FC = () => {
   const toggleFlashLight = (): void => {
     const SUPPORTS_MEDIA_DEVICES = "mediaDevices" in navigator;
     if (SUPPORTS_MEDIA_DEVICES) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then((stream) => {
-          const track = stream.getVideoTracks()[0];
-
-          // Mengecek apakah track kamera mendukung lampu kilat
-          if ("torch" in track.getCapabilities()) {
-            const constraints = { advanced: [{ torch: true }] };
-            return track.applyConstraints(constraints);
-          } else {
-            console.log("Lampu kilat tidak didukung pada kamera ini");
-          }
-        })
-        .catch((error) => {
-          console.log("Error saat mengakses kamera:", error);
-        });
+      try {
+        const track = webcamRef.current?.stream?.getTracks();
+        if (track) {
+          track[0].applyConstraints({
+            advanced: [{ torch: true }],
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
