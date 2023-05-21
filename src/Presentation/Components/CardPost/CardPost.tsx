@@ -3,7 +3,7 @@ import { Card } from "antd";
 import IconComment from "@/Assets/Icons/icon_comment.svg";
 import IconPostQrScan from "@/Assets/Icons/icon_post_qrScan.svg";
 import IconPostSave from "@/Assets/Icons/icon_post_save.svg";
-import DummyProfile from "@/Assets/Icons/icon_dummyProfile.svg";
+// import DummyProfile from "@/Assets/Icons/icon_dummyProfile.svg";
 
 import "./CardPost.modules.css";
 
