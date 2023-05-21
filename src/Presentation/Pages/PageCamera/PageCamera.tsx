@@ -83,10 +83,8 @@ const PageCamera: React.FC = () => {
           const capabilites = track.getCapabilities();
           setFlashLight(!flashLight);
           if (capabilites.torch) {
-            setFlashLight(!flashLight);
-
             track.applyConstraints({
-              advanced: [{ torch: !flashLight }],
+              advanced: [{ torch: true }],
             });
           }
         }
