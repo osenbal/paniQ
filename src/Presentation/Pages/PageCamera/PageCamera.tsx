@@ -10,6 +10,8 @@ import IconFlipCamera from "@/Assets/Icons/icon_flipCamera.svg";
 import IconGallery from "@/Assets/Icons/icon_gallery.svg";
 import IconCross from "@/Assets/Icons/icon_cross.svg";
 import IconCheck from "@/Assets/Icons/icon_check.svg";
+import IconFlashOn from "@/Assets/Icons/icon_flashOn.svg";
+import IconFlashOff from "@/Assets/Icons/icon_flashOff.svg";
 
 import useViewModelCamera from "./PageCameraViewModel";
 
@@ -30,7 +32,7 @@ const PageCamera: React.FC = () => {
   const [zoom, setZoom] = React.useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
   const [croppedImage, setCroppedImage] = React.useState(null);
-  // const [flashLight, setFlashLight] = React.useState(false);
+  const [flashLight, setFlashLight] = React.useState(false);
 
   const onCropComplete = React.useCallback(
     (croppedArea: any, croppedAreaPixels: any) => {
@@ -79,8 +81,10 @@ const PageCamera: React.FC = () => {
         const track = webcamRef.current?.stream?.getTracks();
         if (track) {
           track[0].applyConstraints({
-            advanced: [{ torch: true }],
+            advanced: [{ torch: !flashLight }],
           });
+
+          setFlashLight(!flashLight);
         }
       } catch (e) {
         console.error(e);
@@ -91,15 +95,37 @@ const PageCamera: React.FC = () => {
   return (
     <div className="container_camera_page">
       <div style={{ height: "20%", width: "100%" }}>
-        <Button
-          onClick={toggleFlashLight}
-          type="primary"
-          shape="circle"
-          size="large"
-          style={{ width: "58px", height: "58px" }}
-        >
-          Flash
-        </Button>
+        {!captureImage ? (
+          <div className="flex flex-row justify-center items-center h-full">
+            <Button
+              onClick={toggleFlashLight}
+              type="primary"
+              shape="circle"
+              size="large"
+              style={{
+                width: "32px",
+                backgroundColor: "#ffffff",
+                color: "#000000",
+              }}
+              className="flex flex-row justify-center align-center items-center"
+              icon={
+                flashLight ? (
+                  <img
+                    src={IconFlashOn}
+                    alt="flash on"
+                    style={{ width: "20px" }}
+                  />
+                ) : (
+                  <img
+                    src={IconFlashOff}
+                    alt="flash off"
+                    style={{ width: "20px" }}
+                  />
+                )
+              }
+            ></Button>
+          </div>
+        ) : null}
       </div>
       {!captureImage ? (
         <>
