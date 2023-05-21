@@ -30,7 +30,7 @@ const PageCamera: React.FC = () => {
   const [zoom, setZoom] = React.useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
   const [croppedImage, setCroppedImage] = React.useState(null);
-  const [flashLight, setFlashLight] = React.useState(false);
+  // const [flashLight, setFlashLight] = React.useState(false);
 
   const onCropComplete = React.useCallback(
     (croppedArea: any, croppedAreaPixels: any) => {
