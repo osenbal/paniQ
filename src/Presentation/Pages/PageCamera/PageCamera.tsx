@@ -4,7 +4,6 @@ import ButtonCamera from "@/Presentation/Components/Button/ButtonCamera";
 import { Button } from "antd";
 import CropedImageDialog from "@/Presentation/Components/ImgDialog/CropedImageDialog";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "@/utils/cropImage";
 
 import IconFlipCamera from "@/Assets/Icons/icon_flipCamera.svg";
 import IconGallery from "@/Assets/Icons/icon_gallery.svg";
@@ -19,78 +18,25 @@ import "./PageCamera.modules.css";
 
 const PageCamera: React.FC = () => {
   const {
-    captureImage,
     webcamRef,
     capture,
+    captureImage,
     setCaptureImage,
     activeDeviceId,
     facingMode,
-    setFacingMode,
+    crop,
+    setCrop,
+    zoom,
+    setZoom,
+    croppedImage,
+    setCroppedImage,
+    onCropComplete,
+    showCroppedImage,
+    onCancleCapture,
+    onFlipCamera,
+    toggleFlashLight,
+    flashLight,
   } = useViewModelCamera();
-
-  const [crop, setCrop] = React.useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = React.useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
-  const [croppedImage, setCroppedImage] = React.useState(null);
-  const [flashLight, setFlashLight] = React.useState(false);
-
-  const onCropComplete = React.useCallback(
-    (croppedArea: any, croppedAreaPixels: any) => {
-      setCroppedAreaPixels(croppedAreaPixels);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  const showCroppedImage = React.useCallback(async () => {
-    try {
-      const croppedImage: any = await getCroppedImg(
-        captureImage,
-        croppedAreaPixels,
-        0
-      );
-      setCroppedImage(croppedImage);
-    } catch (e) {
-      console.error(e);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [croppedAreaPixels]);
-
-  const onCancleCapture = (): void => {
-    setCaptureImage("");
-    setCroppedImage(null);
-    setCroppedAreaPixels(null);
-    setCrop({ x: 0, y: 0 });
-    setZoom(1);
-  };
-
-  const onFlipCamera = (): void => {
-    if (webcamRef.current) {
-      if (facingMode === "user") {
-        setFacingMode("environment");
-      } else {
-        setFacingMode("user");
-      }
-    }
-  };
-
-  const toggleFlashLight = (): void => {
-    const SUPPORTS_MEDIA_DEVICES = "mediaDevices" in navigator;
-    if (SUPPORTS_MEDIA_DEVICES) {
-      try {
-        const track = webcamRef.current?.stream?.getTracks();
-        if (track) {
-          track[0].applyConstraints({
-            advanced: [{ torch: !flashLight }],
-          });
-
-          setFlashLight(!flashLight);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  };
 
   return (
     <div className="container_camera_page">
@@ -256,7 +202,6 @@ const PageCamera: React.FC = () => {
           setCroppedImage(null);
           setZoom(1);
           setCrop({ x: 0, y: 0 });
-          setCroppedAreaPixels(null);
         }}
       />
     </div>

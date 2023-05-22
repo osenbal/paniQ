@@ -20,6 +20,7 @@ const CropedImageDialog: React.FC<Props> = ({ position, onClose, img }) => {
         closable={false}
         onClose={onClose}
         open={!!img}
+        style={{ maxWidth: "768px", margin: "0 auto" }}
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>

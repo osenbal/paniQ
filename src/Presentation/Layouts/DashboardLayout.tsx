@@ -4,9 +4,17 @@ import TopBar from "../Components/TopBar/TopBar";
 import Navigation from "../Components/Navigation/Navigation";
 import Floating from "../Components/Floating/Floating";
 import DashboardLayoutViewModel from "./DashboardLayoutModel";
+import ModalProfile from "../Components/Modal/ModalProfile";
+import ModalConfirmation from "../Components/Modal/ModalConfirmation";
 
 const DashboardLayout: React.FC = () => {
-  const { search, setSearch } = DashboardLayoutViewModel();
+  const {
+    search,
+    setSearch,
+    modalProfileRef,
+    modalLogOutConfirmationRef,
+    onLogOut,
+  } = DashboardLayoutViewModel();
 
   return (
     <>
@@ -15,7 +23,24 @@ const DashboardLayout: React.FC = () => {
         <Outlet />
       </main>
       <Floating />
-      <Navigation />
+      <Navigation
+        openModalProfile={() => modalProfileRef.current.openModalProfile()}
+      />
+
+      <div>
+        <ModalProfile
+          ref={modalProfileRef}
+          onLogout={() =>
+            modalLogOutConfirmationRef.current.openModalConfirmation()
+          }
+        />
+
+        <ModalConfirmation
+          ref={modalLogOutConfirmationRef}
+          message="Are you sure logout from this account ?"
+          onYes={onLogOut}
+        />
+      </div>
     </>
   );
 };

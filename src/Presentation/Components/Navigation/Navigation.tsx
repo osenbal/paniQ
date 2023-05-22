@@ -6,7 +6,11 @@ import IconProfile from "@/Assets/Icons/icon_profile.svg";
 
 import "./Navigation.modules.css";
 
-const Navigation: React.FC = () => {
+type Props = {
+  openModalProfile: () => void;
+};
+
+const Navigation: React.FC<Props> = ({ openModalProfile }) => {
   return (
     <>
       <nav style={{ position: "relative", width: "100%" }}>
@@ -36,11 +40,13 @@ const Navigation: React.FC = () => {
             </NavLink>
           </li>
           <li>
-            <img
-              style={{ cursor: "pointer" }}
-              src={IconProfile}
-              alt="profile"
-            />
+            <div onClick={openModalProfile}>
+              <img
+                style={{ cursor: "pointer" }}
+                src={IconProfile}
+                alt="profile"
+              />
+            </div>
           </li>
         </ul>
       </nav>

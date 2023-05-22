@@ -1,0 +1,16 @@
+.modal_confirmation > .ant-modal > .ant-modal-content {
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.btn_modal_confirmation {
+  transition: all 0.3s ease;
+}
+
+.btn_modal_confirmation:hover {
+  background-color: #f5f5f5;
+  color: #1890ff;
+}
