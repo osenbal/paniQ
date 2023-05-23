@@ -1,0 +1,29 @@
+.container_carousel {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  column-gap: 16px;
+  padding-left: 63px;
+  padding-right: 32px;
+  margin-top: 67px;
+  padding-bottom: 10px;
+}
+
+.container_carousel::-webkit-scrollbar {
+  display: none;
+}
+/* 
+.container_carousel::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #e7e7e7;
+}
+
+.container_carousel::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #d4d4d4;
+} */
+
+.item_carousel {
+  width: 100vw;
+  padding-bottom: 133px;
+}

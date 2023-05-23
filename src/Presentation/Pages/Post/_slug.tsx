@@ -2,6 +2,7 @@ import React from "react";
 import useSlugPostViewModel from "./_slogViewModel";
 import { Button } from "antd";
 import BlockViewPosts from "@/Presentation/Components/Posts/BlockViewPosts";
+import CarouselViewPosts from "@/Presentation/Components/Posts/CarouselViewPosts";
 import { basicColors, elementColor } from "@/Core/config/colors/colors";
 import { header18 } from "@/Core/config/fonts/fonts";
 
@@ -32,7 +33,7 @@ const _Slug: React.FC = () => {
         blocks: (
           <BlockViewPosts posts={getPosts()} onClickDetail={onClickDetail} />
         ),
-        carousel: "carousel",
+        carousel: <CarouselViewPosts posts={getPosts()} />,
       },
     },
     {
@@ -42,7 +43,7 @@ const _Slug: React.FC = () => {
         blocks: (
           <BlockViewPosts posts={getPosts()} onClickDetail={onClickDetail} />
         ),
-        carousel: "carousel",
+        carousel: <CarouselViewPosts posts={getPosts()} />,
       },
     },
     {
@@ -52,7 +53,7 @@ const _Slug: React.FC = () => {
         blocks: (
           <BlockViewPosts posts={getPosts()} onClickDetail={onClickDetail} />
         ),
-        carousel: "carousel",
+        carousel: <CarouselViewPosts posts={getPosts()} />,
       },
     },
   ];

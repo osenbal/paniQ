@@ -32,8 +32,8 @@ const Slug = () => {
   };
 
   const getPosts = () => {
-    console.log("activeTab", activeTab);
-    console.log("myPosts", myPosts);
+    // console.log("activeTab", activeTab);
+    // console.log("myPosts", myPosts);
     return myPosts;
   };
 
