@@ -1,5 +1,6 @@
 import React from "react";
 import { FloatButton } from "antd";
+import { useNavigate } from "react-router-dom";
 import IconPlusFloating from "@/Assets/Icons/icon_plusFloating.svg";
 import IconQRCode from "@/Assets/Icons/icon_qrScan.svg";
 import IconStaffReturn from "@/Assets/Icons/icon_staffReturn.svg";
@@ -14,6 +15,7 @@ type Props = {
 
 const Floating: React.FC<Props> = ({ showQrScanner }) => {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="container_floating">
@@ -38,6 +40,7 @@ const Floating: React.FC<Props> = ({ showQrScanner }) => {
             icon={<img src={IconQRCode} alt="qr icon" aria-label="scan qr" />}
           />
           <FloatButton
+            onClick={() => navigate("/post/?tab=staff-return")}
             tooltip="Stuff Return"
             icon={
               <img
@@ -48,10 +51,12 @@ const Floating: React.FC<Props> = ({ showQrScanner }) => {
             }
           />
           <FloatButton
+            onClick={() => navigate("/post/?tab=my-post")}
             tooltip="My Post"
             icon={<img src={IconImage} alt="my post" aria-label="my post" />}
           />
           <FloatButton
+            onClick={() => navigate("/post/?tab=bookmark")}
             tooltip="Bookmark"
             icon={
               <img

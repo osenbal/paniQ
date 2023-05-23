@@ -9,10 +9,11 @@ import "./App.css";
 const Todos = lazy(() => import("./Pages/Todos/TodoListView"));
 const Login = lazy(() => import("./Pages/Login/LoginView"));
 const Index = lazy(() => import("./Pages/index"));
-const PageCamera = lazy(() => import("./Pages/PageCamera/PageCameraView"));
+const PageCamera = lazy(() => import("./Pages/Camera/PageCameraView"));
 const PageNotification = lazy(
   () => import("./Pages/Notification/PageNotificationView")
 );
+const Post = lazy(() => import("./Pages/Post/_slug"));
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: React.FC = () => {
           <Route path="/todos" element={<Todos />} />
           <Route path="/camera" element={<PageCamera />} />
           <Route path="/notification" element={<PageNotification />} />
+          <Route path="/post" element={<Post />} />
           <Route path="*" element={<div>404</div>} />
         </Routes>
       </Suspense>

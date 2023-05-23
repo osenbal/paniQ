@@ -9,6 +9,7 @@ export type RefHandlerModalConfirmation = {
 type Props = {
   onYes: () => void;
   message: string;
+  children?: React.ReactNode;
 };
 
 const ModalConfirmation = forwardRef<RefHandlerModalConfirmation, Props>(
@@ -40,7 +41,7 @@ const ModalConfirmation = forwardRef<RefHandlerModalConfirmation, Props>(
             >
               <button
                 onClick={() => setModalShowConfirmation(false)}
-                className="btn_modal_confirmation w-full h-full border-r-2 border-t-2 border-gray-300 "
+                className="btn_modal_confirmation w-full h-full border-r-2 border-t-2 border-gray-300"
               >
                 No
               </button>
@@ -55,6 +56,7 @@ const ModalConfirmation = forwardRef<RefHandlerModalConfirmation, Props>(
         }
       >
         <div className="px-5">
+          {props.children}
           <p className="text-center">{props.message}</p>
         </div>
       </Modal>

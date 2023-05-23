@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Button } from "antd";
 import IconComment from "@/Assets/Icons/icon_comment.svg";
 import IconPostQrScan from "@/Assets/Icons/icon_post_qrScan.svg";
 import IconPostSave from "@/Assets/Icons/icon_post_save.svg";
@@ -18,6 +18,7 @@ type Props = {
   postDescription: string;
   postDate: string;
   characteristics: string[];
+  openQrCode: () => void;
 };
 
 const maxTextLength = 100;
@@ -38,6 +39,7 @@ const CardPost: React.FC<Props> = ({
   postDescription,
   postDate,
   characteristics,
+  openQrCode,
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -89,14 +91,22 @@ const CardPost: React.FC<Props> = ({
         }
       >
         <Meta
-          // title="Europe Street beat"
           description={
             <>
               <div className="px-2.5 mt-5">
                 <div className="flex flex-row justify-between">
                   <div className="flex flex-row gap-3.5">
-                    <img src={IconComment} alt="comment" />
-                    <img src={IconPostQrScan} alt="scan" />
+                    <Button
+                      style={{ border: "none" }}
+                      className="flex flex-row justify-center items-center"
+                      icon={<img src={IconComment} alt="comment" />}
+                    ></Button>
+                    <Button
+                      onClick={openQrCode}
+                      style={{ border: "none" }}
+                      className="flex flex-row justify-center items-center"
+                      icon={<img src={IconPostQrScan} alt="scan" />}
+                    ></Button>
                   </div>
                   <div>
                     <img src={IconPostSave} alt="save post" />

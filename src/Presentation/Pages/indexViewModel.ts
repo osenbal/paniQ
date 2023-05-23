@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { RefHandlerModalQrcode } from "@/Presentation/Components/Modal/ModalQrcode";
 
 const IndexViewModel = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const modalQrcode = useRef() as React.MutableRefObject<RefHandlerModalQrcode>;
 
   useEffect(() => {
     setTimeout(() => {
@@ -12,6 +14,7 @@ const IndexViewModel = () => {
   return {
     isLoading,
     setIsLoading,
+    modalQrcode,
   };
 };
 
