@@ -8,7 +8,7 @@ import Meta from "@/Presentation/Components/Meta/Meta";
 
 const LogoApp = lazy(() => import("@/Presentation/Components/Logo/LogoApp"));
 
-export default function TodoListView() {
+export default function LoginView() {
   const { nim, setNim, password, setPassword, login } = useViewModel();
 
   const [showPassword, setShowPassword] = React.useState(false);

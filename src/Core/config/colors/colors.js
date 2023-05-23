@@ -16,6 +16,7 @@ const elementColor = {
   headline_navyBlue: "#00214D",
   paragraph_navyBlue: "#1B2D45",
   buttonText_navBlue: "#00214D",
+  buttonText_gray: "#F2F4F6",
   error_red: "#FF0000",
   formBackground_gray: "#F2F4F6",
 };

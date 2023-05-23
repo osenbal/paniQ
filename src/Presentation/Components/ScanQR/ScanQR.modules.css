@@ -1,0 +1,29 @@
+.container_controlQr {
+  position: absolute;
+  width: 100%;
+  justify-content: space-between;
+  top: 14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  padding: 0 50px;
+  flex-direction: row;
+}
+
+.qr_flashLight {
+  /* position: absolute;
+  top: 20px;
+  right: 55px; */
+  width: 24px;
+}
+
+.qr_gallery {
+  /* position: absolute;
+  top: 20px;
+  left: 55px; */
+  width: 24px;
+}
+
+#qrScanner #qrScanner__scan_region > img {
+  margin: 0 auto !important;
+}

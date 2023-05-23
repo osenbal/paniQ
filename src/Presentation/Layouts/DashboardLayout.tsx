@@ -6,6 +6,7 @@ import Floating from "../Components/Floating/Floating";
 import DashboardLayoutViewModel from "./DashboardLayoutModel";
 import ModalProfile from "../Components/Modal/ModalProfile";
 import ModalConfirmation from "../Components/Modal/ModalConfirmation";
+import ScanQR from "../Components/ScanQR/ScanQR";
 
 const DashboardLayout: React.FC = () => {
   const {
@@ -13,16 +14,19 @@ const DashboardLayout: React.FC = () => {
     setSearch,
     modalProfileRef,
     modalLogOutConfirmationRef,
+    drawerQrScannerRef,
     onLogOut,
   } = DashboardLayoutViewModel();
 
   return (
     <>
       <TopBar search={search} setSearch={setSearch} />
-      <main className="flex-1 overflow-auto" style={{ height: "100vh" }}>
+      <main className="flex-1 overflow-auto" style={{ height: "100%" }}>
         <Outlet />
       </main>
-      <Floating />
+      <Floating
+        showQrScanner={() => drawerQrScannerRef.current.openDrawerQrScanner()}
+      />
       <Navigation
         openModalProfile={() => modalProfileRef.current.openModalProfile()}
       />
@@ -40,6 +44,8 @@ const DashboardLayout: React.FC = () => {
           message="Are you sure logout from this account ?"
           onYes={onLogOut}
         />
+
+        <ScanQR ref={drawerQrScannerRef} />
       </div>
     </>
   );

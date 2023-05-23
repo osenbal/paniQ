@@ -6,3 +6,7 @@
   text-overflow: ellipsis;
   max-width: 75ch;
 }
+
+.cardPost_chraracteristic {
+  transition: all 0.3s ease-in-out;
+}

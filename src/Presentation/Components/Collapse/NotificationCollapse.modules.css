@@ -1,0 +1,37 @@
+.notification_collapse_title {
+  padding: 8px 24px;
+  border-radius: 5px;
+}
+
+.notification_collapse_title img {
+  transition: all 0.4s ease-in-out;
+  transform: rotate(0);
+}
+
+.notification_collapse_title img.open {
+  transition: all 0.4s ease-in-out;
+  transform: rotate(180deg);
+}
+
+.notification_content_elipsis {
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  max-width: 100%;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.notification_collapse_content .content {
+  transform: translateY(0);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.notification_collapse_content.open .content {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}

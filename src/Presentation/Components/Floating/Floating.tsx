@@ -8,7 +8,11 @@ import IconBookmark from "@/Assets/Icons/icon_bookmark.svg";
 
 import "./Floating.modules.css";
 
-const Floating: React.FC = () => {
+type Props = {
+  showQrScanner: () => void;
+};
+
+const Floating: React.FC<Props> = ({ showQrScanner }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -29,6 +33,7 @@ const Floating: React.FC = () => {
           onOpenChange={(open) => setOpen(open)}
         >
           <FloatButton
+            onClick={showQrScanner}
             tooltip="QR Code"
             icon={<img src={IconQRCode} alt="qr icon" aria-label="scan qr" />}
           />

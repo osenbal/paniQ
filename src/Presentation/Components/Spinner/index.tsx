@@ -7,9 +7,14 @@ type Props = {
 };
 
 const Spinner: React.FC<Props> = ({ size = "default" }: Props) => (
-  <Space size="middle">
-    <Spin size={size} />
-  </Space>
+  <div
+    className="w-full flex flex-col justify-center items-center"
+    style={{ height: "100vh" }}
+  >
+    <Space size="middle" align="center" direction="vertical">
+      <Spin size={size} />
+    </Space>
+  </div>
 );
 
 export default Spinner;

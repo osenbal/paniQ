@@ -71,18 +71,20 @@ const CardPost: React.FC<Props> = ({
                 </div>
               </div>
             </div>
-            <img
-              alt="example"
-              src={postImage}
-              style={{
-                maxHeight: "354px",
-                height: "100%",
-                width: "100%",
-                objectFit: "cover",
-                objectPosition: "top",
-                borderRadius: "0px",
-              }}
-            />
+            <div style={{ height: "412px" }}>
+              <img
+                alt="example"
+                src={postImage}
+                style={{
+                  maxHeight: "412px",
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top",
+                  borderRadius: "0px",
+                }}
+              />
+            </div>
           </>
         }
       >
@@ -113,7 +115,7 @@ const CardPost: React.FC<Props> = ({
                         : cutText(`${postDescription}`)}
                     </span>
                     {open ? (
-                      <>
+                      <div className="cardPost_chraracteristic">
                         <p className="font-bold">Dengan ciri-ciri :</p>
                         {characteristics.map((item, index) => {
                           return (
@@ -124,11 +126,12 @@ const CardPost: React.FC<Props> = ({
                             </>
                           );
                         })}
-                      </>
+                      </div>
                     ) : (
                       <span
                         onClick={() => setOpen(true)}
-                        className="underline underline-offset-4 "
+                        style={{ cursor: "pointer" }}
+                        className="underline underline-offset-4 ml-1"
                       >
                         selengkapnya
                       </span>

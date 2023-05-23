@@ -1,7 +1,10 @@
 import React from "react";
-import IconNotification from "@/Assets/Icons/icon_notification.svg";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 import IconChat from "@/Assets/Icons/icon_chat.svg";
 import InputForm from "../Form/InputForm";
+
+import IconNotification from "@/Assets/Icons/icon_notification.svg";
 import IconSearch from "../Icons/Search";
 
 import "./TopBar.modules.css";
@@ -13,14 +16,26 @@ type Props = {
 };
 
 const TopBar: React.FC<Props> = ({ search, setSearch }) => {
+  const navigate = useNavigate();
+
   return (
     <header className="dashboard_header">
       <div className="flex flex-row justify-between items-center h-full">
-        <img
-          className="topBar_icon"
-          style={{ cursor: "pointer" }}
-          src={IconNotification}
-          alt="notification"
+        <Button
+          onClick={() => navigate("/notification")}
+          block
+          style={{ border: "none" }}
+          shape="default"
+          size="large"
+          className="flex flex-row justify-center items-center"
+          icon={
+            <img
+              className="topBar_icon"
+              style={{ cursor: "pointer" }}
+              src={IconNotification}
+              alt="notification"
+            />
+          }
         />
 
         <InputForm
@@ -37,12 +52,15 @@ const TopBar: React.FC<Props> = ({ search, setSearch }) => {
           }}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <img
-          className="topBar_icon"
-          style={{ cursor: "pointer" }}
-          src={IconChat}
-          alt="chat"
-        />
+
+        <div>
+          <img
+            className="topBar_icon"
+            style={{ cursor: "pointer" }}
+            src={IconChat}
+            alt="chat"
+          />
+        </div>
       </div>
     </header>
   );

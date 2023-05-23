@@ -9,7 +9,10 @@ import "./App.css";
 const Todos = lazy(() => import("./Pages/Todos/TodoListView"));
 const Login = lazy(() => import("./Pages/Login/LoginView"));
 const Index = lazy(() => import("./Pages/index"));
-const PageCamera = lazy(() => import("./Pages/PageCamera/PageCamera"));
+const PageCamera = lazy(() => import("./Pages/PageCamera/PageCameraView"));
+const PageNotification = lazy(
+  () => import("./Pages/Notification/PageNotificationView")
+);
 
 const App: React.FC = () => {
   return (
@@ -25,6 +28,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/todos" element={<Todos />} />
           <Route path="/camera" element={<PageCamera />} />
+          <Route path="/notification" element={<PageNotification />} />
           <Route path="*" element={<div>404</div>} />
         </Routes>
       </Suspense>

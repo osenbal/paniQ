@@ -8,7 +8,7 @@
 }
 
 .topBar_icon {
-  min-width: 30px;
+  min-width: 24px;
 }
 
 .topBar_search_input {
@@ -25,6 +25,6 @@
   }
 
   .topBar_icon {
-    min-width: 44px;
+    min-width: 32px;
   }
 }
