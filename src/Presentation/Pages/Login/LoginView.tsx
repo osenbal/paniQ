@@ -1,24 +1,24 @@
 import React, { lazy } from "react";
 import useViewModel from "./LoginViewModel";
+import { Helmet } from "react-helmet-async";
 import Button from "@/Presentation/Components/Button/Button";
 import InputForm from "@/Presentation/Components/Form/InputForm";
 import OpenEye from "@/Presentation/Components/Icons/OpenEye";
 import CloseEye from "@/Presentation/Components/Icons/CloseEye";
-import Meta from "@/Presentation/Components/Meta/Meta";
 
 const LogoApp = lazy(() => import("@/Presentation/Components/Logo/LogoApp"));
 
 export default function LoginView() {
-  const { nim, setNim, password, setPassword, login } = useViewModel();
+  const { nim, setNim, password, setPassword, login, errors } = useViewModel();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <>
-      <Meta>
-        <title>Login | PaniQ</title>
-      </Meta>
+      <Helmet>
+        <title>Login | Paniq</title>
+      </Helmet>
       <div className="container px-6">
         <h1
           className="font_title20 text-center"
@@ -31,8 +31,10 @@ export default function LoginView() {
           placeholder="Masukan NIM / NIP..."
           label="NIM / NIP"
           value={nim}
+          type="number"
           onChange={(e) => setNim(e.target.value)}
-          style={{ marginBottom: "20px", height: "64px" }}
+          style={{ height: "64px" }}
+          error={errors.nim}
         />
 
         <InputForm
@@ -41,7 +43,7 @@ export default function LoginView() {
           value={password}
           type={showPassword ? "text" : "password"}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ marginBottom: "64px", height: "64px" }}
+          style={{ height: "64px" }}
           icon={
             showPassword ? (
               <OpenEye alt="show password" onClick={handleShowPassword} />
@@ -50,11 +52,17 @@ export default function LoginView() {
             )
           }
           iconPosition="right"
+          error={errors.password}
         />
 
         <Button
           onClick={login}
-          style={{ width: "100%", height: "64px", marginBottom: "54px" }}
+          style={{
+            width: "100%",
+            height: "64px",
+            marginBottom: "54px",
+            marginTop: "54px",
+          }}
         >
           Login
         </Button>

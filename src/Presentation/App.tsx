@@ -4,9 +4,8 @@ import DashboardLayout from "./Layouts/DashboardLayout";
 import Spinner from "./Components/Spinner";
 import "./App.css";
 
-// import { AuthMiddleware } from "./Middleware/auth.middleware";
+import { AuthMiddleware } from "./Middleware/auth.middleware";
 
-const Todos = lazy(() => import("./Pages/Todos/TodoListView"));
 const Login = lazy(() => import("./Pages/Login/LoginView"));
 const Index = lazy(() => import("./Pages/index"));
 const PageCamera = lazy(() => import("./Pages/Camera/PageCameraView"));
@@ -20,18 +19,17 @@ const App: React.FC = () => {
     <Router>
       <Suspense fallback={<Spinner />}>
         <Routes>
-          {/* <Route path="/" element={<AuthMiddleware />}> */}
-          <Route element={<DashboardLayout />}>
-            <Route path="/" element={<Index />} />
-          </Route>
-          {/* </Route> */}
-
           <Route path="/login" element={<Login />} />
-          <Route path="/todos" element={<Todos />} />
-          <Route path="/camera" element={<PageCamera />} />
-          <Route path="/notification" element={<PageNotification />} />
-          <Route path="/post" element={<Post />} />
-          <Route path="*" element={<div>404</div>} />
+
+          <Route path="/" element={<AuthMiddleware />}>
+            <Route element={<DashboardLayout />}>
+              <Route path="/" element={<Index />} />
+            </Route>
+            <Route path="/camera" element={<PageCamera />} />
+            <Route path="/notification" element={<PageNotification />} />
+            <Route path="/post" element={<Post />} />
+            <Route path="*" element={<div>404</div>} />
+          </Route>
         </Routes>
       </Suspense>
     </Router>
