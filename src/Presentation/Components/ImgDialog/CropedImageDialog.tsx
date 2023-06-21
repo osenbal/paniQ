@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import type { DrawerProps } from "antd";
 import { Drawer, Space, Button, Form, Input } from "antd";
+
+import { useNavigate } from "react-router-dom";
 import IconPlus from "@/Assets/Icons/icon_plusFloating.svg";
 import IconMinus from "@/Assets/Icons/icon_minus.svg";
 
@@ -13,6 +15,8 @@ type Props = {
 };
 
 const CropedImageDialog: React.FC<Props> = ({ position, onClose, img }) => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
   const [placement] = useState<DrawerProps["placement"]>(position);
   const [characteristics, setCharacteristics] = useState<string[]>([""]);
 
@@ -37,6 +41,18 @@ const CropedImageDialog: React.FC<Props> = ({ position, onClose, img }) => {
     setCharacteristics(newCharacteristics);
   };
 
+  const handleSubmitPost = () => {
+    console.log("submit");
+    form.validateFields(["name", "place", "description"]).then(
+      () => {
+        navigate("/");
+      },
+      (err) => {
+        console.log("error", err);
+      }
+    );
+  };
+
   return (
     <>
       <Drawer
@@ -57,7 +73,10 @@ const CropedImageDialog: React.FC<Props> = ({ position, onClose, img }) => {
 
         <div className="mt-4">
           <Form
+            form={form}
             layout="vertical"
+            name="validateOnly"
+            autoComplete="off"
             initialValues={{ size: "large" }}
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 14 }}
@@ -115,6 +134,15 @@ const CropedImageDialog: React.FC<Props> = ({ position, onClose, img }) => {
               type="primary"
               icon={<img src={IconPlus} alt="add" />}
             ></Button>
+
+            <Button
+              onClick={handleSubmitPost}
+              className="w-full mt-5"
+              htmlType="submit"
+              size="large"
+            >
+              Submit
+            </Button>
           </Form>
         </div>
       </Drawer>
