@@ -10,6 +10,7 @@ import "./CardPost.modules.css";
 const { Meta } = Card;
 
 type Props = {
+  indexZero?: boolean;
   userName: string;
   userMajor: string;
   userImage: string;
@@ -40,6 +41,7 @@ const CardPost: React.FC<Props> = ({
   postDate,
   characteristics,
   openQrCode,
+  indexZero,
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -97,18 +99,20 @@ const CardPost: React.FC<Props> = ({
                 <div className="flex flex-row justify-between">
                   <div className="flex flex-row gap-3.5">
                     <Button
+                      id={indexZero ? "my-seventh-step" : ""}
                       style={{ border: "none" }}
                       className="flex flex-row justify-center items-center"
                       icon={<img src={IconComment} alt="comment" />}
                     ></Button>
                     <Button
+                      id={indexZero ? "my-eighth-step" : ""}
                       onClick={openQrCode}
                       style={{ border: "none" }}
                       className="flex flex-row justify-center items-center"
                       icon={<img src={IconPostQrScan} alt="scan" />}
                     ></Button>
                   </div>
-                  <div>
+                  <div id={indexZero ? "my-ninth-step" : ""}>
                     <img src={IconPostSave} alt="save post" />
                   </div>
                 </div>

@@ -23,6 +23,7 @@ const Index: React.FC = () => {
           <div style={{ marginTop: "8px", paddingBottom: "100px" }}>
             {post.map((item, index) => (
               <CardPost
+                indexZero={index === 0}
                 key={index}
                 userName={item.userName}
                 userMajor={item.userMajor}

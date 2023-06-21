@@ -22,6 +22,7 @@ const TopBar: React.FC<Props> = ({ search, setSearch }) => {
     <header className="dashboard_header">
       <div className="flex flex-row justify-between items-center h-full">
         <Button
+          id="my-forth-step"
           onClick={() => navigate("/notification")}
           block
           style={{ border: "none" }}
@@ -38,22 +39,24 @@ const TopBar: React.FC<Props> = ({ search, setSearch }) => {
           }
         />
 
-        <InputForm
-          className="topBar_search_input"
-          style={{ marginTop: 0 }}
-          label=""
-          value={search}
-          placeholder="search..."
-          icon={<IconSearch alt="search" />}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div id="my-fifth-step">
+          <InputForm
+            className="topBar_search_input"
+            style={{ marginTop: 0 }}
+            label=""
+            value={search}
+            placeholder="search..."
+            icon={<IconSearch alt="search" />}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
 
-        <div>
+        <div id="my-sixth-step">
           <img
             className="topBar_icon"
             style={{ cursor: "pointer" }}
