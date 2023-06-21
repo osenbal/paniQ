@@ -1,5 +1,6 @@
 import React from "react";
 import IconCloseEye from "@/Assets/Icons/icon_closeEye.svg";
+
 type Props = {
   alt: string;
   onClick?: () => void;

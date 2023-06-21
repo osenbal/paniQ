@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./Presentation/App";
 import MainLayout from "./Presentation/Layouts/MainLayout";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+
 // import DashboardLayout from "./Presentation/Layouts/DashboardLayout";
 import { Provider } from "react-redux";
 import { store } from "./Domain/Store/store";
@@ -17,11 +19,21 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <MainLayout>
-        <App />
-      </MainLayout>
-    </Provider>
+    <HelmetProvider>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Web Untuk Membantu Mahasiswa UIN Jakarta Dalam Mencari Barang Yang Hilang"
+        />
+      </Helmet>
+      <Provider store={store}>
+        <MainLayout>
+          <App />
+        </MainLayout>
+      </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 
