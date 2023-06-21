@@ -8,12 +8,13 @@ import "./Navigation.modules.css";
 
 type Props = {
   openModalProfile: () => void;
+  ref?: any;
 };
 
-const Navigation: React.FC<Props> = ({ openModalProfile }) => {
+const Navigation: React.FC<Props> = ({ openModalProfile, ref }) => {
   return (
     <>
-      <nav style={{ position: "relative", width: "100%" }}>
+      <nav ref={ref} style={{ position: "relative", width: "100%" }}>
         <ul
           className="flex flex-row justify-between items-center navigation_margin"
           style={{
@@ -25,12 +26,12 @@ const Navigation: React.FC<Props> = ({ openModalProfile }) => {
             padding: "0 16px",
           }}
         >
-          <li>
+          <li id="my-first-step">
             <NavLink to="/">
               <img style={{ cursor: "pointer" }} src={IconHome} alt="home" />
             </NavLink>
           </li>
-          <li>
+          <li id="my-second-step">
             <NavLink to="/camera">
               <img
                 style={{ cursor: "pointer" }}
@@ -39,7 +40,7 @@ const Navigation: React.FC<Props> = ({ openModalProfile }) => {
               />
             </NavLink>
           </li>
-          <li>
+          <li id="my-third-step">
             <div onClick={openModalProfile}>
               <img
                 style={{ cursor: "pointer" }}

@@ -7,6 +7,9 @@ import DashboardLayoutViewModel from "./DashboardLayoutModel";
 import ModalProfile from "../Components/Modal/ModalProfile";
 import ModalConfirmation from "../Components/Modal/ModalConfirmation";
 import ScanQR from "../Components/ScanQR/ScanQR";
+import { TourProvider, useTourContext } from "@/Domain/Context/Tour.context";
+import Joyride, { CallBackProps, STATUS } from "react-joyride";
+import LocalStorage from "@/Data/DataSource/LocalStorage/LocalStorage";
 
 const DashboardLayout: React.FC = () => {
   const {
@@ -18,35 +21,73 @@ const DashboardLayout: React.FC = () => {
     onLogOut,
   } = DashboardLayoutViewModel();
 
+  const {
+    state: { run, steps },
+    setState,
+  } = useTourContext();
+
+  const closeTour = () => {
+    setState({ run: false, tourActive: false });
+    LocalStorage.set("@mainTour", "done");
+  };
+
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data;
+    const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
+
+    if (finishedStatuses.includes(status)) {
+      closeTour();
+    }
+  };
+
   return (
     <>
-      <TopBar search={search} setSearch={setSearch} />
-      <main className="flex-1 overflow-auto" style={{ height: "100%" }}>
-        <Outlet />
-      </main>
-      <Floating
-        showQrScanner={() => drawerQrScannerRef.current.openDrawerQrScanner()}
-      />
-      <Navigation
-        openModalProfile={() => modalProfileRef.current.openModalProfile()}
-      />
-
-      <div>
-        <ModalProfile
-          ref={modalProfileRef}
-          onLogout={() =>
-            modalLogOutConfirmationRef.current.openModalConfirmation()
-          }
+      <TourProvider>
+        <TopBar search={search} setSearch={setSearch} />
+        <main className="flex-1 overflow-auto" style={{ height: "100%" }}>
+          <Outlet />
+        </main>
+        <Floating
+          showQrScanner={() => drawerQrScannerRef.current.openDrawerQrScanner()}
+        />
+        <Navigation
+          openModalProfile={() => modalProfileRef.current.openModalProfile()}
         />
 
-        <ModalConfirmation
-          ref={modalLogOutConfirmationRef}
-          message="Are you sure logout from this account ?"
-          onYes={onLogOut}
-        />
+        <div>
+          <ModalProfile
+            ref={modalProfileRef}
+            onLogout={() =>
+              modalLogOutConfirmationRef.current.openModalConfirmation()
+            }
+          />
 
-        <ScanQR ref={drawerQrScannerRef} />
-      </div>
+          <ModalConfirmation
+            ref={modalLogOutConfirmationRef}
+            message="Are you sure logout from this account ?"
+            onYes={onLogOut}
+          />
+
+          <ScanQR ref={drawerQrScannerRef} />
+        </div>
+
+        <Joyride
+          steps={steps}
+          run={run}
+          callback={handleJoyrideCallback}
+          continuous
+          hideCloseButton
+          scrollToFirstStep
+          disableScrolling
+          showProgress
+          showSkipButton
+          styles={{
+            options: {
+              zIndex: 10000,
+            },
+          }}
+        />
+      </TourProvider>
     </>
   );
 };
