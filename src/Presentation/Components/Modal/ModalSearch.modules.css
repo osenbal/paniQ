@@ -1,0 +1,6 @@
+.modal-search .ant-drawer-header-title {
+  flex: none !important;
+}
+.modal-search .ant-drawer-extra {
+  flex: 1 !important;
+}
