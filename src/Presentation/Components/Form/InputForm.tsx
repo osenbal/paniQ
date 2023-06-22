@@ -12,11 +12,14 @@ type Props = {
   style?: React.CSSProperties;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (event: any) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   label?: string;
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
   className?: string;
   rest?: any;
+  refInput?: any;
+  autoFocus?: boolean;
 };
 
 const InputForm: React.FC<Props> = ({
@@ -29,9 +32,12 @@ const InputForm: React.FC<Props> = ({
   label = "label",
   onChange,
   onKeyDown,
+  onFocus,
   icon,
   iconPosition = "left",
   className,
+  refInput,
+  autoFocus,
   ...rest
 }: Props) => {
   return (
@@ -53,6 +59,8 @@ const InputForm: React.FC<Props> = ({
           <span className="container_input_icon">{icon}</span>
         ) : null}
         <input
+          ref={refInput}
+          autoFocus={autoFocus}
           id={label}
           style={{
             color: elementColor.buttonText_navBlue,
@@ -64,6 +72,7 @@ const InputForm: React.FC<Props> = ({
           value={value}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          onFocus={onFocus}
           {...rest}
         />
         {iconPosition === "right" ? (
