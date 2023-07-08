@@ -1,6 +1,6 @@
-import { Todo } from "../../Domain/Model/Todo";
-import { TodoRepository } from "../../Domain/Repository/TodoRepository";
-import TodoDataSource from "../DataSource/interfaces/TodoDataSource";
+import { Todo } from "@/Domain/Model/Todo";
+import { TodoRepository } from "@/Contracts/Repository/TodoRepository";
+import TodoDataSource from "@/Contracts/DataSource/ITodoDataSource";
 
 export class TodoRepositoryImpl implements TodoRepository {
   dataSource: TodoDataSource;

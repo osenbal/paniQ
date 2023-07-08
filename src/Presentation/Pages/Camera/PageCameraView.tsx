@@ -37,6 +37,7 @@ const PageCamera: React.FC = () => {
     onFlipCamera,
     toggleFlashLight,
     flashLight,
+    handleCreateNewPost,
   } = useViewModelCamera();
 
   return (
@@ -201,8 +202,10 @@ const PageCamera: React.FC = () => {
         ) : null}
 
         <CropedImageDialog
-          img={croppedImage}
+          key={croppedImage || ""}
+          img={croppedImage || ""}
           position="bottom"
+          createNewPost={handleCreateNewPost}
           onClose={() => {
             setCroppedImage(null);
             setZoom(1);

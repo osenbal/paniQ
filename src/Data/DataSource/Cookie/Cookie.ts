@@ -14,15 +14,15 @@ export const getCookie = (name: string): string => {
   return "";
 };
 
-export const setCookie = (name: string, value: string, expires: number) => {
-  // const date = new Date();
-  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+export const setCookie = (name: string, value: string, expires: string) => {
+  document.cookie = name + "=" + value + ";expires=" + expires + ";path=/";
 };
 
 export const deleteCookie = (name: string) => {
-  document.cookie = name + "=;" + -1 + ";path=/";
+  // remove coookie and change expire to now
+  document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
 };
 
-export const updateCookie = (name: string, value: string, expires: number) => {
-  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+export const updateCookie = (name: string, value: string, expires: string) => {
+  document.cookie = name + "=" + value + ";expires=" + expires + ";path=/";
 };

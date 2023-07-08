@@ -1,5 +1,5 @@
 import { Todo } from "../../Model/Todo";
-import { TodoRepository } from "../../Repository/TodoRepository";
+import { TodoRepository } from "@/Contracts/Repository/TodoRepository";
 
 export interface GetTodosUseCase {
   invoke: () => Promise<Todo[]>;

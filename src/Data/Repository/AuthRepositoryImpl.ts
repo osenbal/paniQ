@@ -1,16 +1,15 @@
-// import { User } from "@/Domain/Model/User/User";
-// import { JwtToken } from "@/Domain/Model/JwtToken";
-import { AuthRepository } from "@/Domain/Repository/AuthRepository";
-import AuthDataSource from "@/Data/DataSource/interfaces/AuthDataSource";
+import { IAuthRepository } from "@/Contracts/Repository/IAuthRepository";
+import AuthDataSource from "@/Contracts/DataSource/IAuthDataSource";
+import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
 
-export class AuthRepositoryImpl implements AuthRepository {
-  dataSource: AuthDataSource;
+export class AuthRepositoryImpl implements IAuthRepository {
+  private dataSource: AuthDataSource;
 
   constructor(_datasource: AuthDataSource) {
     this.dataSource = _datasource;
   }
 
-  async login<T>(email: string, password: string): Promise<T> {
-    return await this.dataSource.login(email, password);
+  public async login<T>({ email, password }: ILoginRequest): Promise<T> {
+    return await this.dataSource.login({ email, password });
   }
 }

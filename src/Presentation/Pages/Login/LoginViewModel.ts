@@ -1,36 +1,56 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Login } from "@/Domain/UseCase/Auth/Login";
-// import { AuthRepositoryImpl } from "@/Data/Repository/AuthRepositoryImpl";
-// import AuthAPIDataSourceImpl from "@/Data/DataSource/API/AuthAPIDataSourceImpl";
+import { AuthUseCaseImpl } from "@/Domain/UseCase/Auth/AuthUseCaseImpl";
 import { useAppDispatch, useAppSelector } from "@/Domain/Store/hooks";
-import { setIsAuth } from "@/Domain/Reducer/authSlice";
+import {
+  setIsAuth,
+  setAccessToken,
+  setRefreshToken,
+} from "@/Domain/Reducer/authSlice";
+import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
+import { getAccessToken } from "@/Data/DataSource/Cookie/JWT.cookie";
 
 export default function LoginViewModel() {
+  const authUseCase = AuthUseCaseImpl.getInstance();
+
+  // useContext
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  // global state
   const { isAuth } = useAppSelector((state) => state.auth);
 
-  const [nim, setNim] = useState<string>("");
+  // local state
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [errors, setErrors] = useState<{
-    nim: string;
-    password: string;
-  }>({
-    nim: "",
+  const [errors, setErrors] = useState<ILoginRequest>({
+    email: "",
     password: "",
   });
 
-  // const UseCase = new Login(
-  //   new AuthRepositoryImpl(new AuthAPIDataSourceImpl())
-  // );
+  // lifecycle
+  useEffect(() => {
+    if (isAuth && getAccessToken() !== "") {
+      navigate("/", {
+        replace: true,
+      });
+    }
+  }, [isAuth]);
 
-  async function login() {
-    if (nim === "") {
+  // methods
+  const login = async () => {
+    if (email === "" && password === "") {
       setErrors({
         ...errors,
-        nim: "NIM tidak boleh kosong",
+        email: "email tidak boleh kosong",
+        password: "Password tidak boleh kosong",
+      });
+    }
+
+    if (email === "") {
+      setErrors({
+        ...errors,
+        email: "email tidak boleh kosong",
       });
     }
 
@@ -41,27 +61,30 @@ export default function LoginViewModel() {
       });
     }
 
-    if (nim.length > 0 && password.length > 0) {
+    if (email.length > 0 && password.length > 0) {
       setErrors({
-        nim: "",
+        email: "",
         password: "",
       });
 
-      dispatch(setIsAuth(true));
+      try {
+        const responseLogin = await authUseCase.login({ email, password });
+        // set global state auth if login success
+        if (responseLogin?.status === true && responseLogin.data != null) {
+          dispatch(setAccessToken(responseLogin.data.access_token));
+          dispatch(setRefreshToken(responseLogin.data.refresh_token));
+          dispatch(setIsAuth(true));
+        }
+      } catch (error) {
+        console.log("Error : ", error);
+      }
     }
-    // return await UseCase.invoke({ nim, password });
-  }
-
-  useEffect(() => {
-    if (isAuth) {
-      navigate("/");
-    }
-  }, [navigate, isAuth]);
+  };
 
   return {
     login,
-    nim,
-    setNim,
+    email,
+    setEmail,
     password,
     setPassword,
     errors,

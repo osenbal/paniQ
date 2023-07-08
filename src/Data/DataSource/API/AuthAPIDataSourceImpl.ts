@@ -1,25 +1,36 @@
-// import { User } from "@/Domain/Model/User/User";
-// import { JwtToken } from "@/Domain/Model/JwtToken";
-import AuthDataSource from "../interfaces/AuthDataSource";
-import { JwtAPIEntity } from "./Entity/JwtAPIEntity";
-import axios from "@/Api/axios";
+import IAuthDataSource from "../../../Contracts/DataSource/IAuthDataSource";
+import axios from "@/Api/apiInterceptor";
+import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
 
-interface TypedResponse<T = any> extends Response {
-  json<P = T>(): Promise<P>;
-}
+export default class AuthDataSourceImpl implements IAuthDataSource {
+  private static instance: AuthDataSourceImpl;
 
-function myFetch<T>(...args: any): Promise<TypedResponse<T>> {
-  return axios(args);
-}
+  static getInstance(): AuthDataSourceImpl {
+    if (!AuthDataSourceImpl.instance) {
+      AuthDataSourceImpl.instance = new AuthDataSourceImpl();
+    }
+    return AuthDataSourceImpl.instance;
+  }
 
-export default class AuthDataSourceImpl implements AuthDataSource {
-  login<T>(nim: string, password: string): Promise<T> {
-    return myFetch<JwtAPIEntity>(`/auth/login`, {
-      method: "POST",
-      body: JSON.stringify({
-        username: nim,
-        password,
-      }),
-    }).then((response) => response.json());
+  login<T>({ email, password }: ILoginRequest): Promise<T> {
+    return axios
+      .post(
+        `/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
   }
 }

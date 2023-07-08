@@ -9,7 +9,8 @@ import CloseEye from "@/Presentation/Components/Icons/CloseEye";
 const LogoApp = lazy(() => import("@/Presentation/Components/Logo/LogoApp"));
 
 export default function LoginView() {
-  const { nim, setNim, password, setPassword, login, errors } = useViewModel();
+  const { email, setEmail, password, setPassword, login, errors } =
+    useViewModel();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -28,13 +29,13 @@ export default function LoginView() {
         </h1>
 
         <InputForm
-          placeholder="Masukan NIM / NIP..."
-          label="NIM / NIP"
-          value={nim}
-          type="number"
-          onChange={(e) => setNim(e.target.value)}
+          placeholder="Masukan Email..."
+          label="Email"
+          value={email}
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
           style={{ height: "64px" }}
-          error={errors.nim}
+          error={errors.email}
         />
 
         <InputForm
