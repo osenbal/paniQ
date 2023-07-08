@@ -1,6 +1,6 @@
 import { Todo } from "../../../Domain/Model/Todo";
-import TodoDataSource from "../interfaces/TodoDataSource";
-import { TodoAPIEntity } from "./Entity/TodoAPIEntity";
+import TodoDataSource from "../../../Contracts/DataSource/ITodoDataSource";
+import { TodoAPIEntity } from "@/Contracts/Entity/ITodoAPIEntity";
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 

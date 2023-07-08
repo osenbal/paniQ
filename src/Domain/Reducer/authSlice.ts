@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../Store/store";
+import {
+  setAccessToken as setAccessTokenToCookie,
+  setRefreshToken as setRefreshTokenToCookie,
+  setIsAuth as setIsAuthToCookie,
+} from "@/Data/DataSource/Cookie/JWT.cookie";
 
 // Define a type for the slice state
 interface AuthState {
@@ -25,12 +30,18 @@ export const authSlice = createSlice({
   reducers: {
     setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
+      // save to cookie without expire
+      setIsAuthToCookie(action.payload);
     },
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
+      // save to cookie with 1 minute expire
+      setAccessTokenToCookie(action.payload);
     },
     setRefreshToken: (state, action: PayloadAction<string>) => {
       state.refreshToken = action.payload;
+      // save to cookie with 3 days expire
+      setRefreshTokenToCookie(action.payload);
     },
     setRole: (state, action: PayloadAction<string>) => {
       state.role = action.payload;

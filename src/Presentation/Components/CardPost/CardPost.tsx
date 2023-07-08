@@ -3,6 +3,7 @@ import { Card, Button } from "antd";
 import IconComment from "@/Assets/Icons/icon_comment.svg";
 import IconPostQrScan from "@/Assets/Icons/icon_post_qrScan.svg";
 import IconPostSave from "@/Assets/Icons/icon_post_save.svg";
+import { ICharacteristic } from "@/Contracts/Response/IPostsResponse";
 // import DummyProfile from "@/Assets/Icons/icon_dummyProfile.svg";
 
 import "./CardPost.modules.css";
@@ -10,6 +11,7 @@ import "./CardPost.modules.css";
 const { Meta } = Card;
 
 type Props = {
+  id: number | string;
   indexZero?: boolean;
   userName: string;
   userMajor: string;
@@ -18,7 +20,7 @@ type Props = {
   postTitle: string;
   postDescription: string;
   postDate: string;
-  characteristics: string[];
+  characteristics: ICharacteristic[];
   openQrCode: () => void;
 };
 
@@ -32,6 +34,7 @@ const cutText = (text: string) => {
 };
 
 const CardPost: React.FC<Props> = ({
+  id,
   userImage,
   userName,
   userMajor,
@@ -122,35 +125,29 @@ const CardPost: React.FC<Props> = ({
                     Telah menemukan{" "}
                     <span className="font-bold"> {postTitle}. </span>
                   </p>
-                  <p>
-                    <span>
-                      {open
-                        ? `${postDescription}`
-                        : cutText(`${postDescription}`)}
-                    </span>
-                    {open ? (
-                      <div className="cardPost_chraracteristic">
-                        <p className="font-bold">Dengan ciri-ciri :</p>
+                  <span>
+                    {open
+                      ? `${postDescription}`
+                      : cutText(`${postDescription}`)}
+                  </span>
+                  {open ? (
+                    <div className="cardPost_chraracteristic">
+                      <p className="font-bold">Dengan ciri-ciri :</p>
+                      <ol key={id}>
                         {characteristics.map((item, index) => {
-                          return (
-                            <>
-                              <ol>
-                                <li>{item}</li>
-                              </ol>
-                            </>
-                          );
+                          return <li key={index}>{item.title}</li>;
                         })}
-                      </div>
-                    ) : (
-                      <span
-                        onClick={() => setOpen(true)}
-                        style={{ cursor: "pointer" }}
-                        className="underline underline-offset-4 ml-1"
-                      >
-                        selengkapnya
-                      </span>
-                    )}
-                  </p>
+                      </ol>
+                    </div>
+                  ) : (
+                    <span
+                      onClick={() => setOpen(true)}
+                      style={{ cursor: "pointer" }}
+                      className="underline underline-offset-4 ml-1"
+                    >
+                      selengkapnya
+                    </span>
+                  )}
                 </div>
               </div>
             </>

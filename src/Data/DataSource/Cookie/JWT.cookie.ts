@@ -1,4 +1,4 @@
-import { setCookie, getCookie, deleteCookie, updateCookie } from "./Cookie";
+import { setCookie, getCookie, deleteCookie } from "./Cookie";
 
 export const getAccessToken = (): string => {
   const name = "accessToken=";
@@ -10,12 +10,30 @@ export const getRefreshToken = (): string => {
   return getCookie(name);
 };
 
-export const setAccessToken = (value: string, expires: number) => {
+export const getIsAuth = (): boolean => {
+  const name = "isAuth=";
+  return getCookie(name) === "true";
+};
+
+// set cookie access token with default expire 1 minute
+export const setAccessToken = (
+  value: string,
+  expires: string = new Date(Date.now() + 600000).toUTCString()
+) => {
   setCookie("accessToken", value, expires);
 };
 
-export const setRefreshToken = (value: string, expires: number) => {
+//  set cookie refresh token with default expire 3 days
+export const setRefreshToken = (
+  value: string,
+  expires: string = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toUTCString()
+) => {
   setCookie("refreshToken", value, expires);
+};
+
+// set is auth cookie wthout expire
+export const setIsAuth = (value: boolean) => {
+  setCookie("isAuth", value.toString(), "");
 };
 
 export const deleteAccessToken = () => {
@@ -26,10 +44,14 @@ export const deleteRefreshToken = () => {
   deleteCookie("refreshToken");
 };
 
-export const updateAccessToken = (value: string, expires: number) => {
-  updateCookie("accessToken", value, expires);
+export const deleteIsAuth = () => {
+  deleteCookie("isAuth");
 };
 
-export const updateRefreshToken = (value: string, expires: number) => {
-  updateCookie("refreshToken", value, expires);
-};
+// export const updateAccessToken = (value: string, expires: number) => {
+//   updateCookie("accessToken", value, expires);
+// };
+
+// export const updateRefreshToken = (value: string, expires: number) => {
+//   updateCookie("refreshToken", value, expires);
+// };
