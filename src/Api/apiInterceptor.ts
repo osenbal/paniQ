@@ -9,6 +9,7 @@ import {
   getAccessToken,
 } from "@/Data/DataSource/Cookie/JWT.cookie";
 import { ILoginResponse } from "@/Contracts/Response/IAuthResponse";
+import { AUTH_END_POINT } from "./LIST_END_POINT";
 
 axios.interceptors.request.use(
   (config) => {
@@ -47,7 +48,7 @@ axios.interceptors.response.use(
 
         // request new access token with refresh token
         const newAccressToken = await axios.get<ILoginResponse>(
-          "/auth/refresh",
+          AUTH_END_POINT.GET_REFRESH_TOKEN,
           {
             headers: {
               "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import { IPostDataSource } from "@/Contracts/DataSource/IPostDataSource";
 import { getAccessToken } from "@/Data/DataSource/Cookie/JWT.cookie";
 import axios from "@/Api/apiInterceptor";
+import { POST_END_POINT } from "@/Api/LIST_END_POINT";
 
 export default class PostDataSourceImpl implements IPostDataSource {
   private static instance: PostDataSourceImpl;
@@ -14,7 +15,7 @@ export default class PostDataSourceImpl implements IPostDataSource {
 
   getPosts<T>(page: number): Promise<T> {
     return axios
-      .get(`/posts/list?page=${page}`, {
+      .get(POST_END_POINT.GET_LIST_POST(page), {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAccessToken()}`,
@@ -30,7 +31,7 @@ export default class PostDataSourceImpl implements IPostDataSource {
 
   createPost<T>(data: FormData): Promise<T> {
     return axios
-      .post(`/posts/`, data, {
+      .post(POST_END_POINT.POST_CREATE_POST, data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${getAccessToken()}`,
