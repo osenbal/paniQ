@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
 import { selectSearch } from "@/Domain/Reducer/globalSlice";
 import { setSearch } from "@/Domain/Reducer/globalSlice";
