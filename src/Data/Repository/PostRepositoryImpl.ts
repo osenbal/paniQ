@@ -15,4 +15,8 @@ export class PostRepositoryImpl implements IPostRepository {
   async createPost<T>(data: FormData): Promise<T> {
     return await this.postDataSource.createPost(data);
   }
+
+  async requestValidatePost<T>(post_id: string): Promise<T> {
+    return await this.postDataSource.requestValidatePost(post_id);
+  }
 }

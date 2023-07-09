@@ -44,4 +44,20 @@ export default class PostDataSourceImpl implements IPostDataSource {
         return error;
       });
   }
+
+  requestValidatePost<T>(post_id: string): Promise<T> {
+    return axios
+      .get(POST_END_POINT.GET_REQUEST_VALIDATE_PASSWORD(post_id), {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
 }

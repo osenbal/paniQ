@@ -2,10 +2,16 @@ import { useEffect, useState, useRef } from "react";
 import { RefHandlerModalQrcode } from "@/Presentation/Components/Modal/ModalQrcode";
 import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
 import { IPost } from "@/Contracts/Response/IPostsResponse";
+import { useAppSelector } from "@/Domain/Store/hooks";
+// import { IGETRequestValidatePostResponse } from "@/Contracts/Response/IPostsResponse";
+
 // import posts from "@/Data/DataSource/Dummy/Posts";
 
 const IndexViewModel = () => {
   const postUseCase = PostUseCaseImpl.getInstance();
+
+  //  redux
+  const { user } = useAppSelector((state) => state.auth);
 
   //  ref
   const modalQrcode = useRef() as React.MutableRefObject<RefHandlerModalQrcode>;
@@ -65,12 +71,29 @@ const IndexViewModel = () => {
       });
   };
 
+  const handleOpenModalQrcode = async (post_id: string) => {
+    try {
+      await postUseCase.requestValidatePost(post_id).then((response) => {
+        if (response.status_code === 200) {
+          modalQrcode.current.openModalQrcode(
+            post_id,
+            response.data.qr_code_url
+          );
+        }
+      });
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  };
+
   return {
     isLoading,
     setIsLoading,
     modalQrcode,
     listPost,
     isLoadingMore,
+    user,
+    handleOpenModalQrcode,
   };
 };
 

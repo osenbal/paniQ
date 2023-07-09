@@ -1,5 +1,6 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
+import { useState, useImperativeHandle, forwardRef } from "react";
 import { Modal, Input } from "antd";
+import { IUser } from "@/Contracts/Response/IUserResponse";
 
 import IconCrossCloseModal from "@/Assets/Icons/icon_crossCloseModal.svg";
 import IconLogout from "@/Assets/Icons/icon_logout.svg";
@@ -14,13 +15,8 @@ export type RefHandlerModalProfile = {
 };
 
 type Props = {
-  imgProfile?: string;
-  name?: string;
-  email?: string;
-  nimOrNip?: string;
-  major?: string;
-  faculty?: string;
-  onLogout?: () => void;
+  user: IUser;
+  onLogout: () => void;
 };
 
 const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
@@ -63,17 +59,17 @@ const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
       >
         <div className="flex flex-col justify-center items-center gap-4 pb-8">
           <img
-            src={props.imgProfile ? props.imgProfile : DummyImage}
+            src={DummyImage}
             alt="profile"
             style={{ width: "75px", height: "75px", borderRadius: "50%" }}
           />
 
           <div className="text-center">
             <p style={{ color: elementColor.headline_navyBlue, ...title14 }}>
-              {props.name ? props.name : "Jhon Doew"}
+              {props?.user.username ? props?.user.username : "Jhon Doew"}
             </p>
             <p style={{ color: elementColor.headline_navyBlue, ...title12 }}>
-              {props.email ? props.email : "email@gmail.com"}
+              {props?.user.email ? props?.user.email : "email@gmail.com"}
             </p>
           </div>
 
@@ -83,11 +79,13 @@ const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
               <Input
                 id="nimOrNip"
                 type="text"
-                placeholder="NIP/NIM"
+                placeholder={props?.user.nim !== "" ? "NIM" : "NIP"}
                 maxLength={12}
                 bordered={false}
                 disabled={true}
-                value={props.nimOrNip ? props.nimOrNip : "11210910000003"}
+                value={
+                  props?.user.nim !== "" ? props?.user.nim : props?.user.nip
+                }
                 style={{
                   padding: "0px",
                   borderRadius: "0px",
@@ -107,7 +105,7 @@ const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
                 maxLength={12}
                 bordered={false}
                 disabled={true}
-                value={props.major ? props.major : "Sistem Informasi"}
+                value={props?.user.major ? props?.user.major : "NULL"}
                 style={{
                   padding: "0px",
                   borderRadius: "0px",
@@ -118,7 +116,7 @@ const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
               />
             </div>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <label htmlFor="faculty">Faculty</label>
               <Input
                 id="faculty"
@@ -127,7 +125,7 @@ const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
                 maxLength={12}
                 bordered={false}
                 disabled={true}
-                value={props.faculty ? props.faculty : "Fakultas Ilmu Komputer"}
+                value={"Fakultas Ilmu Komputer"}
                 style={{
                   padding: "0px",
                   borderRadius: "0px",
@@ -136,7 +134,7 @@ const ModalProfile = forwardRef<RefHandlerModalProfile, Props>(
                   ...title12,
                 }}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </Modal>

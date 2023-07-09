@@ -19,6 +19,7 @@ const DashboardLayout: React.FC = () => {
     modalLogOutConfirmationRef,
     drawerQrScannerRef,
     onLogOut,
+    userState,
   } = DashboardLayoutViewModel();
 
   const {
@@ -60,6 +61,7 @@ const DashboardLayout: React.FC = () => {
             onLogout={() =>
               modalLogOutConfirmationRef.current.openModalConfirmation()
             }
+            user={userState}
           />
 
           <ModalConfirmation

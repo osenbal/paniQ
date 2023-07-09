@@ -6,12 +6,14 @@ import {
   setRefreshToken as setRefreshTokenToCookie,
   setIsAuth as setIsAuthToCookie,
 } from "@/Data/DataSource/Cookie/JWT.cookie";
+import { IUser } from "@/Contracts/Response/IUserResponse";
 
 // Define a type for the slice state
 interface AuthState {
   isAuth: boolean;
   accessToken: string;
   refreshToken: string;
+  user: IUser;
   role: string;
 }
 
@@ -20,6 +22,18 @@ const initialState: AuthState = {
   isAuth: false,
   accessToken: "",
   refreshToken: "",
+  user: {
+    id: 0,
+    username: "",
+    email: "",
+    avatar: "",
+    nim: "",
+    nip: "",
+    major: "",
+    created_at: "",
+    updated_at: "",
+    deleted_at: null,
+  },
   role: "",
 };
 
@@ -46,10 +60,14 @@ export const authSlice = createSlice({
     setRole: (state, action: PayloadAction<string>) => {
       state.role = action.payload;
     },
+    setUser: (state, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setIsAuth, setAccessToken, setRefreshToken } = authSlice.actions;
+export const { setIsAuth, setAccessToken, setRefreshToken, setRole, setUser } =
+  authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const getIsAuth = (state: RootState) => state.auth.isAuth;

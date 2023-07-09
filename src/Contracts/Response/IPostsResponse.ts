@@ -10,6 +10,13 @@ export interface IPOSTCreatePostResponse {
   data: IPost;
 }
 
+export interface IGETRequestValidatePostResponse {
+  status_code: number;
+  data: {
+    qr_code_url: string;
+  };
+}
+
 export interface IPost {
   id: string;
   user_id: number;

@@ -12,6 +12,8 @@ const { Meta } = Card;
 
 type Props = {
   id: number | string;
+  user_id: number;
+  isMyPost: boolean;
   indexZero?: boolean;
   userName: string;
   userMajor: string;
@@ -35,6 +37,8 @@ const cutText = (text: string) => {
 
 const CardPost: React.FC<Props> = ({
   id,
+  user_id,
+  isMyPost,
   userImage,
   userName,
   userMajor,
@@ -107,13 +111,16 @@ const CardPost: React.FC<Props> = ({
                       className="flex flex-row justify-center items-center"
                       icon={<img src={IconComment} alt="comment" />}
                     ></Button>
-                    <Button
-                      id={indexZero ? "my-eighth-step" : ""}
-                      onClick={openQrCode}
-                      style={{ border: "none" }}
-                      className="flex flex-row justify-center items-center"
-                      icon={<img src={IconPostQrScan} alt="scan" />}
-                    ></Button>
+
+                    {isMyPost ? (
+                      <Button
+                        id={indexZero ? "my-eighth-step" : ""}
+                        onClick={openQrCode}
+                        style={{ border: "none" }}
+                        className="flex flex-row justify-center items-center"
+                        icon={<img src={IconPostQrScan} alt="scan" />}
+                      ></Button>
+                    ) : null}
                   </div>
                   <div id={indexZero ? "my-ninth-step" : ""}>
                     <img src={IconPostSave} alt="save post" />
