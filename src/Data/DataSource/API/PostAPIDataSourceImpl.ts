@@ -2,6 +2,7 @@ import { IPostDataSource } from "@/Contracts/DataSource/IPostDataSource";
 import { getAccessToken } from "@/Data/DataSource/Cookie/JWT.cookie";
 import axios from "@/Api/apiInterceptor";
 import { POST_END_POINT } from "@/Api/LIST_END_POINT";
+import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
 
 export default class PostDataSourceImpl implements IPostDataSource {
   private static instance: PostDataSourceImpl;
@@ -48,6 +49,22 @@ export default class PostDataSourceImpl implements IPostDataSource {
   requestValidatePost<T>(post_id: string): Promise<T> {
     return axios
       .get(POST_END_POINT.GET_REQUEST_VALIDATE_PASSWORD(post_id), {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
+  validatePost<T>(jsonData: IValidatePostRequest): Promise<T> {
+    return axios
+      .post(POST_END_POINT.POST_VALIDATE_POST, jsonData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAccessToken()}`,

@@ -20,6 +20,7 @@ const DashboardLayout: React.FC = () => {
     drawerQrScannerRef,
     onLogOut,
     userState,
+    onValidatePost,
   } = DashboardLayoutViewModel();
 
   const {
@@ -70,7 +71,7 @@ const DashboardLayout: React.FC = () => {
             onYes={onLogOut}
           />
 
-          <ScanQR ref={drawerQrScannerRef} />
+          <ScanQR ref={drawerQrScannerRef} onValidatePost={onValidatePost} />
         </div>
 
         <Joyride

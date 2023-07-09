@@ -22,7 +22,7 @@ const ModalQrcode = forwardRef<RefHandlerModalQrcode>((props, ref) => {
 
   return (
     <Modal
-      title={<p className="text-center">Scan QRCode</p>}
+      title={<p className="text-center">Scan Here</p>}
       centered
       open={modalQrcodeOpen}
       okButtonProps={{ style: { display: "none" } }}
