@@ -3,9 +3,15 @@ import React, {
   useImperativeHandle,
   forwardRef,
   useEffect,
+  useRef,
 } from "react";
 import type { DrawerProps } from "antd";
 import { Drawer } from "antd";
+import Spinner from "../Spinner";
+import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
+import ModalConfirmation from "../Modal/ModalConfirmation";
+import { RefHandlerModalConfirmation } from "../Modal/ModalConfirmation";
+
 import Html5QrcodePlugin from "../Plugins/Html5Qrcode.plugin";
 import { elementColor } from "@/Core/config/colors/colors";
 import LogoApp from "../Logo/LogoApp";
@@ -15,19 +21,30 @@ import "./ScanQR.modules.css";
 
 export type RefHandlerDrawerQrScanner = {
   openDrawerQrScanner: () => void;
+  closeDrawerQrScanner: () => void;
+  closeModalConfirmation: () => void;
 };
 
-const ScanQR = forwardRef<RefHandlerDrawerQrScanner>((props, ref) => {
+interface Props {
+  onValidatePost: (dataPost: IValidatePostRequest) => void;
+}
+
+const ScanQR = forwardRef<RefHandlerDrawerQrScanner, Props>((props, ref) => {
+  const modalConfirmationRef =
+    useRef() as React.MutableRefObject<RefHandlerModalConfirmation>;
+
   const [placement] = useState<DrawerProps["placement"]>("bottom");
   const [showScanner, setShowScanner] = useState<boolean>(false);
   const [data, setData] = useState<any>(null);
 
-  const onSuccessScanQRCode = (decodedText: string) => {
-    setData(decodedText);
+  const onSuccessScanQRCode = (decodedData: string) => {
+    const dataPost: IValidatePostRequest = JSON.parse(decodedData);
+    setData(dataPost);
+    modalConfirmationRef.current.openModalConfirmation();
   };
 
   const onErrorScanQRCode = (errorMessage: string) => {
-    console.log("errorMessage", errorMessage);
+    // console.log("errorMessage", errorMessage);
   };
 
   const closeCam = () => {
@@ -50,6 +67,10 @@ const ScanQR = forwardRef<RefHandlerDrawerQrScanner>((props, ref) => {
   useImperativeHandle(ref, () => ({
     openDrawerQrScanner: (): void => {
       setShowScanner(true);
+    },
+    closeDrawerQrScanner: onCloseDrawerScanner,
+    closeModalConfirmation: () => {
+      modalConfirmationRef.current.closeModalConfirmation();
     },
   }));
 
@@ -95,11 +116,8 @@ const ScanQR = forwardRef<RefHandlerDrawerQrScanner>((props, ref) => {
       >
         {showScanner ? (
           <div className="relative">
-            {data ? (
-              <div className="text-center">
-                <p>Result success</p>
-                <a href={data}>{data}</a>
-              </div>
+            {data !== null ? (
+              <Spinner height="40px" />
             ) : (
               <div>
                 <Html5QrcodePlugin
@@ -157,6 +175,13 @@ const ScanQR = forwardRef<RefHandlerDrawerQrScanner>((props, ref) => {
           <p style={{ color: elementColor.buttonText_navBlue }}>Close</p>
         </div>
       </Drawer>
+
+      <ModalConfirmation
+        ref={modalConfirmationRef}
+        onYes={() => props.onValidatePost(data)}
+        onNo={onCloseDrawerScanner}
+        message={"Apakah anda yakin memiliki barang ini?"}
+      />
     </div>
   );
 });

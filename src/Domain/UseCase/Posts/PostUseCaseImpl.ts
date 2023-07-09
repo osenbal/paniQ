@@ -9,6 +9,7 @@ import {
   IGETRequestValidatePostResponse,
 } from "@/Contracts/Response/IPostsResponse";
 import { RequestValidatePostUseCase } from "./GetRequestValidatePostUseCase";
+import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
 
 export default class PostUseCaseImpl implements IPostUseCase {
   private static instance: PostUseCaseImpl;
@@ -38,5 +39,9 @@ export default class PostUseCaseImpl implements IPostUseCase {
     post_id: string
   ): Promise<IGETRequestValidatePostResponse> {
     return await this.requestValidatePostUseCase.invoke(post_id);
+  }
+
+  public async validatePost(jsonData: IValidatePostRequest): Promise<any> {
+    return await this.postRepo.validatePost(jsonData);
   }
 }

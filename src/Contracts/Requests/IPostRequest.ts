@@ -8,3 +8,8 @@ export interface ICreateNewPostRequest {
 export interface ICharacteristics {
   title: string;
 }
+
+export interface IValidatePostRequest {
+  hash: string;
+  post_id: string;
+}

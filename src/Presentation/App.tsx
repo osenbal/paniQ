@@ -27,6 +27,7 @@ const App: React.FC = () => {
               <Route element={<DashboardLayout />}>
                 <Route path="/" element={<Index />} />
               </Route>
+
               <Route path="/camera" element={<PageCamera />} />
               <Route path="/notification" element={<PageNotification />} />
               <Route path="/post" element={<Post />} />

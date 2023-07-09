@@ -4,10 +4,12 @@ import "./ModalConfirmation.modules.css";
 
 export type RefHandlerModalConfirmation = {
   openModalConfirmation: () => void;
+  closeModalConfirmation: () => void;
 };
 
 type Props = {
   onYes: () => void;
+  onNo?: () => void;
   message: string;
   children?: React.ReactNode;
 };
@@ -21,13 +23,18 @@ const ModalConfirmation = forwardRef<RefHandlerModalConfirmation, Props>(
       openModalConfirmation: (): void => {
         setModalShowConfirmation(true);
       },
+      closeModalConfirmation: (): void => {
+        setModalShowConfirmation(false);
+      },
     }));
 
     return (
       <Modal
         wrapClassName="modal_confirmation"
         centered
+        maskClosable={false}
         open={modalShowConfirmation}
+        zIndex={1000000000}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
         onCancel={() => setModalShowConfirmation(false)}
@@ -40,7 +47,10 @@ const ModalConfirmation = forwardRef<RefHandlerModalConfirmation, Props>(
               style={{ height: "44px" }}
             >
               <button
-                onClick={() => setModalShowConfirmation(false)}
+                onClick={() => {
+                  props.onNo && props.onNo();
+                  setModalShowConfirmation(false);
+                }}
                 className="btn_modal_confirmation w-full h-full border-r-2 border-t-2 border-gray-300"
               >
                 No

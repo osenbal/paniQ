@@ -128,7 +128,7 @@ const CardPost: React.FC<Props> = ({
                 </div>
                 <div>
                   <p className="color_navyBlue mt-2">
-                    <span className="font-bold"> {userName}</span>
+                    <span className="font-bold"> {userName} </span>
                     Telah menemukan{" "}
                     <span className="font-bold"> {postTitle}. </span>
                   </p>

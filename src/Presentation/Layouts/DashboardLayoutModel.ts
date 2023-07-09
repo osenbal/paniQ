@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
 import { selectSearch } from "@/Domain/Reducer/globalSlice";
 import { setSearch } from "@/Domain/Reducer/globalSlice";
@@ -10,19 +10,25 @@ import {
   deleteIsAuth,
   deleteRefreshToken,
 } from "@/Data/DataSource/Cookie/JWT.cookie";
+import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
+import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
+import { toast } from "react-toastify";
 
 export default function DashboardLayoutViewModel() {
+  const postUseCase = PostUseCaseImpl.getInstance();
+
   const modalProfileRef =
     useRef() as React.MutableRefObject<RefHandlerModalProfile>;
   const modalLogOutConfirmationRef =
     useRef() as React.MutableRefObject<RefHandlerModalConfirmation>;
+
   const drawerQrScannerRef =
     useRef() as React.MutableRefObject<RefHandlerDrawerQrScanner>;
 
+  const dispatch = useAppDispatch();
+
   const search = useAppSelector(selectSearch);
   const userState = useAppSelector((state) => state.auth.user);
-
-  const dispatch = useAppDispatch();
 
   const onLogOut = (): void => {
     deleteAccessToken();
@@ -33,6 +39,25 @@ export default function DashboardLayoutViewModel() {
     }, 1000);
   };
 
+  const onValidatePost = async (data: IValidatePostRequest): Promise<void> => {
+    // console.log("validate post");
+    await postUseCase
+      .validatePost(data)
+      .then((response) => {
+        console.log(response);
+        toast.success(response?.message || "Success return data", {
+          position: "top-center",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        drawerQrScannerRef.current.closeDrawerQrScanner();
+        drawerQrScannerRef.current.closeModalConfirmation();
+      });
+  };
+
   return {
     search,
     setSearch: (search: string) => dispatch(setSearch(search)),
@@ -41,5 +66,6 @@ export default function DashboardLayoutViewModel() {
     drawerQrScannerRef,
     onLogOut,
     userState,
+    onValidatePost,
   };
 }
