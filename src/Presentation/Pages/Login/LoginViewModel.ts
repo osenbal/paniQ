@@ -9,6 +9,7 @@ import {
 } from "@/Domain/Reducer/authSlice";
 import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
 import { getAccessToken } from "@/Data/DataSource/Cookie/JWT.cookie";
+import { toast } from "react-toastify";
 
 export default function LoginViewModel() {
   const authUseCase = AuthUseCaseImpl.getInstance();
@@ -71,11 +72,15 @@ export default function LoginViewModel() {
         const responseLogin = await authUseCase.login({ email, password });
         // set global state auth if login success
         if (responseLogin?.status === true && responseLogin.data != null) {
+          toast.success("Login Success");
           dispatch(setAccessToken(responseLogin.data.access_token));
           dispatch(setRefreshToken(responseLogin.data.refresh_token));
           dispatch(setIsAuth(true));
+        } else {
+          toast.warning(responseLogin.message);
         }
       } catch (error) {
+        toast.error("Terjadi Kesalahan");
         console.log("Error : ", error);
       }
     }
