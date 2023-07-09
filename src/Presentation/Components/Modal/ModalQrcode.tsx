@@ -8,14 +8,14 @@ export type RefHandlerModalQrcode = {
 
 const ModalQrcode = forwardRef<RefHandlerModalQrcode>((props, ref) => {
   const [modalQrcodeOpen, setModalQrcodeOpen] = useState<boolean>(false);
-  const [id, setId] = useState<string | number>("");
+  // const [id, setId] = useState<string | number>("");
   const [link, setLink] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useImperativeHandle(ref, () => ({
     openModalQrcode: (id: string | number, link: string): void => {
       setModalQrcodeOpen(true);
-      setId(id);
+      // setId(id);
       setLink(link);
     },
   }));
