@@ -36,7 +36,7 @@ export default function LoginViewModel() {
         replace: true,
       });
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
 
   // methods
   const login = async () => {

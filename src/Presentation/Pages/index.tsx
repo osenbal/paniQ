@@ -7,7 +7,14 @@ import ModalQrcode from "../Components/Modal/ModalQrcode";
 import { Helmet } from "react-helmet-async";
 
 const Index: React.FC = () => {
-  const { isLoading, modalQrcode, listPost, isLoadingMore } = useViewModel();
+  const {
+    isLoading,
+    modalQrcode,
+    listPost,
+    isLoadingMore,
+    user,
+    handleOpenModalQrcode,
+  } = useViewModel();
 
   return (
     <>
@@ -27,8 +34,10 @@ const Index: React.FC = () => {
             {listPost?.length !== 0
               ? listPost.map((item, index) => (
                   <CardPost
-                    id={item.id}
                     key={index}
+                    id={item.id}
+                    isMyPost={user?.id === item.user_id}
+                    user_id={item.user_id}
                     indexZero={index === 0}
                     userName={item.user.username}
                     userMajor={item.user.usermajor}
@@ -38,9 +47,7 @@ const Index: React.FC = () => {
                     postDescription={item.place}
                     postDate={item.created_at}
                     characteristics={item.characteristics}
-                    openQrCode={() =>
-                      modalQrcode.current.openModalQrcode(item.id, item.id)
-                    }
+                    openQrCode={() => handleOpenModalQrcode(item.id)}
                   />
                 ))
               : null}

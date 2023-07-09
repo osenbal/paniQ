@@ -2,9 +2,14 @@ import { useRef } from "react";
 import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
 import { selectSearch } from "@/Domain/Reducer/globalSlice";
 import { setSearch } from "@/Domain/Reducer/globalSlice";
-import { RefHandlerModalProfile } from "../Components/Modal/ModalProfile";
-import { RefHandlerModalConfirmation } from "../Components/Modal/ModalConfirmation";
-import { RefHandlerDrawerQrScanner } from "../Components/ScanQR/ScanQR";
+import { RefHandlerModalProfile } from "@/Presentation/Components/Modal/ModalProfile";
+import { RefHandlerModalConfirmation } from "@/Presentation/Components/Modal/ModalConfirmation";
+import { RefHandlerDrawerQrScanner } from "@/Presentation/Components/ScanQR/ScanQR";
+import {
+  deleteAccessToken,
+  deleteIsAuth,
+  deleteRefreshToken,
+} from "@/Data/DataSource/Cookie/JWT.cookie";
 
 export default function DashboardLayoutViewModel() {
   const modalProfileRef =
@@ -15,10 +20,17 @@ export default function DashboardLayoutViewModel() {
     useRef() as React.MutableRefObject<RefHandlerDrawerQrScanner>;
 
   const search = useAppSelector(selectSearch);
+  const userState = useAppSelector((state) => state.auth.user);
+
   const dispatch = useAppDispatch();
 
   const onLogOut = (): void => {
-    console.log("Log out");
+    deleteAccessToken();
+    deleteRefreshToken();
+    deleteIsAuth();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   return {
@@ -28,5 +40,6 @@ export default function DashboardLayoutViewModel() {
     modalLogOutConfirmationRef,
     drawerQrScannerRef,
     onLogOut,
+    userState,
   };
 }

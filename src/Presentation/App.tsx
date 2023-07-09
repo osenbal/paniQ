@@ -5,6 +5,7 @@ import Spinner from "./Components/Spinner";
 import "./App.css";
 
 import { AuthMiddleware } from "./Middleware/auth.middleware";
+import ProtectedLayout from "./Layouts/ProtectedLayout";
 
 const Login = lazy(() => import("./Pages/Login/LoginView"));
 const Index = lazy(() => import("./Pages/index"));
@@ -22,14 +23,16 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
 
           <Route path="/" element={<AuthMiddleware />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/" element={<Index />} />
+            <Route element={<ProtectedLayout />}>
+              <Route element={<DashboardLayout />}>
+                <Route path="/" element={<Index />} />
+              </Route>
+              <Route path="/camera" element={<PageCamera />} />
+              <Route path="/notification" element={<PageNotification />} />
+              <Route path="/post" element={<Post />} />
             </Route>
-            <Route path="/camera" element={<PageCamera />} />
-            <Route path="/notification" element={<PageNotification />} />
-            <Route path="/post" element={<Post />} />
-            <Route path="*" element={<div>404</div>} />
           </Route>
+          <Route path="*" element={<div>404</div>} />
         </Routes>
       </Suspense>
     </Router>

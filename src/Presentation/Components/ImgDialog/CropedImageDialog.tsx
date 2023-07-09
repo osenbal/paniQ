@@ -29,21 +29,29 @@ const CropedImageDialog: React.FC<Props> = ({
       title: "",
     },
   ]);
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const handleSubmitPost = () => {
-    form.validateFields(["name", "place", "characteristics"]).then(
-      async () => {
-        createNewPost({
-          image: base64ToFile(img, "image.jpg"),
-          title: form.getFieldValue("name"),
-          place: form.getFieldValue("place"),
-          characteristics: form.getFieldValue("characteristics"),
-        });
-      },
-      (err) => {
-        console.log("error", err);
-      }
-    );
+    if (isSending) return;
+    setIsSending(true);
+    form
+      .validateFields(["name", "place", "characteristics"])
+      .then(
+        async () => {
+          createNewPost({
+            image: base64ToFile(img, "image.jpg"),
+            title: form.getFieldValue("name"),
+            place: form.getFieldValue("place"),
+            characteristics: form.getFieldValue("characteristics"),
+          });
+        },
+        (err) => {
+          console.log("error", err);
+        }
+      )
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   return (
@@ -161,7 +169,13 @@ const CropedImageDialog: React.FC<Props> = ({
               )}
             </Form.List>
             <Form.Item>
-              <Button className="w-full mt-5" htmlType="submit" size="large">
+              <Button
+                loading={isSending}
+                disabled={isSending}
+                className="w-full mt-5"
+                htmlType="submit"
+                size="large"
+              >
                 Submit
               </Button>
             </Form.Item>

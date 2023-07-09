@@ -4,6 +4,7 @@ import WebCam from "react-webcam";
 import getCroppedImg from "@/utils/cropImage";
 import { ICreateNewPostRequest } from "@/Contracts/Requests/IPostRequest";
 import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
+import { toast } from "react-toastify";
 
 export default function PageCameraViewModel() {
   const postUseCase = PostUseCaseImpl.getInstance();
@@ -90,6 +91,7 @@ export default function PageCameraViewModel() {
     try {
       const responseCreateNewPost = await postUseCase.createPost(formData);
       if (responseCreateNewPost) {
+        toast.success("Berhasil menambahkan post");
         navigate("/", { replace: true });
       }
     } catch (error) {
