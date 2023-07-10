@@ -1,11 +1,13 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashboardLayout from "./Layouts/DashboardLayout";
+import ProtectedLayout from "./Layouts/ProtectedLayout";
 import Spinner from "./Components/Spinner";
-import "./App.css";
+// import "../firebase-getToken";
 
 import { AuthMiddleware } from "./Middleware/auth.middleware";
-import ProtectedLayout from "./Layouts/ProtectedLayout";
+
+import "./App.css";
 
 const Login = lazy(() => import("./Pages/Login/LoginView"));
 const Index = lazy(() => import("./Pages/index"));
