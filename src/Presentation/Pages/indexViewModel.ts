@@ -75,10 +75,7 @@ const IndexViewModel = () => {
     try {
       await postUseCase.requestValidatePost(post_id).then((response) => {
         if (response.status_code === 200) {
-          modalQrcode.current.openModalQrcode(
-            post_id,
-            response.data.qr_code_url
-          );
+          modalQrcode.current.openModalQrcode(response.data.qr_code_url);
         }
       });
     } catch (error) {

@@ -43,8 +43,10 @@ root.render(
 
 if (process.env.NODE_ENV === "production") {
   serviceWorkerRegistration.register();
+  serviceWorkerRegistration.registerServiceWorkerFirebase();
 } else {
   serviceWorkerRegistration.localServiceWorkerRegister();
+  serviceWorkerRegistration.registerServiceWorkerFirebase();
 }
 // serviceWorkerRegistration.unregister();
 
