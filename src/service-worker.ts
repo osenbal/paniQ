@@ -15,7 +15,7 @@ import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
 // [START messaging_on_background_message_modular]
-import { getMessaging } from "firebase/messaging/sw";
+import { messaging } from "./Domain/ExternalService/FirebaseApp";
 import { onBackgroundMessage } from "firebase/messaging/sw";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -135,7 +135,6 @@ self.addEventListener("push", (event) => {
   }
 });
 
-const messaging = getMessaging();
 onBackgroundMessage(messaging, (payload) => {
   console.log(
     "[firebase-messaging-sw.js] Received background message ",
