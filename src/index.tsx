@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./Presentation/App";
 import MainLayout from "./Presentation/Layouts/MainLayout";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import firebaseGetToken from "./firebase-getToken";
+import requestNotificationPermission from "./firebase-getToken";
 
 import { Provider } from "react-redux";
 import { store } from "./Domain/Store/store";
@@ -42,7 +42,7 @@ root.render(
 
 // register service worker global scope
 
-firebaseGetToken();
+requestNotificationPermission();
 
 if (process.env.NODE_ENV === "production") {
   serviceWorkerRegistration.register();
