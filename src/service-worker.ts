@@ -135,19 +135,19 @@ self.addEventListener("push", (event) => {
   }
 });
 
-// firebase messaging
-onBackgroundMessage(messaging, (payload) => {
-  console.log("Received background message ", payload);
-  // Customize notification here
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-  };
+// // firebase messaging
+// onBackgroundMessage(messaging, (payload) => {
+//   console.log("Received background message ", payload);
+//   // Customize notification here
+//   const notificationTitle = "Background Message Title";
+//   const notificationOptions = {
+//     body: "Background Message body.",
+//   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
-onMessage(messaging, (payload) => {
-  console.log("Message received. ", payload);
-  // ...
-});
+// onMessage(messaging, (payload) => {
+//   console.log("Message received. ", payload);
+//   // ...
+// });
