@@ -136,7 +136,6 @@ self.addEventListener("push", (event) => {
 });
 
 // firebase messaging
-
 onBackgroundMessage(messaging, (payload) => {
   console.log("Received background message ", payload);
   // Customize notification here
