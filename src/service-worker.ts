@@ -111,20 +111,6 @@ onBackgroundMessage(messagingApp, (payload) => {
   console.log("notification : ", notification);
 });
 
-//  handle push notification
-onMessage(messagingApp, (payload) => {
-  console.log("Message received. ", payload);
-  // shoow notification
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/logo192.png",
-  };
-
-  const notification = new Notification(notificationTitle, notificationOptions);
-  console.log("notification : ", notification);
-});
-
 // const saveSubscription = async (subscription: any) => {
 //   const SERVER_URL = `${process.env.REACT_APP_BASE_API_URL}/subscription`;
 //   const response = await fetch(SERVER_URL, {
