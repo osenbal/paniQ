@@ -13,7 +13,7 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
-import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
+// import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
 import { messaging } from "./Domain/ExternalService/FirebaseApp";
 import { onMessage } from "firebase/messaging";
 import { onBackgroundMessage } from "firebase/messaging/sw";
