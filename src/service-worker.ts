@@ -13,10 +13,7 @@ import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
-import { onBackgroundMessage } from "firebase/messaging/sw";
-import { messagingApp } from "./Domain/ExternalService/FirebaseApp";
-
-// import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
+import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -76,75 +73,61 @@ registerRoute(
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-// self.addEventListener("message", (event) => {
-//   console.log("message", event);
-//   if (event.data && event.data.type === "SKIP_WAITING") {
-//     self.skipWaiting();
-//   }
-// });
-
-// Any other custom service worker logic can go here.
-// const showLocalNotification = (
-//   title: string,
-//   body: any,
-//   swRegistration: any
-// ) => {
-//   const options = {
-//     body,
-//     // here you can add more properties like icon, image, vibrate, etc.
-//   };
-//   swRegistration.showNotification(title, options);
-// };
-
-//  handle push notification Firebase Cloud Messaging
-onBackgroundMessage(messagingApp, (payload) => {
-  console.log("onBackgroundMessage : ", payload);
-  // shoow notification
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/logo192.png",
-  };
-
-  const notification = new Notification(notificationTitle, notificationOptions);
-  console.log("notification : ", notification);
+self.addEventListener("message", (event) => {
+  console.log("message", event);
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
-// const saveSubscription = async (subscription: any) => {
-//   const SERVER_URL = `${process.env.REACT_APP_BASE_API_URL}/subscription`;
-//   const response = await fetch(SERVER_URL, {
-//     method: "post",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(subscription),
-//   });
-//   return response.json();
-// };
+// Any other custom service worker logic can go here.
+const showLocalNotification = (
+  title: string,
+  body: any,
+  swRegistration: any
+) => {
+  const options = {
+    body,
+    // here you can add more properties like icon, image, vibrate, etc.
+  };
+  swRegistration.showNotification(title, options);
+};
 
-// self.addEventListener("activate", async () => {
-//   // This will be called only once when the service worker is activated.
-//   console.log("service worker activate");
-//   try {
-//     const applicationServerKey = urlB64ToUint8Array(
-//       "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
-//     );
-//     const options = { applicationServerKey, userVisibleOnly: true };
-//     const subscription = await self.registration.pushManager.subscribe(options);
-//     const response = await saveSubscription(subscription);
-//     console.log(response);
-//     console.log(JSON.stringify(subscription));
-//   } catch (err) {
-//     console.log("Error", err);
-//   }
-// });
+const saveSubscription = async (subscription: any) => {
+  const SERVER_URL = `${process.env.REACT_APP_BASE_API_URL}/subscription`;
+  const response = await fetch(SERVER_URL, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(subscription),
+  });
+  return response.json();
+};
 
-// //  push notification
-// self.addEventListener("push", (event) => {
-//   if (event.data) {
-//     console.log("Push event!! ", event.data.text());
-//     showLocalNotification("Yolo", event.data.text(), self.registration);
-//   } else {
-//     console.log("Push event but no data");
-//   }
-// });
+self.addEventListener("activate", async () => {
+  // This will be called only once when the service worker is activated.
+  console.log("service worker activate");
+  try {
+    const applicationServerKey = urlB64ToUint8Array(
+      "BJ5IxJBWdeqFDJTvrZ4wNRu7UY2XigDXjgiUBYEYVXDudxhEs0ReOJRBcBHsPYgZ5dyV8VjyqzbQKS8V7bUAglk"
+    );
+    const options = { applicationServerKey, userVisibleOnly: true };
+    const subscription = await self.registration.pushManager.subscribe(options);
+    const response = await saveSubscription(subscription);
+    console.log(response);
+    console.log(JSON.stringify(subscription));
+  } catch (err) {
+    console.log("Error", err);
+  }
+});
+
+//  push notification
+self.addEventListener("push", (event) => {
+  if (event.data) {
+    console.log("Push event!! ", event.data.text());
+    showLocalNotification("Yolo", event.data.text(), self.registration);
+  } else {
+    console.log("Push event but no data");
+  }
+});
