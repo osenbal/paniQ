@@ -14,9 +14,9 @@ import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
-// import { messaging } from "./Domain/ExternalService/FirebaseApp";
-// import { onMessage } from "firebase/messaging";
-// import { onBackgroundMessage } from "firebase/messaging/sw";
+import { messaging } from "./Domain/ExternalService/FirebaseApp";
+import { onMessage } from "firebase/messaging";
+import { onBackgroundMessage } from "firebase/messaging/sw";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -135,19 +135,20 @@ self.addEventListener("push", (event) => {
   }
 });
 
-// // firebase messaging
-// onBackgroundMessage(messaging, (payload) => {
-//   console.log("Received background message ", payload);
-//   // Customize notification here
-//   const notificationTitle = "Background Message Title";
-//   const notificationOptions = {
-//     body: "Background Message body.",
-//   };
+// firebase messaging
 
-//   self.registration.showNotification(notificationTitle, notificationOptions);
-// });
+onBackgroundMessage(messaging, (payload) => {
+  console.log("Received background message ", payload);
+  // Customize notification here
+  const notificationTitle = "Background Message Title";
+  const notificationOptions = {
+    body: "Background Message body.",
+  };
 
-// onMessage(messaging, (payload) => {
-//   console.log("Message received. ", payload);
-//   // ...
-// });
+  self?.registration?.showNotification(notificationTitle, notificationOptions);
+});
+
+onMessage(messaging, (payload) => {
+  console.log("Message received. ", payload);
+  // ...
+});
