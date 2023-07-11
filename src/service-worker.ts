@@ -120,6 +120,9 @@ onMessage(messagingApp, (payload) => {
     body: "Background Message body.",
     icon: "/logo192.png",
   };
+
+  const notification = new Notification(notificationTitle, notificationOptions);
+  console.log("notification : ", notification);
 });
 
 // const saveSubscription = async (subscription: any) => {
