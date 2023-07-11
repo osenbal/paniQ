@@ -15,7 +15,6 @@ const Index: React.FC = () => {
     user,
     handleOpenModalQrcode,
   } = useViewModel();
-  const a = "tes";
   return (
     <>
       <Helmet>
