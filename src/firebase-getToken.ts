@@ -1,15 +1,9 @@
-import { getToken, onMessage } from "firebase/messaging";
+import { onMessage, getToken } from "firebase/messaging";
 import { messagingApp } from "./Domain/ExternalService/FirebaseApp";
 
-const requestPermissionNotification = async () => {
-  // window.addEventListener("load", function () {
+const firebaseGetToken = async () => {
   Notification.requestPermission().then(async (permission) => {
     if (permission === "granted") {
-      // const swPath = `${process.env.PUBLIC_URL}/firebase-messaging-sw.js`;
-      // if ("serviceWorker" in navigator) {
-      //   navigator.serviceWorker.register(swPath).then((registration) => {
-      //     console.log("Service Worker firebase Registered Successfully");
-
       getToken(messagingApp, {
         vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
       })
@@ -41,14 +35,10 @@ const requestPermissionNotification = async () => {
         );
         console.log("notification : ", notification);
       });
-
-      // });
+    } else {
+      console.log("Unable to get permission to notify.");
     }
-    // } else {
-    //   console.log("Unable to get permission to notify.");
-    // }
   });
-  // });
 };
 
-export default requestPermissionNotification;
+export default firebaseGetToken;

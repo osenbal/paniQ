@@ -8,6 +8,8 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
+import firebaseConfig from "./Domain/ExternalService/config/firebase.config";
+
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
     // [::1] is the IPv6 localhost address.
@@ -82,6 +84,7 @@ function registerValidSW(swUrl: string, config?: Config) {
     .then((registration) => {
       console.log("Service Worker Registered Successfully");
 
+      registration.active?.postMessage(firebaseConfig);
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
