@@ -27,21 +27,21 @@ export default class PostUseCaseImpl implements IPostUseCase {
     return PostUseCaseImpl.instance;
   }
 
-  public async getPosts(page: number): Promise<IGETListPostResponse> {
-    return await this.getAllPostUseCase.invoke(page);
+  public getPosts(page: number): Promise<IGETListPostResponse> {
+    return this.getAllPostUseCase.invoke(page);
   }
 
-  public async createPost(data: FormData): Promise<IPOSTCreatePostResponse> {
-    return await this.createNewPostUseCase.invoke(data);
+  public createPost(data: FormData): Promise<IPOSTCreatePostResponse> {
+    return this.createNewPostUseCase.invoke(data);
   }
 
-  public async requestValidatePost(
+  public requestValidatePost(
     post_id: string
   ): Promise<IGETRequestValidatePostResponse> {
-    return await this.requestValidatePostUseCase.invoke(post_id);
+    return this.requestValidatePostUseCase.invoke(post_id);
   }
 
-  public async validatePost(jsonData: IValidatePostRequest): Promise<any> {
-    return await this.postRepo.validatePost(jsonData);
+  public validatePost(jsonData: IValidatePostRequest): Promise<any> {
+    return this.postRepo.validatePost(jsonData);
   }
 }

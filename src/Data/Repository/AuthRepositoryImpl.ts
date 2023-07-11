@@ -9,7 +9,7 @@ export class AuthRepositoryImpl implements IAuthRepository {
     this.dataSource = _datasource;
   }
 
-  public async login<T>({ email, password }: ILoginRequest): Promise<T> {
-    return await this.dataSource.login({ email, password });
+  public login<T>({ email, password }: ILoginRequest): Promise<T> {
+    return this.dataSource.login({ email, password });
   }
 }

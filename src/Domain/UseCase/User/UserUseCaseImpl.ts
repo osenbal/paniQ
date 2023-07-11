@@ -17,7 +17,7 @@ export class UserUseCaseImpl implements IUserUseCase {
     return UserUseCaseImpl.instance;
   }
 
-  public async getCurrentUser(): Promise<IGETCurrentUserResponse> {
-    return await this.userRepo.getCurrentUser();
+  public getCurrentUser(): Promise<IGETCurrentUserResponse> {
+    return this.userRepo.getCurrentUser();
   }
 }

@@ -14,9 +14,18 @@ type Props = {
   search: string;
   setSearch: (value: string) => void;
   onEnter?: () => void;
+  searchResult: any[];
+  setSearchResult: (value: any[]) => void;
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const TopBar: React.FC<Props> = ({ search, setSearch }) => {
+const TopBar: React.FC<Props> = ({
+  search,
+  setSearch,
+  searchResult,
+  setSearchResult,
+  handleSearch,
+}) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -47,7 +56,7 @@ const TopBar: React.FC<Props> = ({ search, setSearch }) => {
               className="topBar_search_input"
               style={{ marginTop: 0 }}
               label=""
-              value={search}
+              value={""}
               placeholder="search..."
               icon={<IconSearch alt="search" />}
               onKeyDown={(e) => {
@@ -55,7 +64,7 @@ const TopBar: React.FC<Props> = ({ search, setSearch }) => {
                   e.preventDefault();
                 }
               }}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={() => {}}
               onFocus={(e) => {
                 setOpen(true);
                 e.currentTarget.blur();
@@ -74,7 +83,16 @@ const TopBar: React.FC<Props> = ({ search, setSearch }) => {
         </div>
       </header>
 
-      <ModalSearch open={open} onClose={() => setOpen(false)} position="top" />
+      <ModalSearch
+        handleSearch={handleSearch}
+        searchResult={searchResult}
+        setSearchResult={setSearchResult}
+        search={search}
+        setSearch={setSearch}
+        open={open}
+        onClose={() => setOpen(false)}
+        position="top"
+      />
     </>
   );
 };

@@ -30,8 +30,8 @@ const Button: React.FC<Props> = ({
         <button
           className={`custom_button custom_button_disabled ${className}`}
           style={{ ...style, ...title14, ...DISABLED }}
-          onClick={onClick}
-          disabled={disabled}
+          onClick={disabled ? () => {} : onClick}
+          disabled={true}
         >
           {iconPosition === "left" ? icon : null}
           {children}
@@ -46,7 +46,7 @@ const Button: React.FC<Props> = ({
           }`}
           style={{ ...style, ...title14, ...COLOR[color] }}
           onClick={onClick}
-          disabled={disabled}
+          disabled={false}
         >
           {iconPosition === "left" ? icon : null}
           {children}

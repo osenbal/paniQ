@@ -19,10 +19,7 @@ export class Login implements ILoginUseCase {
     this.authRepo = _authRepo;
   }
 
-  public async invoke({
-    email,
-    password,
-  }: ILoginRequest): Promise<ILoginResponse> {
+  public invoke({ email, password }: ILoginRequest): Promise<ILoginResponse> {
     return this.authRepo.login({ email, password });
   }
 }

@@ -1,5 +1,5 @@
 import { getToken } from "firebase/messaging";
-import { messagingApp } from "./Domain/ExternalService/FirebaseApp";
+import { messagingApp } from "@/Domain/ExternalService/FirebaseApp";
 
 const requestNotificationPermission = async () => {
   const permission = await Notification.requestPermission();
@@ -22,7 +22,7 @@ const firebaseGetToken = async () => {
   })
     .then((currentToken) => {
       if (currentToken) {
-        console.log("currect token : ", currentToken);
+        // console.log("currect token : ", currentToken);
       } else {
         console.log(
           "No registration token available. Request permission to generate one."

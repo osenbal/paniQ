@@ -1,7 +1,5 @@
-import { useRef } from "react";
-import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
-import { selectSearch } from "@/Domain/Reducer/globalSlice";
-import { setSearch } from "@/Domain/Reducer/globalSlice";
+import { useRef, useState } from "react";
+import { useAppSelector } from "@/Domain/Store/hooks";
 import { RefHandlerModalProfile } from "@/Presentation/Components/Modal/ModalProfile";
 import { RefHandlerModalConfirmation } from "@/Presentation/Components/Modal/ModalConfirmation";
 import { RefHandlerDrawerQrScanner } from "@/Presentation/Components/ScanQR/ScanQR";
@@ -25,10 +23,20 @@ export default function DashboardLayoutViewModel() {
   const drawerQrScannerRef =
     useRef() as React.MutableRefObject<RefHandlerDrawerQrScanner>;
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const search = useAppSelector(selectSearch);
   const userState = useAppSelector((state) => state.auth.user);
+
+  const [searchResult, setSearchResult] = useState<any[]>([]);
+  const [searchLoading, setSearchLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
+
+  const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearch(value);
+    if (value === "") return setSearchResult([]);
+    console.log("seacrh val : ", value);
+  };
 
   const onLogOut = (): void => {
     deleteAccessToken();
@@ -44,7 +52,7 @@ export default function DashboardLayoutViewModel() {
     await postUseCase
       .validatePost(data)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         toast.success(response?.message || "Success return data", {
           position: "top-center",
         });
@@ -59,9 +67,14 @@ export default function DashboardLayoutViewModel() {
   };
 
   return {
-    search,
-    setSearch: (search: string) => dispatch(setSearch(search)),
     modalProfileRef,
+    search,
+    setSearch,
+    searchResult,
+    setSearchResult,
+    handleSearch,
+    searchLoading,
+    setSearchLoading,
     modalLogOutConfirmationRef,
     drawerQrScannerRef,
     onLogOut,

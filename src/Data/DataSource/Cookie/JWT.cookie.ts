@@ -31,9 +31,12 @@ export const setRefreshToken = (
   setCookie("refreshToken", value, expires);
 };
 
-// set is auth cookie wthout expire
-export const setIsAuth = (value: boolean) => {
-  setCookie("isAuth", value.toString(), "");
+// set is auth cookie with default expire 3 days
+export const setIsAuth = (
+  value: boolean,
+  expires: string = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toUTCString()
+) => {
+  setCookie("isAuth", value.toString(), expires);
 };
 
 export const deleteAccessToken = () => {

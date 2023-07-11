@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Drawer } from "antd";
 import type { DrawerProps } from "antd/es/drawer";
 import InputForm from "../Form/InputForm";
 import BlockViewPosts from "../Posts/BlockViewPosts";
-import { myPosts } from "@/Data/DataSource/Dummy/Posts";
+// import { myPosts } from "@/Data/DataSource/Dummy/Posts";
 
 import "./ModalSearch.modules.css";
 
@@ -11,21 +11,24 @@ type Props = {
   onClose: () => void;
   open: boolean;
   position: DrawerProps["placement"];
+  search: string;
+  setSearch: (value: string) => void;
+  setSearchResult: (value: any[]) => void;
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  searchResult: any[];
 };
 
 const ModalSearch: React.FC<Props> = ({
   onClose,
   open,
   position: placement,
+  search,
+  setSearch,
+  handleSearch,
+  setSearchResult,
+  searchResult,
 }) => {
-  const [searchResult, setSearchResult] = useState<any[]>([]);
-  const [searchText, setSearchText] = useState<string>("");
   const searchRef = useRef<HTMLInputElement>(null);
-
-  const handleSearch = () => {
-    const result = myPosts;
-    setSearchResult(result);
-  };
 
   useEffect(() => {
     if (open) {
@@ -36,8 +39,14 @@ const ModalSearch: React.FC<Props> = ({
 
     if (open === false) {
       setSearchResult([]);
-      setSearchText("");
+      setSearch("");
     }
+
+    return () => {
+      setSearchResult([]);
+      setSearch("");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   return (
@@ -55,13 +64,13 @@ const ModalSearch: React.FC<Props> = ({
             refInput={searchRef}
             style={{ marginTop: 0, width: "100%" }}
             label=""
-            value={searchText}
+            value={search}
             placeholder="search..."
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                handleSearch();
+                handleSearch(e);
               }
             }}
           />

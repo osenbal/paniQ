@@ -1,25 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthUseCaseImpl } from "@/Domain/UseCase/Auth/AuthUseCaseImpl";
+// import { AuthUseCaseImpl } from "@/Domain/UseCase/Auth/AuthUseCaseImpl";
+import { asyncLogin } from "@/Domain/Reducer/authSlice";
 import { useAppDispatch, useAppSelector } from "@/Domain/Store/hooks";
-import {
-  setIsAuth,
-  setAccessToken,
-  setRefreshToken,
-} from "@/Domain/Reducer/authSlice";
 import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
 import { getAccessToken } from "@/Data/DataSource/Cookie/JWT.cookie";
 import { toast } from "react-toastify";
 
 export default function LoginViewModel() {
-  const authUseCase = AuthUseCaseImpl.getInstance();
-
   // useContext
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // global state
-  const { isAuth } = useAppSelector((state) => state.auth);
+  const { isAuth, isLoading } = useAppSelector((state) => state.auth);
 
   // local state
   const [email, setEmail] = useState<string>("");
@@ -46,6 +40,7 @@ export default function LoginViewModel() {
         email: "email tidak boleh kosong",
         password: "Password tidak boleh kosong",
       });
+      return;
     }
 
     if (email === "") {
@@ -53,6 +48,7 @@ export default function LoginViewModel() {
         ...errors,
         email: "email tidak boleh kosong",
       });
+      return;
     }
 
     if (password === "") {
@@ -60,6 +56,7 @@ export default function LoginViewModel() {
         ...errors,
         password: "Password tidak boleh kosong",
       });
+      return;
     }
 
     if (email.length > 0 && password.length > 0) {
@@ -69,16 +66,7 @@ export default function LoginViewModel() {
       });
 
       try {
-        const responseLogin = await authUseCase.login({ email, password });
-        // set global state auth if login success
-        if (responseLogin?.status === true && responseLogin.data != null) {
-          toast.success("Login Success");
-          dispatch(setAccessToken(responseLogin.data.access_token));
-          dispatch(setRefreshToken(responseLogin.data.refresh_token));
-          dispatch(setIsAuth(true));
-        } else {
-          toast.warning(responseLogin.message);
-        }
+        dispatch(asyncLogin({ email, password }));
       } catch (error) {
         toast.error("Terjadi Kesalahan");
         console.log("Error : ", error);
@@ -93,5 +81,6 @@ export default function LoginViewModel() {
     password,
     setPassword,
     errors,
+    isLoading,
   };
 }

@@ -1,5 +1,5 @@
 // apiInterceptor.ts
-import axios from "./axios";
+import axios from "axios";
 import {
   getRefreshToken,
   setAccessToken,
@@ -11,7 +11,11 @@ import {
 import { ILoginResponse } from "@/Contracts/Response/IAuthResponse";
 import { AUTH_END_POINT } from "./LIST_END_POINT";
 
-axios.interceptors.request.use(
+const instance = axios.create({
+  baseURL: process.env.REACT_APP_BASE_API_URL,
+});
+
+instance.interceptors.request.use(
   (config) => {
     // handle successful request here
     if (getAccessToken() !== "") {
@@ -25,13 +29,13 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     // handle successful response here
     return response;
   },
   async (error) => {
-    console.log("error interceptor ", error);
+    // console.log("error interceptor ", error);
     // handle error requests here
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
@@ -47,7 +51,7 @@ axios.interceptors.response.use(
         }
 
         // request new access token with refresh token
-        const newAccressToken = await axios.get<ILoginResponse>(
+        const newAccressToken = await instance.get<ILoginResponse>(
           AUTH_END_POINT.GET_REFRESH_TOKEN,
           {
             headers: {
@@ -73,10 +77,31 @@ axios.interceptors.response.use(
         deleteAccessToken();
         deleteRefreshToken();
         deleteIsAuth();
-        throw error;
+
+        return Promise.reject(error);
       }
+    } else {
+      if (error.response.status === 404) {
+        error.response.data = {
+          message: "Not found",
+        };
+      }
+
+      if (error.response.status === 403) {
+        error.response.data = {
+          message: "Forbidden",
+        };
+      }
+
+      if (error.response.status === 500) {
+        error.response.data = {
+          message: "Internal server error",
+        };
+      }
+
+      return Promise.reject(error);
     }
   }
 );
 
-export default axios;
+export default instance;
