@@ -1,5 +1,7 @@
 import { getToken } from "firebase/messaging";
 import { messaging } from "./Domain/ExternalService/FirebaseApp";
+import { getMessaging } from "firebase/messaging/sw";
+import { onBackgroundMessage } from "firebase/messaging/sw";
 
 const requestPermissionNotification = async () => {
   window.addEventListener("load", function () {
