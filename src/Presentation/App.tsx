@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
 import Spinner from "./Components/Spinner";
-// import "../firebase-getToken";
 
 import { AuthMiddleware } from "./Middleware/auth.middleware";
 

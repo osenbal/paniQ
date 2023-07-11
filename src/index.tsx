@@ -4,12 +4,11 @@ import App from "./Presentation/App";
 import MainLayout from "./Presentation/Layouts/MainLayout";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-// import DashboardLayout from "./Presentation/Layouts/DashboardLayout";
 import { Provider } from "react-redux";
 import { store } from "./Domain/Store/store";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import "./Api/apiInterceptor";
+import requestPermissionNotification from "./firebase-getToken";
 
 import "./tailwind.css";
 import "./index.css";
@@ -41,12 +40,14 @@ root.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 
+// register service worker firebase cloud messaging
+requestPermissionNotification();
+
+// register service worker global scope
 if (process.env.NODE_ENV === "production") {
   serviceWorkerRegistration.register();
-  serviceWorkerRegistration.registerServiceWorkerFirebase();
 } else {
   serviceWorkerRegistration.localServiceWorkerRegister();
-  serviceWorkerRegistration.registerServiceWorkerFirebase();
 }
 // serviceWorkerRegistration.unregister();
 

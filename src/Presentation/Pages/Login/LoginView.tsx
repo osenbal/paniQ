@@ -5,7 +5,6 @@ import Button from "@/Presentation/Components/Button/Button";
 import InputForm from "@/Presentation/Components/Form/InputForm";
 import OpenEye from "@/Presentation/Components/Icons/OpenEye";
 import CloseEye from "@/Presentation/Components/Icons/CloseEye";
-import requestPermission from "@/firebase-getToken";
 
 const LogoApp = lazy(() => import("@/Presentation/Components/Logo/LogoApp"));
 
@@ -71,20 +70,6 @@ export default function LoginView() {
 
         <div className="flex justify-center">
           <LogoApp />
-        </div>
-
-        <div>
-          <Button
-            onClick={requestPermission}
-            style={{
-              width: "100%",
-              height: "64px",
-              marginBottom: "54px",
-              marginTop: "54px",
-            }}
-          >
-            Request Permission
-          </Button>
         </div>
       </div>
     </>
