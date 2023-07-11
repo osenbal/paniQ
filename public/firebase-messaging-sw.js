@@ -6,12 +6,19 @@ importScripts("https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js");
 importScripts(
   "https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"
 );
-import firebaseConfig from "../src/Domain/ExternalService/config/firebase.config";
 
 // Initialize the Firebase app in the service worker by passing in
 // your app's Firebase config object.
 // https://firebase.google.com/docs/web/setup#config-object
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp({
+  apiKey: "AIzaSyAQPwceB64KyyxzZnVY41Sat05OjLaEelo",
+  authDomain: "golek-notification.firebaseapp.com",
+  projectId: "golek-notification",
+  storageBucket: "golek-notification.appspot.com",
+  messagingSenderId: "930965411985",
+  appId: "1:930965411985:web:701e4e885cf12bf6d0c730",
+  measurementId: "G-Y5HLKLBG2T",
+});
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
