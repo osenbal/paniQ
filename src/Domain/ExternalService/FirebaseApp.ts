@@ -12,7 +12,7 @@ import { getMessaging } from "firebase/messaging";
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
-const messaging = getMessaging(firebaseApp);
+const messagingApp = getMessaging(firebaseApp);
 
 export default firebaseApp;
-export { analytics, messaging };
+export { analytics, messagingApp };
