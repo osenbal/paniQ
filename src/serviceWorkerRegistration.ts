@@ -69,9 +69,13 @@ export function registerServiceWorkerFirebase(config?: Config) {
   const swPath = `${process.env.PUBLIC_URL}/firebase-messaging-sw.js`;
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
-      navigator.serviceWorker.register(swPath).then((registration) => {
-        console.log("Service Worker Registered Successfully");
-      });
+      navigator.serviceWorker
+        .register(swPath, {
+          type: "module",
+        })
+        .then((registration) => {
+          console.log("Service Worker Registered Successfully");
+        });
     });
   }
 }
