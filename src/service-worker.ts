@@ -15,7 +15,6 @@ import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
 import { onBackgroundMessage } from "firebase/messaging/sw";
 import { messagingApp } from "./Domain/ExternalService/FirebaseApp";
-import { onMessage } from "firebase/messaging";
 
 // import urlB64ToUint8Array from "./utils/GenerateVapidKeys";
 
