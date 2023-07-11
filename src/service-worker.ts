@@ -85,17 +85,17 @@ registerRoute(
 // });
 
 // Any other custom service worker logic can go here.
-const showLocalNotification = (
-  title: string,
-  body: any,
-  swRegistration: any
-) => {
-  const options = {
-    body,
-    // here you can add more properties like icon, image, vibrate, etc.
-  };
-  swRegistration.showNotification(title, options);
-};
+// const showLocalNotification = (
+//   title: string,
+//   body: any,
+//   swRegistration: any
+// ) => {
+//   const options = {
+//     body,
+//     // here you can add more properties like icon, image, vibrate, etc.
+//   };
+//   swRegistration.showNotification(title, options);
+// };
 
 //  handle push notification Firebase Cloud Messaging
 onBackgroundMessage(messagingApp, (payload) => {
