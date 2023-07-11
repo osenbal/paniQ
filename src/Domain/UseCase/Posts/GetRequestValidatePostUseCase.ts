@@ -12,9 +12,7 @@ export class RequestValidatePostUseCase implements IRequestValidatePostUseCase {
     this.postRepo = _postRepo;
   }
 
-  public async invoke(
-    post_id: string
-  ): Promise<IGETRequestValidatePostResponse> {
+  public invoke(post_id: string): Promise<IGETRequestValidatePostResponse> {
     return this.postRepo.requestValidatePost(post_id);
   }
 }

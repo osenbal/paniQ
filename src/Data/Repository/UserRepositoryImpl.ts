@@ -8,7 +8,7 @@ export class UserRepositoryImpl implements IUserRepository {
     this.dataSource = _datasource;
   }
 
-  public async getCurrentUser<T>(): Promise<T> {
-    return await this.dataSource.getCurrentUser();
+  public getCurrentUser<T>(): Promise<T> {
+    return this.dataSource.getCurrentUser();
   }
 }

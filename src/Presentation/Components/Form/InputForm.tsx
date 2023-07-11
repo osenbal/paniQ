@@ -20,6 +20,7 @@ type Props = {
   rest?: any;
   refInput?: any;
   autoFocus?: boolean;
+  autoComplete?: "on" | "off";
 };
 
 const InputForm: React.FC<Props> = ({
@@ -38,6 +39,7 @@ const InputForm: React.FC<Props> = ({
   className,
   refInput,
   autoFocus,
+  autoComplete = "off",
   ...rest
 }: Props) => {
   return (
@@ -73,6 +75,7 @@ const InputForm: React.FC<Props> = ({
           onChange={onChange}
           onKeyDown={onKeyDown}
           onFocus={onFocus}
+          autoComplete={autoComplete}
           {...rest}
         />
         {iconPosition === "right" ? (

@@ -1,5 +1,5 @@
 import IAuthDataSource from "@/Contracts/DataSource/IAuthDataSource";
-import axios from "@/Api/apiInterceptor";
+import axios from "@/Api/axios";
 import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
 import { AUTH_END_POINT } from "@/Api/LIST_END_POINT";
 import { getRefreshToken } from "@/Data/DataSource/Cookie/JWT.cookie";
@@ -32,7 +32,8 @@ export default class AuthDataSourceImpl implements IAuthDataSource {
         return response.data;
       })
       .catch((error) => {
-        return error;
+        console.log("error ", error);
+        return error?.response?.data;
       });
   }
 

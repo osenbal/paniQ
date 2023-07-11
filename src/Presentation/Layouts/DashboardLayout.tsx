@@ -21,6 +21,9 @@ const DashboardLayout: React.FC = () => {
     onLogOut,
     userState,
     onValidatePost,
+    handleSearch,
+    searchResult,
+    setSearchResult,
   } = DashboardLayoutViewModel();
 
   const {
@@ -45,7 +48,13 @@ const DashboardLayout: React.FC = () => {
   return (
     <>
       <TourProvider>
-        <TopBar search={search} setSearch={setSearch} />
+        <TopBar
+          searchResult={searchResult}
+          setSearchResult={setSearchResult}
+          handleSearch={handleSearch}
+          search={search}
+          setSearch={setSearch}
+        />
         <main className="flex-1 overflow-auto" style={{ height: "100%" }}>
           <Outlet />
         </main>

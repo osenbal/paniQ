@@ -4,12 +4,12 @@ import type { RootState } from "../Store/store";
 
 // Define a type for the slice state
 interface GlobalState {
-  search: string;
+  searchText: string;
 }
 
 // Define the initial state using that type
 const initialState: GlobalState = {
-  search: "",
+  searchText: "",
 };
 
 export const globalSlice = createSlice({
@@ -18,7 +18,7 @@ export const globalSlice = createSlice({
   initialState,
   reducers: {
     setSearch: (state, action: PayloadAction<string>) => {
-      state.search = action.payload;
+      state.searchText = action.payload;
     },
   },
 });
@@ -26,6 +26,6 @@ export const globalSlice = createSlice({
 export const { setSearch } = globalSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectSearch = (state: RootState) => state.global.search;
+export const selectSearch = (state: RootState) => state.global.searchText;
 
 export default globalSlice.reducer;
