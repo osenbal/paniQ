@@ -37,10 +37,3 @@ messaging.onBackgroundMessage((payload) => {
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
-
-self.addEventListener("notificationclick", (event) => {
-  if (event.action) {
-    clients.openWindow(event.action);
-  }
-  event.notification.close();
-});
