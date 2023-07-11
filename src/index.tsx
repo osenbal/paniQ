@@ -45,7 +45,7 @@ requestPermissionNotification();
 
 // register service worker global scope
 if (process.env.NODE_ENV === "production") {
-  serviceWorkerRegistration.register();
+  // serviceWorkerRegistration.register();
 } else {
   serviceWorkerRegistration.localServiceWorkerRegister();
 }
