@@ -23,8 +23,8 @@ export const POST_END_POINT = {
   PUT_UPDATE_POST: (post_id: number) => `/posts/update/${post_id}`,
   GET_FIND_POST: (post_id: number) => `/posts/find/${post_id}`,
   POST_CREATE_POST: "/posts/",
-  GET_SEARCH_POST: (limit: number, keyword: string) =>
-    `/posts/s/${keyword}?limit=${limit}`,
+  GET_SEARCH_POST: (limit: number, searchText: string) =>
+    `/posts/s/${searchText}?limit=${limit}`,
   POST_VALIDATE_POST: `/posts/validate/`,
   GET_REQUEST_VALIDATE_PASSWORD: (post_id: string) =>
     `/posts/validate/${post_id}`,

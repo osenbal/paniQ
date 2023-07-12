@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useAppSelector } from "@/Domain/Store/hooks";
+import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
 import { RefHandlerModalProfile } from "@/Presentation/Components/Modal/ModalProfile";
 import { RefHandlerModalConfirmation } from "@/Presentation/Components/Modal/ModalConfirmation";
 import { RefHandlerDrawerQrScanner } from "@/Presentation/Components/ScanQR/ScanQR";
@@ -11,6 +11,7 @@ import {
 import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
 import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
 import { toast } from "react-toastify";
+import { asyncSearchPost, setSearchResult } from "@/Domain/Reducer/postSlice";
 
 export default function DashboardLayoutViewModel() {
   const postUseCase = PostUseCaseImpl.getInstance();
@@ -23,19 +24,17 @@ export default function DashboardLayoutViewModel() {
   const drawerQrScannerRef =
     useRef() as React.MutableRefObject<RefHandlerDrawerQrScanner>;
 
-  // const dispatch = useAppDispatch();
-
+  const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.auth.user);
+  const { searchText } = useAppSelector((state) => state.post);
 
-  const [searchResult, setSearchResult] = useState<any[]>([]);
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>("");
 
-  const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearch(value);
-    if (value === "") return setSearchResult([]);
-    console.log("seacrh val : ", value);
+  const handleSearch = async () => {
+    if (searchText === "" || searchText.length === 0)
+      return dispatch(setSearchResult([]));
+
+    dispatch(asyncSearchPost({ searchText, limit: 5 }));
   };
 
   const onLogOut = (): void => {
@@ -48,11 +47,9 @@ export default function DashboardLayoutViewModel() {
   };
 
   const onValidatePost = async (data: IValidatePostRequest): Promise<void> => {
-    // console.log("validate post");
     await postUseCase
       .validatePost(data)
       .then((response) => {
-        // console.log(response);
         toast.success(response?.message || "Success return data", {
           position: "top-center",
         });
@@ -68,10 +65,6 @@ export default function DashboardLayoutViewModel() {
 
   return {
     modalProfileRef,
-    search,
-    setSearch,
-    searchResult,
-    setSearchResult,
     handleSearch,
     searchLoading,
     setSearchLoading,

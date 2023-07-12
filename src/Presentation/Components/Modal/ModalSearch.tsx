@@ -3,6 +3,9 @@ import { Drawer } from "antd";
 import type { DrawerProps } from "antd/es/drawer";
 import InputForm from "../Form/InputForm";
 import BlockViewPosts from "../Posts/BlockViewPosts";
+import { useAppDispatch, useAppSelector } from "@/Domain/Store/hooks";
+import { setSearchText, setSearchResult } from "@/Domain/Reducer/postSlice";
+
 // import { myPosts } from "@/Data/DataSource/Dummy/Posts";
 
 import "./ModalSearch.modules.css";
@@ -11,24 +14,32 @@ type Props = {
   onClose: () => void;
   open: boolean;
   position: DrawerProps["placement"];
-  search: string;
-  setSearch: (value: string) => void;
-  setSearchResult: (value: any[]) => void;
-  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  searchResult: any[];
+  handleSearch: () => void;
 };
 
 const ModalSearch: React.FC<Props> = ({
   onClose,
   open,
   position: placement,
-  search,
-  setSearch,
   handleSearch,
-  setSearchResult,
-  searchResult,
 }) => {
   const searchRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
+  const { searchText, searchResult, isLoadingSearch } = useAppSelector(
+    (state) => state.post
+  );
+
+  const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchText(e.target.value));
+  };
+
+  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
 
   useEffect(() => {
     if (open) {
@@ -38,13 +49,13 @@ const ModalSearch: React.FC<Props> = ({
     }
 
     if (open === false) {
-      setSearchResult([]);
-      setSearch("");
+      dispatch(setSearchResult([]));
+      dispatch(setSearchText(""));
     }
 
     return () => {
-      setSearchResult([]);
-      setSearch("");
+      dispatch(setSearchResult([]));
+      dispatch(setSearchText(""));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -64,19 +75,18 @@ const ModalSearch: React.FC<Props> = ({
             refInput={searchRef}
             style={{ marginTop: 0, width: "100%" }}
             label=""
-            value={search}
+            value={searchText}
             placeholder="search..."
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSearch(e);
-              }
-            }}
+            onChange={handleSearchTextChange}
+            onKeyDown={onEnter}
           />
         }
       >
-        {searchResult.length > 0 ? (
+        {isLoadingSearch ? (
+          <>
+            <p>Loading...</p>
+          </>
+        ) : searchResult.length > 0 ? (
           <BlockViewPosts posts={searchResult} onClickDetail={() => null} />
         ) : null}
       </Drawer>

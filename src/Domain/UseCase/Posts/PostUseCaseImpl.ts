@@ -1,5 +1,6 @@
 import { IPostUseCase } from "@/Contracts/UseCase/IPostUseCase";
 import { GetAllPostUseCase } from "./GetAllPostUseCase";
+import { SearchPostUseCase } from "./SearchPostUseCase";
 import { CreateNewPostUseCase } from "./CreateNewPostUseCase";
 import { PostRepositoryImpl } from "@/Data/Repository/PostRepositoryImpl";
 import PostDataSourceImpl from "@/Data/DataSource/API/PostAPIDataSourceImpl";
@@ -9,7 +10,10 @@ import {
   IGETRequestValidatePostResponse,
 } from "@/Contracts/Response/IPostsResponse";
 import { RequestValidatePostUseCase } from "./GetRequestValidatePostUseCase";
-import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
+import {
+  IValidatePostRequest,
+  ISearchPostRequest,
+} from "@/Contracts/Requests/IPostRequest";
 
 export default class PostUseCaseImpl implements IPostUseCase {
   private static instance: PostUseCaseImpl;
@@ -19,6 +23,7 @@ export default class PostUseCaseImpl implements IPostUseCase {
   private requestValidatePostUseCase = new RequestValidatePostUseCase(
     this.postRepo
   );
+  private searchPostUseCase = new SearchPostUseCase(this.postRepo);
 
   public static getInstance(): PostUseCaseImpl {
     if (!PostUseCaseImpl.instance) {
@@ -29,6 +34,10 @@ export default class PostUseCaseImpl implements IPostUseCase {
 
   public getPosts(page: number): Promise<IGETListPostResponse> {
     return this.getAllPostUseCase.invoke(page);
+  }
+
+  public searchPost(data: ISearchPostRequest): Promise<IGETListPostResponse> {
+    return this.searchPostUseCase.invoke(data);
   }
 
   public createPost(data: FormData): Promise<IPOSTCreatePostResponse> {

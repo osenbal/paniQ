@@ -13,8 +13,6 @@ import LocalStorage from "@/Data/DataSource/LocalStorage/LocalStorage";
 
 const DashboardLayout: React.FC = () => {
   const {
-    search,
-    setSearch,
     modalProfileRef,
     modalLogOutConfirmationRef,
     drawerQrScannerRef,
@@ -22,8 +20,6 @@ const DashboardLayout: React.FC = () => {
     userState,
     onValidatePost,
     handleSearch,
-    searchResult,
-    setSearchResult,
   } = DashboardLayoutViewModel();
 
   const {
@@ -48,13 +44,7 @@ const DashboardLayout: React.FC = () => {
   return (
     <>
       <TourProvider>
-        <TopBar
-          searchResult={searchResult}
-          setSearchResult={setSearchResult}
-          handleSearch={handleSearch}
-          search={search}
-          setSearch={setSearch}
-        />
+        <TopBar handleSearch={handleSearch} />
         <main className="flex-1 overflow-auto" style={{ height: "100%" }}>
           <Outlet />
         </main>

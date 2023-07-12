@@ -12,6 +12,10 @@ export class PostRepositoryImpl implements IPostRepository {
     return this.postDataSource.getPosts(page);
   }
 
+  searchPost<T>(data: any): Promise<T> {
+    return this.postDataSource.searchPost(data);
+  }
+
   createPost<T>(data: FormData): Promise<T> {
     return this.postDataSource.createPost(data);
   }

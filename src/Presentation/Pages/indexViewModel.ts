@@ -1,24 +1,23 @@
 import { useEffect, useState, useRef } from "react";
 import { RefHandlerModalQrcode } from "@/Presentation/Components/Modal/ModalQrcode";
-import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
-import { IPost } from "@/Contracts/Response/IPostsResponse";
-import { useAppSelector } from "@/Domain/Store/hooks";
-// import { IGETRequestValidatePostResponse } from "@/Contracts/Response/IPostsResponse";
-
+import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
+import {
+  asyncGetAllPost,
+  requestValidatePost,
+} from "@/Domain/Reducer/postSlice";
 // import posts from "@/Data/DataSource/Dummy/Posts";
 
 const IndexViewModel = () => {
-  const postUseCase = PostUseCaseImpl.getInstance();
-
   //  redux
   const { user } = useAppSelector((state) => state.auth);
+  const { posts } = useAppSelector((state) => state.post);
+  const dispatch = useAppDispatch();
 
   //  ref
   const modalQrcode = useRef() as React.MutableRefObject<RefHandlerModalQrcode>;
 
   // local state
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [listPost, setListPost] = useState<IPost[]>([]);
   const [pagePost, setPagePost] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
 
@@ -49,35 +48,29 @@ const IndexViewModel = () => {
     }
   };
 
-  const getAllPosts = async () => {
+  const getAllPosts = () => {
     if (pagePost > 1) {
       setIsLoadingMore(true);
     }
-    await postUseCase
-      .getPosts(pagePost)
-      .then((response) => {
-        if (response.data.length > 0) {
-          setListPost((prev) => [...prev, ...response.data]);
-        }
-      })
-      .catch((error) => {
-        console.log("error : ", error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setTimeout(() => {
-          setIsLoadingMore(false);
-        }, 1000);
-      });
+
+    dispatch(asyncGetAllPost(pagePost)).finally(() => {
+      setIsLoading(false);
+
+      setTimeout(() => {
+        setIsLoadingMore(false);
+      }, 1000);
+    });
   };
 
   const handleOpenModalQrcode = async (post_id: string) => {
     try {
-      await postUseCase.requestValidatePost(post_id).then((response) => {
-        if (response.status_code === 200) {
-          modalQrcode.current.openModalQrcode(response.data.qr_code_url);
-        }
-      });
+      // unwrap() is a utility function that extracts the value of a fulfilled promise.
+      dispatch(requestValidatePost(post_id))
+        .unwrap()
+        .then((response) => {
+          // show modal qrcode
+          modalQrcode.current.openModalQrcode(response.qr_code_url);
+        });
     } catch (error) {
       console.log("error : ", error);
     }
@@ -87,7 +80,7 @@ const IndexViewModel = () => {
     isLoading,
     setIsLoading,
     modalQrcode,
-    listPost,
+    posts,
     isLoadingMore,
     user,
     handleOpenModalQrcode,
