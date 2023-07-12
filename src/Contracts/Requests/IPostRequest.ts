@@ -13,3 +13,8 @@ export interface IValidatePostRequest {
   hash: string;
   post_id: string;
 }
+
+export interface ISearchPostRequest {
+  limit: number;
+  searchText: string;
+}

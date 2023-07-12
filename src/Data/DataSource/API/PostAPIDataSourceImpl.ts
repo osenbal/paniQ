@@ -2,7 +2,10 @@ import { IPostDataSource } from "@/Contracts/DataSource/IPostDataSource";
 import { getAccessToken } from "@/Data/DataSource/Cookie/JWT.cookie";
 import axios from "@/Api/apiInterceptor";
 import { POST_END_POINT } from "@/Api/LIST_END_POINT";
-import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
+import {
+  IValidatePostRequest,
+  ISearchPostRequest,
+} from "@/Contracts/Requests/IPostRequest";
 
 export default class PostDataSourceImpl implements IPostDataSource {
   private static instance: PostDataSourceImpl;
@@ -17,6 +20,22 @@ export default class PostDataSourceImpl implements IPostDataSource {
   getPosts<T>(page: number): Promise<T> {
     return axios
       .get(POST_END_POINT.GET_LIST_POST(page), {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
+  searchPost<T>(data: ISearchPostRequest): Promise<T> {
+    return axios
+      .get(POST_END_POINT.GET_SEARCH_POST(data.limit, data.searchText), {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAccessToken()}`,

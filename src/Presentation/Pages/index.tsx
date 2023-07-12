@@ -10,7 +10,7 @@ const Index: React.FC = () => {
   const {
     isLoading,
     modalQrcode,
-    listPost,
+    posts,
     isLoadingMore,
     user,
     handleOpenModalQrcode,
@@ -30,8 +30,8 @@ const Index: React.FC = () => {
       ) : (
         <div className="page">
           <div style={{ marginTop: "8px", paddingBottom: "100px" }}>
-            {listPost?.length !== 0
-              ? listPost.map((item, index) => (
+            {posts?.length !== 0
+              ? posts.map((item, index) => (
                   <CardPost
                     key={index}
                     id={item.id}

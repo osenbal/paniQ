@@ -11,21 +11,11 @@ import IconSearch from "../Icons/Search";
 import "./TopBar.modules.css";
 
 type Props = {
-  search: string;
-  setSearch: (value: string) => void;
   onEnter?: () => void;
-  searchResult: any[];
-  setSearchResult: (value: any[]) => void;
-  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearch: () => void;
 };
 
-const TopBar: React.FC<Props> = ({
-  search,
-  setSearch,
-  searchResult,
-  setSearchResult,
-  handleSearch,
-}) => {
+const TopBar: React.FC<Props> = ({ handleSearch }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -85,10 +75,6 @@ const TopBar: React.FC<Props> = ({
 
       <ModalSearch
         handleSearch={handleSearch}
-        searchResult={searchResult}
-        setSearchResult={setSearchResult}
-        search={search}
-        setSearch={setSearch}
         open={open}
         onClose={() => setOpen(false)}
         position="top"

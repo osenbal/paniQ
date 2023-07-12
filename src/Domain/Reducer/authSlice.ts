@@ -119,7 +119,6 @@ export const authSlice = createSlice({
       .addCase(asyncLogin.fulfilled, (state, action) => {
         state.isLoading = "succeeded";
         state.isAuth = true;
-        console.log(action.payload);
         if (action.payload) {
           state.isAuth = true;
           state.accessToken = action.payload.access_token;
@@ -149,10 +148,11 @@ export const authSlice = createSlice({
         deleteAccessToken();
         deleteRefreshToken();
         deleteIsAuth();
-      })
-      .addCase(asyncMe.fulfilled, (state, action) => {
-        state.user = action.payload;
       });
+
+    builder.addCase(asyncMe.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
   },
 });
 
