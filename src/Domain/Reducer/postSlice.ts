@@ -13,7 +13,6 @@ interface IPostState {
   searchText: string;
   posts: IPost[];
   searchResult: IPost[];
-
   isLoadingSearch: boolean;
 }
 
@@ -22,7 +21,6 @@ const initialState: IPostState = {
   searchText: "",
   posts: [],
   searchResult: [],
-
   isLoadingSearch: false,
 };
 
@@ -31,6 +29,7 @@ export const postMethods = {
   getAllPost: "/post/list",
   searchPost: "/post/search",
   requestValidatePost: "/post/request-validate",
+  getDetailPost: "/post/detail",
 };
 
 export const asyncGetAllPost = createAsyncThunk(
@@ -39,10 +38,8 @@ export const asyncGetAllPost = createAsyncThunk(
     try {
       const res = await postUseCase.getPosts(page);
       if (res.status_code === 200) {
-        // if res.status === true
         return res.data;
       } else {
-        // if res.status === false
         toast.error("Something went wrong");
         return rejectWithValue("Something went wrong");
       }
@@ -59,6 +56,7 @@ export const asyncSearchPost = createAsyncThunk(
     try {
       const res = await postUseCase.searchPost(data);
       if (res.status_code === 200) {
+        console.log("res search data : ", res.data);
         // if res.status === true
         return res.data;
       } else {
@@ -84,6 +82,23 @@ export const requestValidatePost = createAsyncThunk(
       } else {
         // if res.status === false
         return rejectWithValue("Something went wrong");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      return rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+export const getDetailPost = createAsyncThunk(
+  postMethods.getDetailPost,
+  async (post_id: string | number, { rejectWithValue }) => {
+    try {
+      const res = await postUseCase.getDetailPost(post_id);
+      if (res.status_code === 200) {
+        return res.data as IPost;
+      } else {
+        return null;
       }
     } catch (error) {
       toast.error("Something went wrong");

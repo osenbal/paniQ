@@ -5,6 +5,12 @@ export interface IGETListPostResponse {
   data: IPost[];
 }
 
+export interface IGETDetailPostResponse {
+  status_code: number;
+  message: string;
+  data: IPost;
+}
+
 export interface IPOSTCreatePostResponse {
   message: string;
   data: IPost;

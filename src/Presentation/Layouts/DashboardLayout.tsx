@@ -6,7 +6,9 @@ import Floating from "../Components/Floating/Floating";
 import DashboardLayoutViewModel from "./DashboardLayoutModel";
 import ModalProfile from "../Components/Modal/ModalProfile";
 import ModalConfirmation from "../Components/Modal/ModalConfirmation";
+import ModalPostDetail from "../Components/Modal/ModalPostDetail";
 import ScanQR from "../Components/ScanQR/ScanQR";
+import ModalSearch from "../Components/Modal/ModalSearch";
 import { TourProvider, useTourContext } from "@/Domain/Context/Tour.context";
 import Joyride, { CallBackProps, STATUS } from "react-joyride";
 import LocalStorage from "@/Data/DataSource/LocalStorage/LocalStorage";
@@ -20,6 +22,10 @@ const DashboardLayout: React.FC = () => {
     userState,
     onValidatePost,
     handleSearch,
+    modalSearchRef,
+    handleOpenModalSearch,
+    modalPostDetailRef,
+    handleOpenModalPostDetail,
   } = DashboardLayoutViewModel();
 
   const {
@@ -35,7 +41,6 @@ const DashboardLayout: React.FC = () => {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
     if (finishedStatuses.includes(status)) {
       closeTour();
     }
@@ -44,7 +49,7 @@ const DashboardLayout: React.FC = () => {
   return (
     <>
       <TourProvider>
-        <TopBar handleSearch={handleSearch} />
+        <TopBar openModalSearch={handleOpenModalSearch} />
         <main className="flex-1 overflow-auto" style={{ height: "100%" }}>
           <Outlet />
         </main>
@@ -63,13 +68,18 @@ const DashboardLayout: React.FC = () => {
             }
             user={userState}
           />
-
           <ModalConfirmation
             ref={modalLogOutConfirmationRef}
             message="Are you sure logout from this account ?"
             onYes={onLogOut}
           />
-
+          <ModalSearch
+            ref={modalSearchRef}
+            position="top"
+            handleSearch={handleSearch}
+            handleOpenModalPostDetail={handleOpenModalPostDetail}
+          />
+          <ModalPostDetail ref={modalPostDetailRef} />
           <ScanQR ref={drawerQrScannerRef} onValidatePost={onValidatePost} />
         </div>
 

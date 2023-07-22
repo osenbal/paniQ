@@ -21,7 +21,7 @@ export const POST_END_POINT = {
   GET_LIST_POST: (page: number) => `/posts/list?page=${page}`,
   DELETE_POST: (post_id: number) => `/posts/delete/${post_id}`,
   PUT_UPDATE_POST: (post_id: number) => `/posts/update/${post_id}`,
-  GET_FIND_POST: (post_id: number) => `/posts/find/${post_id}`,
+  GET_FIND_POST: (post_id: number | string) => `/posts/${post_id}`,
   POST_CREATE_POST: "/posts/",
   GET_SEARCH_POST: (limit: number, searchText: string) =>
     `/posts/s/${searchText}?limit=${limit}`,
