@@ -96,4 +96,20 @@ export default class PostDataSourceImpl implements IPostDataSource {
         return error;
       });
   }
+
+  getDetailPost<T>(post_id: string | number): Promise<T> {
+    return axios
+      .get(POST_END_POINT.GET_FIND_POST(post_id), {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
 }

@@ -27,4 +27,8 @@ export class PostRepositoryImpl implements IPostRepository {
   validatePost<T>(jsonData: any): Promise<T> {
     return this.postDataSource.validatePost(jsonData);
   }
+
+  getDetailPost<T>(post_id: string | number): Promise<T> {
+    return this.postDataSource.getDetailPost(post_id);
+  }
 }

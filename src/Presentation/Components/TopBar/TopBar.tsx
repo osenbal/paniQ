@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import IconChat from "@/Assets/Icons/icon_chat.svg";
 import InputForm from "../Form/InputForm";
-import ModalSearch from "../Modal/ModalSearch";
+// import ModalSearch from "../Modal/ModalSearch";
 
 import IconNotification from "@/Assets/Icons/icon_notification.svg";
 import IconSearch from "../Icons/Search";
@@ -11,12 +11,10 @@ import IconSearch from "../Icons/Search";
 import "./TopBar.modules.css";
 
 type Props = {
-  onEnter?: () => void;
-  handleSearch: () => void;
+  openModalSearch: () => void;
 };
 
-const TopBar: React.FC<Props> = ({ handleSearch }) => {
-  const [open, setOpen] = React.useState<boolean>(false);
+const TopBar: React.FC<Props> = ({ openModalSearch }) => {
   const navigate = useNavigate();
 
   return (
@@ -56,7 +54,7 @@ const TopBar: React.FC<Props> = ({ handleSearch }) => {
               }}
               onChange={() => {}}
               onFocus={(e) => {
-                setOpen(true);
+                openModalSearch();
                 e.currentTarget.blur();
               }}
             />
@@ -72,13 +70,6 @@ const TopBar: React.FC<Props> = ({ handleSearch }) => {
           </div>
         </div>
       </header>
-
-      <ModalSearch
-        handleSearch={handleSearch}
-        open={open}
-        onClose={() => setOpen(false)}
-        position="top"
-      />
     </>
   );
 };

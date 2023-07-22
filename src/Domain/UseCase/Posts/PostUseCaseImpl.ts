@@ -8,6 +8,7 @@ import {
   IGETListPostResponse,
   IPOSTCreatePostResponse,
   IGETRequestValidatePostResponse,
+  IGETDetailPostResponse,
 } from "@/Contracts/Response/IPostsResponse";
 import { RequestValidatePostUseCase } from "./GetRequestValidatePostUseCase";
 import {
@@ -52,5 +53,11 @@ export default class PostUseCaseImpl implements IPostUseCase {
 
   public validatePost(jsonData: IValidatePostRequest): Promise<any> {
     return this.postRepo.validatePost(jsonData);
+  }
+
+  public getDetailPost(
+    post_id: string | number
+  ): Promise<IGETDetailPostResponse> {
+    return this.postRepo.getDetailPost(post_id);
   }
 }
