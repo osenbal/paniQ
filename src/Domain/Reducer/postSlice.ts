@@ -127,7 +127,7 @@ export const postSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(asyncGetAllPost.fulfilled, (state, action) => {
-      state.posts = action.payload;
+      state.posts.push(...action.payload);
     });
     builder
       .addCase(asyncSearchPost.pending, (state) => {
