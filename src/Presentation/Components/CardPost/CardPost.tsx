@@ -23,7 +23,6 @@ type Props = {
   postDescription: string;
   postDate: string;
   characteristics: ICharacteristic[];
-  openComent: () => void;
 };
 
 const maxTextLength = 100;
@@ -47,7 +46,6 @@ const CardPost: React.FC<Props> = ({
   postDate,
   characteristics,
   indexZero,
-  openComent,
 }) => {
   const { state: modalContextState } = useRefModalContext();
 
@@ -111,7 +109,11 @@ const CardPost: React.FC<Props> = ({
                       style={{ border: "none" }}
                       className="flex flex-row justify-center items-center"
                       icon={<img src={IconComment} alt="comment" />}
-                      onClick={openComent}
+                      onClick={() => {
+                        modalContextState.modalDisqusRef?.current?.openDrawerDisqus(
+                          id.toString()
+                        );
+                      }}
                     ></Button>
 
                     {isMyPost ? (

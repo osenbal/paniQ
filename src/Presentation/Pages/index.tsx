@@ -4,16 +4,9 @@ import CardPost from "@/Presentation/Components/CardPost/CardPost";
 import SkeletonCardPost from "../Components/CardPost/SkeletonCardPost";
 import useViewModel from "./indexViewModel";
 import { Helmet } from "react-helmet-async";
-import { useRefModalContext } from "@/Domain/Context/RefModal.context";
 
 const Index: React.FC = () => {
   const { isLoading, posts, isLoadingMore, user } = useViewModel();
-  const { state } = useRefModalContext();
-
-  const handleOpenComment = () => {
-    state.modalDisqusRef?.current?.openDrawerDisqus();
-  };
-
   return (
     <>
       <Helmet>
@@ -44,7 +37,6 @@ const Index: React.FC = () => {
                     postDescription={item.place}
                     postDate={item.created_at}
                     characteristics={item.characteristics}
-                    openComent={() => handleOpenComment()}
                   />
                 ))
               : null}
