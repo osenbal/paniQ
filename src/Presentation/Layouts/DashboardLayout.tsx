@@ -6,7 +6,6 @@ import Floating from "../Components/Floating/Floating";
 import DashboardLayoutViewModel from "./DashboardLayoutModel";
 import ModalProfile from "../Components/Modal/ModalProfile";
 import ModalConfirmation from "../Components/Modal/ModalConfirmation";
-import ModalPostDetail from "../Components/Modal/ModalPostDetail";
 import ScanQR from "../Components/ScanQR/ScanQR";
 import ModalSearch from "../Components/Modal/ModalSearch";
 import { TourProvider, useTourContext } from "@/Domain/Context/Tour.context";
@@ -24,8 +23,6 @@ const DashboardLayout: React.FC = () => {
     handleSearch,
     modalSearchRef,
     handleOpenModalSearch,
-    modalPostDetailRef,
-    handleOpenModalPostDetail,
   } = DashboardLayoutViewModel();
 
   const {
@@ -59,7 +56,6 @@ const DashboardLayout: React.FC = () => {
         <Navigation
           openModalProfile={() => modalProfileRef.current.openModalProfile()}
         />
-
         <div>
           <ModalProfile
             ref={modalProfileRef}
@@ -77,9 +73,7 @@ const DashboardLayout: React.FC = () => {
             ref={modalSearchRef}
             position="top"
             handleSearch={handleSearch}
-            handleOpenModalPostDetail={handleOpenModalPostDetail}
           />
-          <ModalPostDetail ref={modalPostDetailRef} />
           <ScanQR ref={drawerQrScannerRef} onValidatePost={onValidatePost} />
         </div>
 

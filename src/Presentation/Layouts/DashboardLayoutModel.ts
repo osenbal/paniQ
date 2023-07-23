@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
-import { RefHandlerModalProfile } from "@/Presentation/Components/Modal/ModalProfile";
-import { RefHandlerModalConfirmation } from "@/Presentation/Components/Modal/ModalConfirmation";
-import { RefHandlerDrawerQrScanner } from "@/Presentation/Components/ScanQR/ScanQR";
-import { RefHandlerModalSearch } from "../Components/Modal/ModalSearch";
-import { RefHandlerPostDetail } from "../Components/Modal/ModalPostDetail";
+import { RefHandlerDrawerQrScanner } from "../Components/ScanQR/ScanQR";
+import {
+  RefHandlerModalSearch,
+  RefHandlerModalConfirmation,
+  RefHandlerModalProfile,
+} from "../Components/Modal";
 import {
   deleteAccessToken,
   deleteIsAuth,
@@ -13,12 +14,7 @@ import {
 import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
 import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
 import { toast } from "react-toastify";
-import {
-  asyncSearchPost,
-  setSearchResult,
-  getDetailPost,
-} from "@/Domain/Reducer/postSlice";
-import { IPost } from "@/Contracts/Response/IPostsResponse";
+import { asyncSearchPost, setSearchResult } from "@/Domain/Reducer/postSlice";
 
 export default function DashboardLayoutViewModel() {
   const postUseCase = PostUseCaseImpl.getInstance();
@@ -32,8 +28,6 @@ export default function DashboardLayoutViewModel() {
     useRef() as React.MutableRefObject<RefHandlerDrawerQrScanner>;
   const modalSearchRef =
     useRef() as React.MutableRefObject<RefHandlerModalSearch>;
-  const modalPostDetailRef =
-    useRef() as React.MutableRefObject<RefHandlerPostDetail>;
 
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.auth.user);
@@ -77,18 +71,6 @@ export default function DashboardLayoutViewModel() {
       });
   };
 
-  const handleOpenModalPostDetail = (id: number | string) => {
-    dispatch(getDetailPost(id)).then((response) => {
-      if (response.payload === null) {
-        toast.error("Something went wrong");
-      } else {
-        modalPostDetailRef.current.openDrawerPostDetail(
-          response.payload as IPost
-        );
-      }
-    });
-  };
-
   return {
     modalProfileRef,
     handleSearch,
@@ -96,12 +78,10 @@ export default function DashboardLayoutViewModel() {
     setSearchLoading,
     modalLogOutConfirmationRef,
     modalSearchRef,
-    modalPostDetailRef,
     drawerQrScannerRef,
     onLogOut,
     userState,
     onValidatePost,
     handleOpenModalSearch,
-    handleOpenModalPostDetail,
   };
 }

@@ -56,7 +56,6 @@ export const asyncSearchPost = createAsyncThunk(
     try {
       const res = await postUseCase.searchPost(data);
       if (res.status_code === 200) {
-        console.log("res search data : ", res.data);
         // if res.status === true
         return res.data;
       } else {
