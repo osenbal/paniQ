@@ -78,7 +78,6 @@ const ModalPostDetail = forwardRef<RefHandlerPostDetail, Props>(
             postDescription={postDetail?.place}
             postDate={postDetail?.created_at}
             characteristics={postDetail?.characteristics}
-            openComent={() => {}}
           />
         )}
       </Drawer>

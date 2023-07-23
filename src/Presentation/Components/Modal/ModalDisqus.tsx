@@ -1,11 +1,13 @@
 import React, { forwardRef, useImperativeHandle, useLayoutEffect } from "react";
 import { Drawer } from "antd";
 import type { DrawerProps } from "antd/es/drawer";
-// import { useAppDispatch } from "@/Domain/Store/hooks";
 import { useRefModalContext } from "@/Domain/Context/RefModal.context";
+import { DiscussionEmbed } from "disqus-react";
+
+// import { useAppDispatch } from "@/Domain/Store/hooks";
 
 export type RefHandlerModalDisqus = {
-  openDrawerDisqus: () => void;
+  openDrawerDisqus: (post_id: number | string) => void;
   closeDrawerDisqus: () => void;
 };
 
@@ -13,10 +15,14 @@ type Props = {
   position: DrawerProps["placement"];
 };
 
+const DISQUS_SHORTNAME = "paniqUIN";
+const DISQUS_CONFIG_URL = process.env.PUBLIC_URL;
+
 const ModalDisqus = forwardRef<RefHandlerModalDisqus, Props>(
   ({ position: placement }: Props, ref) => {
     const [modalDisqusOpen, setModalDisqusOpen] =
       React.useState<boolean>(false);
+    const [idPost, setIdPost] = React.useState<string>("");
 
     const { setState } = useRefModalContext();
 
@@ -30,7 +36,8 @@ const ModalDisqus = forwardRef<RefHandlerModalDisqus, Props>(
 
     // useImperativeHandle to expose a ref to parent component
     useImperativeHandle(ref, () => ({
-      openDrawerDisqus: (): void => {
+      openDrawerDisqus: (post_id): void => {
+        setIdPost(String(post_id));
         setModalDisqusOpen(true);
       },
       closeDrawerDisqus: (): void => {
@@ -50,7 +57,14 @@ const ModalDisqus = forwardRef<RefHandlerModalDisqus, Props>(
           onClose={() => setModalDisqusOpen(false)}
           open={modalDisqusOpen}
         >
-          DISQUS
+          <DiscussionEmbed
+            shortname={DISQUS_SHORTNAME}
+            config={{
+              url: DISQUS_CONFIG_URL,
+              identifier: idPost,
+              language: "en",
+            }}
+          />
         </Drawer>
       </>
     );
