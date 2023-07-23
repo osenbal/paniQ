@@ -15,7 +15,7 @@ type Props = {
   position: DrawerProps["placement"];
 };
 
-const DISQUS_SHORTNAME = "paniqUIN";
+const DISQUS_SHORTNAME = "paniq-1";
 const DISQUS_CONFIG_URL = process.env.PUBLIC_URL;
 
 const ModalDisqus = forwardRef<RefHandlerModalDisqus, Props>(
