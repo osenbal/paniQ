@@ -4,6 +4,7 @@ import IconComment from "@/Assets/Icons/icon_comment.svg";
 import IconPostQrScan from "@/Assets/Icons/icon_post_qrScan.svg";
 import IconPostSave from "@/Assets/Icons/icon_post_save.svg";
 import { ICharacteristic } from "@/Contracts/Response/IPostsResponse";
+import { useRefModalContext } from "@/Domain/Context/RefModal.context";
 // import DummyProfile from "@/Assets/Icons/icon_dummyProfile.svg";
 
 import "./CardPost.modules.css";
@@ -12,7 +13,6 @@ const { Meta } = Card;
 
 type Props = {
   id: number | string;
-  user_id: number;
   isMyPost: boolean;
   indexZero?: boolean;
   userName: string;
@@ -23,7 +23,7 @@ type Props = {
   postDescription: string;
   postDate: string;
   characteristics: ICharacteristic[];
-  openQrCode: () => void;
+  openComent: () => void;
 };
 
 const maxTextLength = 100;
@@ -37,7 +37,6 @@ const cutText = (text: string) => {
 
 const CardPost: React.FC<Props> = ({
   id,
-  user_id,
   isMyPost,
   userImage,
   userName,
@@ -47,9 +46,11 @@ const CardPost: React.FC<Props> = ({
   postDescription,
   postDate,
   characteristics,
-  openQrCode,
   indexZero,
+  openComent,
 }) => {
+  const { state: modalContextState } = useRefModalContext();
+
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -110,12 +111,17 @@ const CardPost: React.FC<Props> = ({
                       style={{ border: "none" }}
                       className="flex flex-row justify-center items-center"
                       icon={<img src={IconComment} alt="comment" />}
+                      onClick={openComent}
                     ></Button>
 
                     {isMyPost ? (
                       <Button
                         id={indexZero ? "my-eighth-step" : ""}
-                        onClick={openQrCode}
+                        onClick={() =>
+                          modalContextState.modalQrcodeRef?.current?.openModalQrcode(
+                            id.toString()
+                          )
+                        }
                         style={{ border: "none" }}
                         className="flex flex-row justify-center items-center"
                         icon={<img src={IconPostQrScan} alt="scan" />}

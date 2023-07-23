@@ -1,10 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import { RefHandlerModalQrcode } from "@/Presentation/Components/Modal/ModalQrcode";
+import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
-import {
-  asyncGetAllPost,
-  requestValidatePost,
-} from "@/Domain/Reducer/postSlice";
+import { asyncGetAllPost } from "@/Domain/Reducer/postSlice";
 // import posts from "@/Data/DataSource/Dummy/Posts";
 
 const IndexViewModel = () => {
@@ -12,9 +8,6 @@ const IndexViewModel = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { posts } = useAppSelector((state) => state.post);
   const dispatch = useAppDispatch();
-
-  //  ref
-  const modalQrcode = useRef() as React.MutableRefObject<RefHandlerModalQrcode>;
 
   // local state
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -62,28 +55,12 @@ const IndexViewModel = () => {
     });
   };
 
-  const handleOpenModalQrcode = async (post_id: string) => {
-    try {
-      // unwrap() is a utility function that extracts the value of a fulfilled promise.
-      dispatch(requestValidatePost(post_id))
-        .unwrap()
-        .then((response) => {
-          // show modal qrcode
-          modalQrcode.current.openModalQrcode(response.qr_code_url);
-        });
-    } catch (error) {
-      console.log("error : ", error);
-    }
-  };
-
   return {
     isLoading,
     setIsLoading,
-    modalQrcode,
     posts,
     isLoadingMore,
     user,
-    handleOpenModalQrcode,
   };
 };
 

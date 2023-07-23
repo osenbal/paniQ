@@ -3,18 +3,17 @@ import NotificationRequest from "@/Presentation/Components/RequestPermissions/No
 import CardPost from "@/Presentation/Components/CardPost/CardPost";
 import SkeletonCardPost from "../Components/CardPost/SkeletonCardPost";
 import useViewModel from "./indexViewModel";
-import ModalQrcode from "../Components/Modal/ModalQrcode";
 import { Helmet } from "react-helmet-async";
+import { useRefModalContext } from "@/Domain/Context/RefModal.context";
 
 const Index: React.FC = () => {
-  const {
-    isLoading,
-    modalQrcode,
-    posts,
-    isLoadingMore,
-    user,
-    handleOpenModalQrcode,
-  } = useViewModel();
+  const { isLoading, posts, isLoadingMore, user } = useViewModel();
+  const { state } = useRefModalContext();
+
+  const handleOpenComment = () => {
+    state.modalDisqusRef?.current?.openDrawerDisqus();
+  };
+
   return (
     <>
       <Helmet>
@@ -36,7 +35,6 @@ const Index: React.FC = () => {
                     key={index}
                     id={item.id}
                     isMyPost={user?.id === item.user_id}
-                    user_id={item.user_id}
                     indexZero={index === 0}
                     userName={item.user.username}
                     userMajor={item.user.usermajor}
@@ -46,7 +44,7 @@ const Index: React.FC = () => {
                     postDescription={item.place}
                     postDate={item.created_at}
                     characteristics={item.characteristics}
-                    openQrCode={() => handleOpenModalQrcode(item.id)}
+                    openComent={() => handleOpenComment()}
                   />
                 ))
               : null}
@@ -59,8 +57,6 @@ const Index: React.FC = () => {
           </div>
         </div>
       )}
-
-      <ModalQrcode ref={modalQrcode} />
     </>
   );
 };

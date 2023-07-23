@@ -1,13 +1,21 @@
 import React from "react";
 import CardImage from "@/Presentation/Components/CardPost/CardImage";
 import { IPost } from "@/Contracts/Response/IPostsResponse";
+import { useRefModalContext } from "@/Domain/Context/RefModal.context";
 
 type Props = {
   posts: IPost[];
-  onClickDetail: (id: string | number) => void;
 };
 
-const BlockViewPosts: React.FC<Props> = ({ posts, onClickDetail }) => {
+const BlockViewPosts: React.FC<Props> = ({ posts }) => {
+  const { state: modalContextState } = useRefModalContext();
+
+  const handleOpenDetailPost = (post_id: number | string) => {
+    modalContextState.modalPostDetailRef?.current?.openDrawerPostDetail(
+      post_id
+    );
+  };
+
   return (
     <>
       <div className="grid grid-cols-3 gap-0.5 ">
@@ -16,7 +24,7 @@ const BlockViewPosts: React.FC<Props> = ({ posts, onClickDetail }) => {
             <CardImage
               key={index}
               data={item}
-              onClick={() => onClickDetail(item.id)}
+              onClick={() => handleOpenDetailPost(item.id)}
             />
           );
         })}

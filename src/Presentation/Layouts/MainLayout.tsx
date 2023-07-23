@@ -10,8 +10,9 @@ type Props = {
 
 const MainLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="mainLayout_container">
+    <>
       {children}
+
       <ToastContainer
         position="bottom-center"
         autoClose={3000}
@@ -24,7 +25,7 @@ const MainLayout: React.FC<Props> = ({ children }) => {
         pauseOnHover
         theme="light"
       />
-    </div>
+    </>
   );
 };
 

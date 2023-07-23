@@ -1,22 +1,59 @@
-import React, { useState, useImperativeHandle, forwardRef } from "react";
+import React, {
+  useState,
+  useImperativeHandle,
+  forwardRef,
+  useLayoutEffect,
+} from "react";
 import { Modal, Skeleton, Image } from "antd";
+import { useAppDispatch } from "@/Domain/Store/hooks";
+import { useRefModalContext } from "@/Domain/Context/RefModal.context";
+import { requestValidatePost } from "@/Domain/Reducer/postSlice";
 // import "./SkeletonCardPost.modules.css";
 
 export type RefHandlerModalQrcode = {
-  openModalQrcode: (link: string) => void;
+  openModalQrcode: (post_id: string) => void;
+  closeDrawerPostDetail: () => void;
 };
 
 const ModalQrcode = forwardRef<RefHandlerModalQrcode>((props, ref) => {
+  const dispatch = useAppDispatch();
+  const { setState: setModalContext } = useRefModalContext();
+
   const [modalQrcodeOpen, setModalQrcodeOpen] = useState<boolean>(false);
   const [link, setLink] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  useLayoutEffect(() => {
+    setModalContext((prevState) => ({
+      ...prevState,
+      modalQrcodeRef: ref as React.MutableRefObject<RefHandlerModalQrcode>,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useImperativeHandle(ref, () => ({
-    openModalQrcode: (link: string): void => {
-      setModalQrcodeOpen(true);
-      setLink(link);
+    openModalQrcode: (post_id: string): void => {
+      handleOpenModalQrcode(post_id);
+    },
+    closeDrawerPostDetail: (): void => {
+      setModalQrcodeOpen(false);
     },
   }));
+
+  const handleOpenModalQrcode = async (post_id: string) => {
+    try {
+      // unwrap() is a utility function that extracts the value of a fulfilled promise.
+      dispatch(requestValidatePost(post_id))
+        .unwrap()
+        .then((response) => {
+          // show modal qrcode
+          setLink(response.qr_code_url);
+          setModalQrcodeOpen(true);
+        });
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  };
 
   return (
     <Modal

@@ -7,7 +7,13 @@
 }
 
 .float_button_group {
-  right: 4vw;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 465px;
+  padding: 0 14px;
   bottom: 100px;
 }
 
@@ -23,7 +29,7 @@
   transition: all 0.3s ease-in-out;
   background-color: rgba(60, 57, 57, 0.7);
 }
-
+/* 
 @media screen and (min-width: 480px) {
   .float_button_group {
     right: 2.5vw;
@@ -61,4 +67,4 @@
 }
 
 @media screen and (min-width: 1400px) {
-}
+} */

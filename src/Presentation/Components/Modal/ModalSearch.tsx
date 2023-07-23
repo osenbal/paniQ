@@ -21,14 +21,10 @@ export type RefHandlerModalSearch = {
 type Props = {
   position: DrawerProps["placement"];
   handleSearch: () => void;
-  handleOpenModalPostDetail: (id: string | number) => void;
 };
 
 const ModalSearch = forwardRef<RefHandlerModalSearch, Props>(
-  (
-    { position: placement, handleSearch, handleOpenModalPostDetail }: Props,
-    ref
-  ) => {
+  ({ position: placement, handleSearch }: Props, ref) => {
     const [modalSearchOpen, setModalSearchOpen] =
       React.useState<boolean>(false);
 
@@ -105,10 +101,7 @@ const ModalSearch = forwardRef<RefHandlerModalSearch, Props>(
               <p>Loading...</p>
             </>
           ) : searchResult.length > 0 ? (
-            <BlockViewPosts
-              posts={searchResult}
-              onClickDetail={handleOpenModalPostDetail}
-            />
+            <BlockViewPosts posts={searchResult} />
           ) : null}
         </Drawer>
       </>
