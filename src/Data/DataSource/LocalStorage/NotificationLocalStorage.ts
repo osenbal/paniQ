@@ -5,11 +5,11 @@ class NotificationLocalStorage {
     return LocalStorage.get("notifications");
   }
 
-  public static setNotifications(notifications: any) {
+  public static setNotifications(notifications: string | boolean): void {
     LocalStorage.set("notifications", notifications);
   }
 
-  public static removeNotifications() {
+  public static removeNotifications(): void {
     LocalStorage.remove("notifications");
   }
 }

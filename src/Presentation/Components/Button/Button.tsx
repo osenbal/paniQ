@@ -4,7 +4,7 @@ import { title14 } from "../../../Core/config/fonts/fonts";
 import "./Button.modules.css";
 
 type Props = {
-  children: any;
+  children: React.ReactNode;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   icon?: React.ReactNode;
   style?: React.CSSProperties;

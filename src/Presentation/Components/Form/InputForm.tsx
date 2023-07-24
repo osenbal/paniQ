@@ -11,14 +11,13 @@ type Props = {
   border?: boolean;
   style?: React.CSSProperties;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (event: any) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   label?: string;
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
   className?: string;
-  rest?: any;
-  refInput?: any;
+  refInput?: React.RefObject<HTMLInputElement>;
   autoFocus?: boolean;
   autoComplete?: "on" | "off";
 };
@@ -40,7 +39,6 @@ const InputForm: React.FC<Props> = ({
   refInput,
   autoFocus,
   autoComplete = "off",
-  ...rest
 }: Props) => {
   return (
     <div className={`container_input_form ` + className}>
@@ -76,7 +74,6 @@ const InputForm: React.FC<Props> = ({
           onKeyDown={onKeyDown}
           onFocus={onFocus}
           autoComplete={autoComplete}
-          {...rest}
         />
         {iconPosition === "right" ? (
           <span className="container_input_icon">{icon}</span>

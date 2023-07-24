@@ -8,7 +8,7 @@ import "./Navigation.modules.css";
 
 type Props = {
   openModalProfile: () => void;
-  ref?: any;
+  ref?: React.LegacyRef<HTMLElement>;
 };
 
 const Navigation: React.FC<Props> = ({ openModalProfile, ref }) => {

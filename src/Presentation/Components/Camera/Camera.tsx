@@ -10,7 +10,6 @@ type Props = {
   activeDeviceId: string | undefined;
   setActiveDeviceId?: React.Dispatch<React.SetStateAction<string | undefined>>;
   facingMode: "user" | "environment";
-  rest?: any;
 };
 
 const Camera: React.FC<Props> = ({
@@ -18,7 +17,6 @@ const Camera: React.FC<Props> = ({
   className,
   activeDeviceId,
   facingMode,
-  rest,
 }) => {
   const desiredAspectRatio = 4 / 4;
   const maxHeight = 412; // Maximum height based on your requirements
@@ -40,7 +38,6 @@ const Camera: React.FC<Props> = ({
           height: maxHeight,
           deviceId: activeDeviceId,
         }}
-        {...rest}
       />
     </>
   );

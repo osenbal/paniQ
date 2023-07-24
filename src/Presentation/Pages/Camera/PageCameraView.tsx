@@ -121,11 +121,7 @@ const PageCamera: React.FC = () => {
                 </div>
               </label>
 
-              <ButtonCamera
-                className="btn_capture_image"
-                rest={{ shape: "circle", type: "primary" }}
-                onClick={capture}
-              />
+              <ButtonCamera className="btn_capture_image" onClick={capture} />
 
               <div>
                 <Button

@@ -52,6 +52,7 @@
     "dev": "craco start",
     "start": "serve -S build",
     "build": "craco build",
+    "watch-tsc": "tsc -w",
     "test": "craco test",
     "eject": "craco eject"
   },
