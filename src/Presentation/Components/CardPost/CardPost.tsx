@@ -130,9 +130,17 @@ const CardPost: React.FC<Props> = ({
                       ></Button>
                     ) : null}
                   </div>
-                  <div id={indexZero ? "my-ninth-step" : ""}>
-                    <img src={IconPostSave} alt="save post" />
-                  </div>
+                  <Button
+                    id={indexZero ? "my-ninth-step" : ""}
+                    style={{ border: "none" }}
+                    className="flex flex-row justify-center items-center"
+                    icon={<img src={IconPostSave} alt="save post" />}
+                    onClick={() => {
+                      modalContextState.modalUnderMaintenanceRef?.current?.openModalUnderMaintenance(
+                        "Under Development"
+                      );
+                    }}
+                  ></Button>
                 </div>
                 <div>
                   <p className="color_navyBlue mt-2">

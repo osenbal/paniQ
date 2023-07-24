@@ -18,7 +18,13 @@ export const USER_END_POINT = {
 
 // API ENDPOINT FOR POST
 export const POST_END_POINT = {
-  GET_LIST_POST: (page: number) => `/posts/list?page=${page}`,
+  GET_LIST_POST: (page: number, user_id?: number) => {
+    if (user_id) {
+      return `/posts/list?page=${page}&user_id=${user_id}`;
+    }
+    return `/posts/list?page=${page}`;
+  },
+
   DELETE_POST: (post_id: number) => `/posts/delete/${post_id}`,
   PUT_UPDATE_POST: (post_id: number) => `/posts/update/${post_id}`,
   GET_FIND_POST: (post_id: number | string) => `/posts/${post_id}`,

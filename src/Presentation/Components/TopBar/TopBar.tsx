@@ -3,6 +3,7 @@ import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import IconChat from "@/Assets/Icons/icon_chat.svg";
 import InputForm from "../Form/InputForm";
+import { useRefModalContext } from "@/Domain/Context/RefModal.context";
 // import ModalSearch from "../Modal/ModalSearch";
 
 import IconNotification from "@/Assets/Icons/icon_notification.svg";
@@ -16,6 +17,7 @@ type Props = {
 
 const TopBar: React.FC<Props> = ({ openModalSearch }) => {
   const navigate = useNavigate();
+  const { state: stateModalContext } = useRefModalContext();
 
   return (
     <>
@@ -60,14 +62,27 @@ const TopBar: React.FC<Props> = ({ openModalSearch }) => {
             />
           </div>
 
-          <div id="my-sixth-step">
-            <img
-              className="topBar_icon"
-              style={{ cursor: "pointer" }}
-              src={IconChat}
-              alt="chat"
-            />
-          </div>
+          <Button
+            id="my-sixth-step"
+            onClick={() => {
+              stateModalContext.modalUnderMaintenanceRef?.current.openModalUnderMaintenance(
+                "Coming Soon"
+              );
+            }}
+            block
+            style={{ border: "none" }}
+            shape="default"
+            size="large"
+            className="flex flex-row justify-center items-center"
+            icon={
+              <img
+                className="topBar_icon"
+                style={{ cursor: "pointer" }}
+                src={IconChat}
+                alt="chat"
+              />
+            }
+          />
         </div>
       </header>
     </>

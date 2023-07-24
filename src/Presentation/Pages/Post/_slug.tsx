@@ -2,15 +2,16 @@ import React from "react";
 import useSlugPostViewModel from "./_slogViewModel";
 import { Button } from "antd";
 import BlockViewPosts from "@/Presentation/Components/Posts/BlockViewPosts";
-// import CarouselViewPosts from "@/Presentation/Components/Posts/CarouselViewPosts";
 import { basicColors, elementColor } from "@/Core/config/colors/colors";
 import { header18 } from "@/Core/config/fonts/fonts";
+// import CarouselViewPosts from "@/Presentation/Components/Posts/CarouselViewPosts";
 
 import IconLefArrow from "@/Assets/Icons/icon_leftArrow.svg";
 import IconViewBlocks from "@/Assets/Icons/icon_viewBlocks.svg";
 import IconViewCarousel from "@/Assets/Icons/icon_viewCarousel.svg";
 import IconViewBlocksActive from "@/Assets/Icons/icon_viewBlocksActive.svg";
 import IconViewCarouselActive from "@/Assets/Icons/icon_viewCarouselActive.svg";
+import { SkeletonImagePost } from "@/Presentation/Components/CardPost/SkeletonCardPost";
 
 import "./_slug.modules.css";
 
@@ -21,38 +22,24 @@ const _Slug: React.FC = () => {
     onBack,
     setViews,
     views,
-    // onClickDetail,
-    // getMyPost,
-    posts,
+    myPosts,
+    myPostLoading,
+    myBookmarkLoading,
+    myStuffReturnLoading,
   } = useSlugPostViewModel();
 
   const items = [
     {
       key: "bookmark",
       label: `Bookmark`,
-      view: {
-        blocks: <></>,
-        carousel: <></>,
-      },
     },
     {
       key: "my-post",
       label: `My Post`,
-      view: {
-        blocks: <BlockViewPosts posts={posts} />,
-        carousel: <></>,
-      },
     },
     {
       key: "stuff-return",
       label: `Stuff Return`,
-      view: {
-        blocks: (
-          // <BlockViewPosts posts={getPosts()} onClickDetail={onClickDetail} />
-          <></>
-        ),
-        carousel: <></>,
-      },
     },
   ];
 
@@ -60,7 +47,7 @@ const _Slug: React.FC = () => {
     <>
       <div className="container_post_page">
         <div
-          className="flex flex-row justify-around items-center"
+          className="flex flex-row justify-around items-center tab_header"
           style={{ backgroundColor: basicColors.aqua }}
         >
           {items.map((item) => {
@@ -85,7 +72,7 @@ const _Slug: React.FC = () => {
           })}
         </div>
 
-        <div className="px-4 pt-5 pb-4 flex flex-row justify-between items-center">
+        <div className="tab_control px-4 pt-5 pb-4 flex flex-row justify-between items-center">
           <Button
             onClick={onBack}
             style={{ border: "none" }}
@@ -128,19 +115,54 @@ const _Slug: React.FC = () => {
           </div>
         </div>
 
-        {items.map((item) => {
-          if (item.key === activeTab) {
-            return (
-              <div key={item.key} className="tab_content">
-                {views === "blocks" ? item.view.blocks : item.view.carousel}
-              </div>
-            );
-          }
-          return null;
-        })}
+        <div className="tab_content">
+          {activeTab === "bookmark" ? (
+            myBookmarkLoading ? (
+              <LoadingSkeleton />
+            ) : (
+              <>
+                <p className="text-center">Under Development</p>
+              </>
+            )
+          ) : null}
+          {activeTab === "my-post" ? (
+            myPostLoading ? (
+              <LoadingSkeleton />
+            ) : (
+              <>
+                {views === "blocks" ? (
+                  <BlockViewPosts posts={myPosts} />
+                ) : (
+                  <>
+                    <p className="text-center">Under Development</p>
+                  </>
+                )}
+              </>
+            )
+          ) : null}
+          {activeTab === "stuff-return" ? (
+            myStuffReturnLoading ? (
+              <LoadingSkeleton />
+            ) : (
+              <>
+                <p className="text-center">Under Development</p>
+              </>
+            )
+          ) : null}
+        </div>
       </div>
     </>
   );
 };
 
 export default _Slug;
+
+const LoadingSkeleton: React.FC = () => {
+  return (
+    <div className="container_skeleton grid grid-cols-3 gap-0.5">
+      <SkeletonImagePost />
+      <SkeletonImagePost />
+      <SkeletonImagePost />
+    </div>
+  );
+};

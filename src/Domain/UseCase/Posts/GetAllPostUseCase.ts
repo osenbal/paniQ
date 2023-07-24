@@ -12,7 +12,7 @@ export class GetAllPostUseCase implements IGetAllPostUseCase {
     this.postRepo = _postRepo;
   }
 
-  public invoke(page: number): Promise<IGETListPostResponse> {
-    return this.postRepo.getPosts(page);
+  public invoke(page: number, user_id?: number): Promise<IGETListPostResponse> {
+    return this.postRepo.getPosts(page, user_id);
   }
 }

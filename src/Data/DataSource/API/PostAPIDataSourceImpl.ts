@@ -17,9 +17,9 @@ export default class PostDataSourceImpl implements IPostDataSource {
     return PostDataSourceImpl.instance;
   }
 
-  getPosts<T>(page: number): Promise<T> {
+  getPosts<T>(page: number, user_id?: number): Promise<T> {
     return axios
-      .get(POST_END_POINT.GET_LIST_POST(page), {
+      .get(POST_END_POINT.GET_LIST_POST(page, user_id), {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAccessToken()}`,

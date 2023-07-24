@@ -17,26 +17,25 @@ const IndexViewModel = () => {
   // dummy data post
   // const postDummy: IGETListPostResponse = posts;
 
-  // lifecycle
   useEffect(() => {
     getAllPosts();
-    window.addEventListener("scroll", handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagePost]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagePost]);
+  }, []);
 
   //  methods
   const handleScroll = () => {
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollTop =
-      document.documentElement.scrollTop || document.body.scrollTop;
-    const scrollBottom = documentHeight - (scrollTop + windowHeight);
-
-    if (scrollBottom < 20 && isLoadingMore === false) {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
       setPagePost((prev) => prev + 1);
     }
   };

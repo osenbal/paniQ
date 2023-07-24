@@ -3,7 +3,7 @@ import {
   ISearchPostRequest,
 } from "@/Contracts/Requests/IPostRequest";
 export interface IPostDataSource {
-  getPosts<T>(page: number): Promise<T>;
+  getPosts<T>(page: number, user_id?: number): Promise<T>;
   searchPost<T>(data: ISearchPostRequest): Promise<T>;
   createPost<T>(data: FormData): Promise<T>;
   getDetailPost<T>(post_id: string | number): Promise<T>;

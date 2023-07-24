@@ -33,8 +33,11 @@ export default class PostUseCaseImpl implements IPostUseCase {
     return PostUseCaseImpl.instance;
   }
 
-  public getPosts(page: number): Promise<IGETListPostResponse> {
-    return this.getAllPostUseCase.invoke(page);
+  public getPosts(
+    page: number,
+    user_id?: number
+  ): Promise<IGETListPostResponse> {
+    return this.getAllPostUseCase.invoke(page, user_id);
   }
 
   public searchPost(data: ISearchPostRequest): Promise<IGETListPostResponse> {

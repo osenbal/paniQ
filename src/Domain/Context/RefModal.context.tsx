@@ -3,17 +3,21 @@ import {
   RefHandlerModalDisqus,
   RefHandlerPostDetail,
   RefHandlerModalQrcode,
+  RefHandlerModalUnderMaintenance,
 } from "@/Presentation/Components/Modal";
 
 interface RefModalStateType {
   modalQrcodeRef: React.MutableRefObject<RefHandlerModalQrcode>;
   modalPostDetailRef: React.MutableRefObject<RefHandlerPostDetail>;
   modalDisqusRef: React.MutableRefObject<RefHandlerModalDisqus>;
+  modalUnderMaintenanceRef: React.MutableRefObject<RefHandlerModalUnderMaintenance>;
 }
 const refModalState: RefModalStateType = {
   modalPostDetailRef: {} as React.MutableRefObject<RefHandlerPostDetail>,
   modalDisqusRef: {} as React.MutableRefObject<RefHandlerModalDisqus>,
   modalQrcodeRef: {} as React.MutableRefObject<RefHandlerModalQrcode>,
+  modalUnderMaintenanceRef:
+    {} as React.MutableRefObject<RefHandlerModalUnderMaintenance>,
 };
 
 export const RefModalContext = createContext({

@@ -4,6 +4,7 @@ import CardPost from "@/Presentation/Components/CardPost/CardPost";
 import SkeletonCardPost from "../Components/CardPost/SkeletonCardPost";
 import useViewModel from "./indexViewModel";
 import { Helmet } from "react-helmet-async";
+import Spinner from "../Components/Spinner";
 
 const Index: React.FC = () => {
   const { isLoading, posts, isLoadingMore, user } = useViewModel();
@@ -43,7 +44,8 @@ const Index: React.FC = () => {
 
             {isLoadingMore ? (
               <div className="flex justify-center mt-5">
-                <div className="lds-dual-ring">Loading...</div>
+                <Spinner isOutlined={true} height={"44px"} />
+                {/* <div className="lds-dual-ring">Loading...</div> */}
               </div>
             ) : null}
           </div>

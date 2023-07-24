@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./Presentation/App";
 import MainLayout from "./Presentation/Layouts/MainLayout";
+import { RefModalProvider } from "@/Domain/Context/RefModal.context";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 import { Provider } from "react-redux";
@@ -27,9 +28,11 @@ root.render(
         />
       </Helmet>
       <Provider store={store}>
-        <MainLayout>
-          <App />
-        </MainLayout>
+        <RefModalProvider>
+          <MainLayout>
+            <App />
+          </MainLayout>
+        </RefModalProvider>
       </Provider>
     </HelmetProvider>
   </React.StrictMode>

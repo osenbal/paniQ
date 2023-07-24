@@ -30,6 +30,7 @@ export const postMethods = {
   searchPost: "/post/search",
   requestValidatePost: "/post/request-validate",
   getDetailPost: "/post/detail",
+  getPostByUserId: "/post/list/user_id",
 };
 
 export const asyncGetAllPost = createAsyncThunk(
@@ -98,6 +99,32 @@ export const getDetailPost = createAsyncThunk(
         return res.data as IPost;
       } else {
         return null;
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      return rejectWithValue("Something went wrong");
+    }
+  }
+);
+
+export const asyncGetPostByUserId = createAsyncThunk(
+  postMethods.getPostByUserId,
+  async (
+    {
+      page,
+      user_id,
+    }: {
+      page: number;
+      user_id: number;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await postUseCase.getPosts(page, user_id);
+      if (res.status_code === 200) {
+        return res.data;
+      } else {
+        return rejectWithValue("Something went wrong");
       }
     } catch (error) {
       toast.error("Something went wrong");

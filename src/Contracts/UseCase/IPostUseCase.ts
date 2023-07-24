@@ -7,7 +7,7 @@ import {
 import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
 
 export interface IPostUseCase {
-  getPosts: (page: number) => Promise<IGETListPostResponse>;
+  getPosts: (page: number, user_id?: number) => Promise<IGETListPostResponse>;
   createPost: (data: FormData) => Promise<IPOSTCreatePostResponse>;
   getDetailPost: (post_id: string | number) => Promise<IGETDetailPostResponse>;
   requestValidatePost: (

@@ -8,8 +8,8 @@ export class PostRepositoryImpl implements IPostRepository {
     this.postDataSource = _postDataSource;
   }
 
-  getPosts<T>(page: number): Promise<T> {
-    return this.postDataSource.getPosts(page);
+  getPosts<T>(page: number, user_id?: number): Promise<T> {
+    return this.postDataSource.getPosts(page, user_id);
   }
 
   searchPost<T>(data: any): Promise<T> {
