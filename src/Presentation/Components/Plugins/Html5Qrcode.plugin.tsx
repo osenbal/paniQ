@@ -9,7 +9,7 @@ type Props = {
   aspectRatio?: number;
   disableFlip?: boolean;
   verbose?: boolean;
-  style?: any;
+  style?: React.CSSProperties;
   qrCodeSuccessCallback: (decodedText: string) => void;
   qrCodeErrorCallback: (errorMessage: string) => void;
 };

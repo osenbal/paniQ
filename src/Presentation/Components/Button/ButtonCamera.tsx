@@ -1,22 +1,29 @@
 import React from "react";
+import { Button, ButtonProps } from "antd";
 // import IconCaptureCamera from "@/Assets/Icons/icon_captureCamera.svg";
-import { Button } from "antd";
 
 type Props = {
   onClick?: () => void;
   className?: string;
-  rest?: any;
+  shape?: ButtonProps["shape"];
+  type?: ButtonProps["type"];
 };
 
-const ButtonCamera: React.FC<Props> = ({ onClick, className, rest }) => {
+const ButtonCamera: React.FC<Props> = ({
+  onClick,
+  className,
+  shape = "circle",
+  type = "primary",
+}) => {
   return (
     <>
       <Button
         onClick={onClick}
         className={className}
-        type="primary"
-        // size="large"
+        type={type}
         style={{ width: "78px", height: "78px" }}
+        shape={shape}
+        // size="large"
         // icon={
         //   <img
         //     style={{ width: "32px" }}
@@ -24,7 +31,6 @@ const ButtonCamera: React.FC<Props> = ({ onClick, className, rest }) => {
         //     alt="capture camera"
         //   />
         // }
-        {...rest}
       />
     </>
   );
