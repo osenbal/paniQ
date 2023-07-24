@@ -89,7 +89,7 @@ const Floating: React.FC<Props> = ({ showQrScanner }) => {
             />
             <FloatButton
               className="step-second-floating"
-              onClick={() => navigate("/post/?tab=staff-return")}
+              onClick={() => navigate("/post/?tab=stuff-return")}
               tooltip="Stuff Return"
               icon={
                 <img
