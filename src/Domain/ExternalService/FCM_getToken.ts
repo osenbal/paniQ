@@ -11,7 +11,7 @@ const requestNotificationPermission = async () => {
   }
 };
 
-const firebaseGetToken = async () => {
+export const firebaseGetToken = async () => {
   const messaging = await messagingApp();
   if (!messaging) {
     return;
