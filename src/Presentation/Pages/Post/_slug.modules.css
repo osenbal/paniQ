@@ -1,6 +1,18 @@
 /* .tab_post .ant-tabs-tab-active .ant-tabs-tab-btn {
   color: #00214d !important;
 } */
+
+.container_post_page {
+  max-height: 100vh;
+  height: 100vh;
+  overflow-y: hidden;
+}
+.tab_content {
+  max-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 4px 8px;
+}
 .tab_item {
   cursor: pointer;
 }
