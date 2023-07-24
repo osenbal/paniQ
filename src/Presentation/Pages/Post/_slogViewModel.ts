@@ -54,6 +54,7 @@ const Slug = () => {
     } else if (activeTab === "stuff-return") {
       getMyStuffReturn();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
   return {
