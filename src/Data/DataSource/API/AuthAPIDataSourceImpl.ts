@@ -1,8 +1,9 @@
 import IAuthDataSource from "@/Contracts/DataSource/IAuthDataSource";
-import axios from "@/Api/axios";
+import request from "@/Api/request";
+import { isAxiosError } from "axios";
 import { ILoginRequest } from "@/Contracts/Requests/IAuthRequest";
 import { AUTH_END_POINT } from "@/Api/LIST_END_POINT";
-import { getRefreshToken } from "@/Data/DataSource/Cookie/JWT.cookie";
+import { ILoginResponse } from "@/Contracts/Response/IAuthResponse";
 
 export default class AuthDataSourceImpl implements IAuthDataSource {
   private static instance: AuthDataSourceImpl;
@@ -14,42 +15,22 @@ export default class AuthDataSourceImpl implements IAuthDataSource {
     return AuthDataSourceImpl.instance;
   }
 
-  login<T>({ email, password }: ILoginRequest): Promise<T> {
-    return axios
-      .post(
-        AUTH_END_POINT.POST_LOGIN,
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log("error ", error);
-        return error?.response?.data;
+  public async login({
+    email,
+    password,
+  }: ILoginRequest): Promise<ILoginResponse> {
+    try {
+      const r = await request.post<ILoginResponse>(AUTH_END_POINT.POST_LOGIN, {
+        email,
+        password,
       });
-  }
-
-  refreshToken<T>(): Promise<T> {
-    return axios
-      .get(AUTH_END_POINT.GET_REFRESH_TOKEN, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getRefreshToken()}`,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        return error;
-      });
+      return r;
+    } catch (err) {
+      if (isAxiosError<ILoginResponse>(err) && err.response) {
+        return err.response?.data;
+      }
+      // if error is not axios error
+      throw err;
+    }
   }
 }

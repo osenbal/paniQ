@@ -1,6 +1,6 @@
 import { USER_END_POINT } from "@/Api/LIST_END_POINT";
 import { IUserDataSource } from "@/Contracts/DataSource/IUserDataSource";
-import axios from "@/Api/apiInterceptor";
+import axios from "@/Api/axios";
 import { getAccessToken } from "../Cookie/JWT.cookie";
 
 export class UserDataSourceImpl implements IUserDataSource {

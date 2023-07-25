@@ -32,6 +32,5 @@ export const POST_END_POINT = {
   GET_SEARCH_POST: (limit: number, searchText: string) =>
     `/posts/s/${searchText}?limit=${limit}`,
   POST_VALIDATE_POST: `/posts/validate/`,
-  GET_REQUEST_VALIDATE_PASSWORD: (post_id: string) =>
-    `/posts/validate/${post_id}`,
+  GET_REQUEST_VALIDATE_POST: (post_id: string) => `/posts/validate/${post_id}`,
 };

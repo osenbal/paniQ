@@ -57,6 +57,7 @@ const ModalQrcode = forwardRef<RefHandlerModalQrcode>((props, ref) => {
 
   return (
     <Modal
+      zIndex={1003}
       title={<p className="text-center">Scan Here</p>}
       centered
       open={modalQrcodeOpen}

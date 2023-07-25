@@ -43,6 +43,7 @@ const ModalUnderMaintenance = forwardRef<
 
   return (
     <Modal
+      zIndex={2000}
       title="Warning"
       centered
       open={open}

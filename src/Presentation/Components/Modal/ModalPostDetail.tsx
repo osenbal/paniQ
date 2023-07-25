@@ -59,6 +59,7 @@ const ModalPostDetail = forwardRef<RefHandlerPostDetail, Props>(
 
     return (
       <Drawer
+        zIndex={1002}
         title="Post Detail"
         placement="bottom"
         style={{ maxWidth: "768px", margin: "0 auto" }}

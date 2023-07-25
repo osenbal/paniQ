@@ -77,6 +77,7 @@ const ModalSearch = forwardRef<RefHandlerModalSearch, Props>(
     return (
       <>
         <Drawer
+          zIndex={1001}
           className="modal-search"
           placement={placement}
           style={{ maxWidth: "768px", margin: "0 auto" }}

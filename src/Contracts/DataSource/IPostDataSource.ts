@@ -2,12 +2,23 @@ import {
   IValidatePostRequest,
   ISearchPostRequest,
 } from "@/Contracts/Requests/IPostRequest";
+import {
+  IGETListPostResponse,
+  IPOSTCreatePostResponse,
+  IGETDetailPostResponse,
+  IGETRequestValidatePostResponse,
+  IPOSTValidatePostResponse,
+} from "../Response/IPostsResponse";
 export interface IPostDataSource {
-  getPosts<T>(page: number, user_id?: number): Promise<T>;
-  searchPost<T>(data: ISearchPostRequest): Promise<T>;
-  createPost<T>(data: FormData): Promise<T>;
-  getDetailPost<T>(post_id: string | number): Promise<T>;
+  getPosts(page: number, user_id?: number): Promise<IGETListPostResponse>;
+  searchPost(data: ISearchPostRequest): Promise<IGETListPostResponse>;
+  createPost(data: FormData): Promise<IPOSTCreatePostResponse>;
+  getDetailPost(post_id: string | number): Promise<IGETDetailPostResponse>;
 
-  requestValidatePost<T>(post_id: string): Promise<T>;
-  validatePost<T>(jsonData: IValidatePostRequest): Promise<T>;
+  requestValidatePost(
+    post_id: string
+  ): Promise<IGETRequestValidatePostResponse>;
+  validatePost(
+    jsonData: IValidatePostRequest
+  ): Promise<IPOSTValidatePostResponse>;
 }

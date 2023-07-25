@@ -1,4 +1,14 @@
 import axios from "axios";
+import {
+  getRefreshToken,
+  setAccessToken,
+  deleteAccessToken,
+  deleteRefreshToken,
+  deleteIsAuth,
+  getAccessToken,
+} from "@/Data/DataSource/Cookie/JWT.cookie";
+import { ILoginResponse } from "@/Contracts/Response/IAuthResponse";
+import { AUTH_END_POINT } from "./LIST_END_POINT";
 
 // create instance of axios
 const instance = axios.create({
@@ -10,6 +20,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     // handle successful request here
+    if (getAccessToken() !== "") {
+      config.headers.Authorization = `Bearer ${getAccessToken()}`;
+    }
     return config;
   },
   (error) => {
@@ -24,35 +37,66 @@ instance.interceptors.response.use(
     // handle successful response here
     return response;
   },
-  (error) => {
+  async (error) => {
     // handle error requests here
+    const { status, config } = error.response!;
+    switch (status) {
+      case 400:
+        break;
+      case 401:
+        config._retry = true;
+        try {
+          const refreshToken = getRefreshToken();
 
-    // handle not found error
-    if (error.response.status === 404) {
-      error.response.data = {
-        message: "Not found",
-      };
-    }
+          if (!refreshToken) {
+            // handle error when refresh token is not available
+            throw error;
+          }
 
-    // handle unauthorized error
-    if (error.response.status === 401) {
-      error.response.data = {
-        message: "Unauthorized",
-      };
-    }
+          // request new access token with refresh token
+          const newAccressToken = await instance.get<ILoginResponse>(
+            AUTH_END_POINT.GET_REFRESH_TOKEN,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            }
+          );
 
-    // handle forbidden error
-    if (error.response.status === 403) {
-      error.response.data = {
-        message: "Forbidden",
-      };
-    }
+          if (newAccressToken.data.data != null) {
+            // set access token to cookie
+            setAccessToken(
+              newAccressToken.data.data.access_token,
+              newAccressToken.data.data.refresh_token
+            );
+            // set original request header with new access token
+            config.headers.Authorization = `Bearer ${newAccressToken.data.data.access_token}`;
+          }
 
-    // handle internal server error
-    if (error.response.status === 500) {
-      error.response.data = {
-        message: "Internal server error",
-      };
+          return axios(config);
+        } catch (error) {
+          // handle error when failed to refresh token
+          deleteAccessToken();
+          deleteRefreshToken();
+          deleteIsAuth();
+        }
+        break;
+      case 403:
+        error.response.data = {
+          message: "Forbidden",
+        };
+        break;
+      case 404:
+        error.response.data = {
+          message: "Not found",
+        };
+        break;
+      case 500:
+        error.response.data = {
+          message: "Internal server error",
+        };
+        break;
     }
 
     return Promise.reject(error);

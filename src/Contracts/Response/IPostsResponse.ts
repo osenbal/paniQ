@@ -46,3 +46,8 @@ export interface IUser {
   username: string;
   usermajor: string;
 }
+
+export interface IPOSTValidatePostResponse {
+  status_code: number;
+  message: string;
+}

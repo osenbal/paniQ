@@ -1,5 +1,13 @@
 import { IPostDataSource } from "../../Contracts/DataSource/IPostDataSource";
 import { IPostRepository } from "@/Contracts/Repository/IPostRepository";
+import {
+  IGETListPostResponse,
+  IGETDetailPostResponse,
+  IGETRequestValidatePostResponse,
+  IPOSTCreatePostResponse,
+  IPOSTValidatePostResponse,
+} from "@/Contracts/Response/IPostsResponse";
+import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
 
 export class PostRepositoryImpl implements IPostRepository {
   postDataSource: IPostDataSource;
@@ -8,27 +16,31 @@ export class PostRepositoryImpl implements IPostRepository {
     this.postDataSource = _postDataSource;
   }
 
-  getPosts<T>(page: number, user_id?: number): Promise<T> {
+  getPosts(page: number, user_id?: number): Promise<IGETListPostResponse> {
     return this.postDataSource.getPosts(page, user_id);
   }
 
-  searchPost<T>(data: any): Promise<T> {
+  searchPost(data: any): Promise<IGETListPostResponse> {
     return this.postDataSource.searchPost(data);
   }
 
-  createPost<T>(data: FormData): Promise<T> {
+  createPost(data: FormData): Promise<IPOSTCreatePostResponse> {
     return this.postDataSource.createPost(data);
   }
 
-  requestValidatePost<T>(post_id: string): Promise<T> {
+  requestValidatePost(
+    post_id: string
+  ): Promise<IGETRequestValidatePostResponse> {
     return this.postDataSource.requestValidatePost(post_id);
   }
 
-  validatePost<T>(jsonData: any): Promise<T> {
+  validatePost(
+    jsonData: IValidatePostRequest
+  ): Promise<IPOSTValidatePostResponse> {
     return this.postDataSource.validatePost(jsonData);
   }
 
-  getDetailPost<T>(post_id: string | number): Promise<T> {
+  getDetailPost(post_id: string | number): Promise<IGETDetailPostResponse> {
     return this.postDataSource.getDetailPost(post_id);
   }
 }

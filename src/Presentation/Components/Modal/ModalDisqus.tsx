@@ -50,6 +50,7 @@ const ModalDisqus = forwardRef<RefHandlerModalDisqus, Props>(
     return (
       <>
         <Drawer
+          zIndex={1003}
           className="modal-disqus"
           placement={placement}
           style={{ maxWidth: "768px", margin: "0 auto" }}
