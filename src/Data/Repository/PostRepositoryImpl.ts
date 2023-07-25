@@ -7,7 +7,10 @@ import {
   IPOSTCreatePostResponse,
   IPOSTValidatePostResponse,
 } from "@/Contracts/Response/IPostsResponse";
-import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
+import {
+  IValidatePostRequest,
+  ISearchPostRequest,
+} from "@/Contracts/Requests/IPostRequest";
 
 export class PostRepositoryImpl implements IPostRepository {
   postDataSource: IPostDataSource;
@@ -20,7 +23,7 @@ export class PostRepositoryImpl implements IPostRepository {
     return this.postDataSource.getPosts(page, user_id);
   }
 
-  searchPost(data: any): Promise<IGETListPostResponse> {
+  searchPost(data: ISearchPostRequest): Promise<IGETListPostResponse> {
     return this.postDataSource.searchPost(data);
   }
 

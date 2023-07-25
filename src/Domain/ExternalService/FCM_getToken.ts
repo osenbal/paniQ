@@ -20,9 +20,20 @@ export const firebaseGetToken = async () => {
   getToken(messaging, {
     vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
   })
-    .then((currentToken) => {
+    .then(async (currentToken) => {
       if (currentToken) {
-        // console.log("currect token : ", currentToken);
+        try {
+          const subscribeUrl = `https://iid.googleapis.com/iid/v1/${currentToken}/rel/topics/newPost`;
+          await fetch(subscribeUrl, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${process.env.REACT_APP_FIREBASE_SERVER_KEY}`,
+            },
+          });
+          console.log("Subscribed to topic.");
+        } catch (error) {
+          console.log("Cannot subscribe to topic.");
+        }
       } else {
         console.log(
           "No registration token available. Request permission to generate one."

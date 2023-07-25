@@ -1,10 +1,10 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
 import Spinner from "./Components/Spinner";
-
 import { AuthMiddleware } from "./Middleware/auth.middleware";
+import { firebaseGetToken } from "@/Domain/ExternalService/FCM_getToken";
 
 import "./App.css";
 
@@ -17,6 +17,12 @@ const PageNotification = lazy(
 const Post = lazy(() => import("./Pages/Post/_slug"));
 
 const App: React.FC = () => {
+  useEffect(() => {
+    if (Notification.permission === "granted") {
+      firebaseGetToken();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Router>
       <Suspense fallback={<Spinner />}>
