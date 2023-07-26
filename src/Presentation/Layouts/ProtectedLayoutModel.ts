@@ -1,14 +1,16 @@
 import { useEffect, useRef } from "react";
 import { asyncMe } from "@/Domain/Reducer/authSlice";
-import { useAppDispatch } from "@/Domain/Store/hooks";
+import { useAppDispatch, useAppSelector } from "@/Domain/Store/hooks";
 import {
   RefHandlerModalDisqus,
   RefHandlerPostDetail,
   RefHandlerModalQrcode,
 } from "../Components/Modal";
+import { firebaseGetToken } from "@/Domain/ExternalService/FCM_getToken";
 
 export default function ProtectedLayoutViewModel() {
   const dispatch = useAppDispatch();
+  const { isAuth } = useAppSelector((state) => state.auth);
 
   // ref for modal
   const modalQrcodeRef =
@@ -25,6 +27,16 @@ export default function ProtectedLayoutViewModel() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (Notification.permission === "granted") {
+      console.log("Notification permission granted.");
+      if (isAuth) {
+        firebaseGetToken();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     getCurrentUser();

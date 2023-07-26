@@ -41,9 +41,6 @@ const initialState: AuthState = {
 export const authMethods = {
   login: "/auth/login",
   me: "/auth/me",
-  // register: "/auth/register",
-  // logout: "/auth/logout",
-  // refreshToken: "/auth/refresh-token",
 };
 
 export const asyncLogin = createAsyncThunk(
@@ -51,14 +48,14 @@ export const asyncLogin = createAsyncThunk(
   async (data: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const res = await authUseCase.login(data);
-      if (res.status === true) {
+      if (res?.status === true) {
         // if res.status === true
         toast.success(res.message);
         return res.data;
       } else {
         // if res.status === false
-        toast.error(res.message);
-        return rejectWithValue(res.message);
+        toast.error(res?.message || "Login failed");
+        return rejectWithValue(res?.message || "Login failed");
       }
     } catch (err) {
       return rejectWithValue(err);
@@ -119,7 +116,7 @@ export const authSlice = createSlice({
       .addCase(asyncLogin.fulfilled, (state, action) => {
         state.isLoading = "succeeded";
         state.isAuth = true;
-        if (action.payload) {
+        if (action?.payload) {
           state.isAuth = true;
           state.accessToken = action.payload.access_token;
           state.refreshToken = action.payload.refresh_token;

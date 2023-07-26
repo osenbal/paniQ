@@ -39,9 +39,21 @@ instance.interceptors.response.use(
   },
   async (error) => {
     // handle error requests here
-    const { status, config } = error.response!;
+    if (!error.response) {
+      // handle error when server is not responding
+      error.response = {
+        data: {
+          message: "Server is not responding",
+        },
+      };
+    }
+
+    const { status, config } = error?.response!;
     switch (status) {
       case 400:
+        error.response.data = {
+          message: "Bad request",
+        };
         break;
       case 401:
         config._retry = true;
@@ -93,8 +105,10 @@ instance.interceptors.response.use(
         };
         break;
       case 500:
-        error.response.data = {
-          message: "Internal server error",
+        error.response = {
+          data: {
+            message: "Internal server error",
+          },
         };
         break;
     }
