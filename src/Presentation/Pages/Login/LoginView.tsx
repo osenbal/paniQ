@@ -36,8 +36,9 @@ export default function LoginView() {
             value={email}
             type="email"
             onChange={(e) => setEmail(e.target.value)}
-            style={{ height: "64px", marginBottom: "24px" }}
+            style={{ height: "64px", marginBottom: "4px" }}
             error={errors.email}
+            className="mb-4"
           />
 
           <InputForm
@@ -46,7 +47,7 @@ export default function LoginView() {
             value={password}
             type={showPassword ? "text" : "password"}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ height: "64px" }}
+            style={{ height: "64px", marginBottom: "4px" }}
             icon={
               showPassword ? (
                 <OpenEye alt="show password" onClick={handleShowPassword} />

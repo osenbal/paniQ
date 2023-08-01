@@ -3,8 +3,17 @@
   align-items: center;
   padding: 0.5rem;
   border-radius: 1rem;
+  transition: all 0.1s ease-in-out;
   /* border: 1px solid #ccc; */
   /* border-radius: 16px; */
+}
+
+.input_container:focus-within {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5) !important;
+}
+
+.input_container:hover {
+  box-shadow: 0 0 0 3px rgba(202, 202, 202, 0.5);
 }
 
 .input_container input {

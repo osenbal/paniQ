@@ -1,4 +1,4 @@
-export const base64ToFile = (base64String: any, fileName: any) => {
+export const base64ToFile = (base64String: any, fileName: string): File => {
   const arr = base64String.split(",");
   const mime = arr[0].match(/:(.*?);/)[1];
   const bstr = atob(arr[1]);

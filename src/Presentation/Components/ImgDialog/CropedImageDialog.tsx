@@ -72,7 +72,7 @@ const CropedImageDialog: React.FC<Props> = ({
       >
         <img style={{ width: "100%" }} src={img} alt="cropped" />
 
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col justify-center items-center">
           <Form
             form={form}
             layout="vertical"
@@ -81,12 +81,14 @@ const CropedImageDialog: React.FC<Props> = ({
             initialValues={{ size: "medium" }}
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 14 }}
-            size={"large" as SizeType}
+            size={"large"}
             onFinish={handleSubmitPost}
+            className="w-full"
           >
             <Form.Item
               label="Nama Barang"
               name="name"
+              labelAlign="left"
               rules={[{ required: true, message: "Nama Barang harus diisi" }]}
             >
               <Input />
