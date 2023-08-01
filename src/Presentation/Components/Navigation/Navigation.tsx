@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { Button } from "antd";
 import IconHome from "@/Assets/Icons/icon_home.svg";
 import IconCamera from "@/Assets/Icons/icon_camera.svg";
 import IconProfile from "@/Assets/Icons/icon_profile.svg";
@@ -28,24 +29,61 @@ const Navigation: React.FC<Props> = ({ openModalProfile, ref }) => {
         >
           <li id="my-first-step">
             <NavLink to="/">
-              <img style={{ cursor: "pointer" }} src={IconHome} alt="home" />
+              <Button
+                size="large"
+                style={{
+                  border: "none",
+                  minWidth: "32px",
+                  minHeight: "32px",
+                }}
+                icon={
+                  <img
+                    className="navigation_bottom_icon"
+                    style={{ cursor: "pointer" }}
+                    src={IconHome}
+                    alt="home"
+                  />
+                }
+              />
             </NavLink>
           </li>
           <li id="my-second-step">
             <NavLink to="/camera">
-              <img
-                style={{ cursor: "pointer" }}
-                src={IconCamera}
-                alt="camera"
+              <Button
+                size="large"
+                style={{
+                  border: "none",
+                  minWidth: "32px",
+                  minHeight: "32px",
+                }}
+                icon={
+                  <img
+                    className="navigation_bottom_icon"
+                    style={{ cursor: "pointer" }}
+                    src={IconCamera}
+                    alt="camera"
+                  />
+                }
               />
             </NavLink>
           </li>
           <li id="my-third-step">
             <div onClick={openModalProfile}>
-              <img
-                style={{ cursor: "pointer" }}
-                src={IconProfile}
-                alt="profile"
+              <Button
+                size="large"
+                style={{
+                  border: "none",
+                  minWidth: "32px",
+                  minHeight: "32px",
+                }}
+                icon={
+                  <img
+                    className="navigation_bottom_icon"
+                    style={{ cursor: "pointer" }}
+                    src={IconProfile}
+                    alt="profile"
+                  />
+                }
               />
             </div>
           </li>

@@ -5,6 +5,12 @@
   margin: 0 auto;
   max-width: 465px;
 }
+.navigation_bottom_icon {
+  min-width: 24px;
+  min-height: 24px;
+  width: 100%;
+  height: 100%;
+}
 
 /* @media screen and (min-width: 480px) {
   .navigation_margin {
