@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
 import CheckSupportedBrowser from "@/utils/CheckSupportedBrowser";
 import NotificationLocalStorage from "@/Data/DataSource/LocalStorage/NotificationLocalStorage";
-import { firebaseGetToken } from "@/Domain/ExternalService/FCM_getToken";
+import { useAppDispatch } from "@/Domain/Store/hooks";
+import { setNotificationPermission } from "@/Domain/Reducer/globalSlice";
 
-const NotificationRequest = () => {
+const NotificationRequest: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -20,10 +22,7 @@ const NotificationRequest = () => {
       CheckSupportedBrowser.serviceWorker() &&
       CheckSupportedBrowser.pushManager()
     ) {
-      if (
-        Notification.permission === "default" &&
-        NotificationLocalStorage.getNotifications() === null
-      ) {
+      if (Notification.permission === "default") {
         showModal();
       }
     }
@@ -33,15 +32,20 @@ const NotificationRequest = () => {
   const requestNotificationPermission = async () => {
     await Notification.requestPermission().then((permission) => {
       if (permission === "granted") {
-        console.log("Notification permission granted.");
+        NotificationLocalStorage.setNotifications("granted");
+        dispatch(setNotificationPermission("granted"));
         hideModal();
-        firebaseGetToken();
+      } else if (permission === "denied") {
+        NotificationLocalStorage.setNotifications("denied");
+        dispatch(setNotificationPermission("denied"));
+        hideModal();
       }
     });
   };
 
   const rejectNotificationPermission = () => {
-    NotificationLocalStorage.setNotifications(false);
+    NotificationLocalStorage.setNotifications("denied");
+    dispatch(setNotificationPermission("denied"));
     hideModal();
   };
 

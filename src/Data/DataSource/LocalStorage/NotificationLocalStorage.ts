@@ -1,11 +1,15 @@
 import LocalStorage from "./LocalStorage";
 
 class NotificationLocalStorage {
-  public static getNotifications(): boolean {
-    return LocalStorage.get("notifications");
+  public static getNotifications(): NotificationPermission {
+    const notifications = LocalStorage.get("notifications");
+    if (notifications) {
+      return notifications;
+    }
+    return "default";
   }
 
-  public static setNotifications(notifications: string | boolean): void {
+  public static setNotifications(notifications: NotificationPermission): void {
     LocalStorage.set("notifications", notifications);
   }
 

@@ -1,9 +1,9 @@
 class LocalStorage {
-  public static set(key: string, value: any) {
+  public static set(key: string, value: any): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  public static get(key: string) {
+  public static get(key: string): any {
     const value = localStorage.getItem(key);
     if (value) {
       return JSON.parse(value);
@@ -11,7 +11,7 @@ class LocalStorage {
     return null;
   }
 
-  public static remove(key: string) {
+  public static remove(key: string): void {
     localStorage.removeItem(key);
   }
 }
