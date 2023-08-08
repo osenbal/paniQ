@@ -1,18 +1,22 @@
-import { useEffect, useRef } from "react";
-import { asyncMe } from "@/Domain/Reducer/authSlice";
-import { useAppDispatch, useAppSelector } from "@/Domain/Store/hooks";
+import { useEffect, useRef } from 'react';
+import { asyncMe } from '@/Domain/Reducer/authSlice';
+import { useAppDispatch, useAppSelector } from '@/Domain/Store/hooks';
 import {
   RefHandlerModalDisqus,
   RefHandlerPostDetail,
   RefHandlerModalQrcode,
-} from "../Components/Modal";
-import { onMessage, getToken } from "firebase/messaging";
-import { messagingApp } from "@/Domain/ExternalService/FirebaseApp";
+} from '../Components/Modal';
+import { onMessage, getToken } from 'firebase/messaging';
+import { messagingApp } from '@/Domain/ExternalService/FirebaseApp';
+import { asyncSubscribeToTopic } from '@/Domain/Reducer/notificationSlice';
+import NotificationLocalStorage from '@/Data/DataSource/LocalStorage/NotificationLocalStorage';
 
 export default function ProtectedLayoutViewModel() {
   const dispatch = useAppDispatch();
   const { isAuth, user } = useAppSelector((state) => state.auth);
-  const { notificationPermission } = useAppSelector((state) => state.global);
+  const { notificationPermission } = useAppSelector(
+    (state) => state.notification
+  );
 
   // ref for modal
   const modalQrcodeRef =
@@ -38,11 +42,11 @@ export default function ProtectedLayoutViewModel() {
 
     try {
       // register service worker
-      await navigator.serviceWorker.register("/firebase-messaging-sw.js", {
-        scope: "/",
+      await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+        scope: '/',
       });
       await navigator.serviceWorker.ready;
-      console.info("Service worker ready.");
+      console.info('Service worker ready.');
 
       // get token from firebase
       const currentToken = await getToken(messaging, {
@@ -50,19 +54,17 @@ export default function ProtectedLayoutViewModel() {
       });
 
       if (currentToken) {
+        console.log('currentToken : ', currentToken);
+        NotificationLocalStorage.setFcmClientToken(currentToken);
         try {
           // subscribe to topic newPost
-          const subscribeUrl = `https://iid.googleapis.com/iid/v1/${currentToken}/rel/topics/newPost`;
-          await fetch(subscribeUrl, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_FIREBASE_SERVER_KEY}`,
-            },
-          });
+          dispatch(asyncSubscribeToTopic(currentToken))
+            .unwrap()
+            .then(() => console.info('Success subscribed to topic.'));
 
           // handle message when receive notification in foreground
           onMessage(messaging, (payload) => {
-            console.log("Message received onMessage : ", payload);
+            // console.log('Message received onMessage : ', payload);
             // filter notification if user is the one who post
             if (user?.id === payload.data?.userId) {
               return;
@@ -70,33 +72,40 @@ export default function ProtectedLayoutViewModel() {
 
             // show notification here
             const notificationTitle = payload.notification?.title;
-            const notificationOptions = {
+            const notificationOptions: NotificationOptions = {
               body: payload.notification?.body,
-              icon: payload.notification?.icon,
+              icon: payload.notification?.image,
+              data: {
+                url: 'https://www.google.com',
+              },
             };
 
-            new Notification(
-              notificationTitle || "PaniQ Notification",
+            const notification = new Notification(
+              notificationTitle || 'PaniQ Notification',
               notificationOptions
             );
-          });
 
-          console.info("Success subscribed to topic.");
+            notification.onclick = (event) => {
+              event.preventDefault();
+              window.open('https://google.com', '_blank');
+              notification.close();
+            };
+          });
         } catch (error) {
-          console.log("Cannot subscribe to topic.");
+          console.log('Cannot subscribe to topic.');
         }
       }
     } catch (error) {
       console.log(
-        "An error occurred while registering service worker. ",
+        'An error occurred while registering service worker. ',
         error
       );
     }
   };
 
   useEffect(() => {
-    if (Notification.permission === "granted") {
-      console.log("Notification permission granted.");
+    if (Notification.permission === 'granted') {
+      console.log('Notification permission granted.');
       if (isAuth) {
         firebaseGetToken();
       }

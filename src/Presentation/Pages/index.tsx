@@ -32,7 +32,7 @@ const Index: React.FC = () => {
                     indexZero={index === 0}
                     userName={item.user.username}
                     userMajor={item.user.usermajor}
-                    userImage={"https://picsum.photos/200"}
+                    userImage={`https://ui-avatars.com/api/?color=000000&size=128&name=${item.user.username}`}
                     postImage={item.image_url || "https://picsum.photos/200"}
                     postTitle={item.title}
                     postDescription={item.place}

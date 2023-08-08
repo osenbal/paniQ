@@ -4,7 +4,7 @@ import { Button } from "antd";
 import BlockViewPosts from "@/Presentation/Components/Posts/BlockViewPosts";
 import { basicColors, elementColor } from "@/Core/config/colors/colors";
 import { header18 } from "@/Core/config/fonts/fonts";
-// import CarouselViewPosts from "@/Presentation/Components/Posts/CarouselViewPosts";
+import CarouselViewPosts from "@/Presentation/Components/Posts/CarouselViewPosts";
 
 import IconLefArrow from "@/Assets/Icons/icon_leftArrow.svg";
 import IconViewBlocks from "@/Assets/Icons/icon_viewBlocks.svg";
@@ -134,7 +134,7 @@ const _Slug: React.FC = () => {
                   <BlockViewPosts posts={myPosts} />
                 ) : (
                   <>
-                    <p className="text-center">Under Development</p>
+                    <CarouselViewPosts posts={myPosts} />
                   </>
                 )}
               </>

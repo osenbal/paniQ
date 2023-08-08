@@ -1,20 +1,22 @@
-import { useRef, useState } from "react";
-import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
-import { RefHandlerDrawerQrScanner } from "../Components/ScanQR/ScanQR";
+import { useRef, useState } from 'react';
+import { useAppSelector, useAppDispatch } from '@/Domain/Store/hooks';
+import { RefHandlerDrawerQrScanner } from '../Components/ScanQR/ScanQR';
 import {
   RefHandlerModalSearch,
   RefHandlerModalConfirmation,
   RefHandlerModalProfile,
-} from "../Components/Modal";
+} from '../Components/Modal';
 import {
   deleteAccessToken,
   deleteIsAuth,
   deleteRefreshToken,
-} from "@/Data/DataSource/Cookie/JWT.cookie";
-import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
-import { IValidatePostRequest } from "@/Contracts/Requests/IPostRequest";
-import { toast } from "react-toastify";
-import { asyncSearchPost, setSearchResult } from "@/Domain/Reducer/postSlice";
+} from '@/Data/DataSource/Cookie/JWT.cookie';
+import PostUseCaseImpl from '@/Domain/UseCase/Posts/PostUseCaseImpl';
+import { IValidatePostRequest } from '@/Contracts/Requests/IPostRequest';
+import { toast } from 'react-toastify';
+import { asyncSearchPost, setSearchResult } from '@/Domain/Reducer/postSlice';
+import NotificationLocalStorage from '@/Data/DataSource/LocalStorage/NotificationLocalStorage';
+import { asyncUnsubscribeFromTopic } from '@/Domain/Reducer/notificationSlice';
 
 export default function DashboardLayoutViewModel() {
   const postUseCase = PostUseCaseImpl.getInstance();
@@ -36,7 +38,7 @@ export default function DashboardLayoutViewModel() {
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
 
   const handleSearch = async () => {
-    if (searchText === "" || searchText.length === 0)
+    if (searchText === '' || searchText.length === 0)
       return dispatch(setSearchResult([]));
     dispatch(asyncSearchPost({ searchText, limit: 5 }));
   };
@@ -49,6 +51,13 @@ export default function DashboardLayoutViewModel() {
     deleteAccessToken();
     deleteRefreshToken();
     deleteIsAuth();
+
+    const fcmTokenClient = NotificationLocalStorage.getFcmClientToken();
+    if (fcmTokenClient) {
+      dispatch(asyncUnsubscribeFromTopic(fcmTokenClient));
+    }
+
+    NotificationLocalStorage.removeFcmClientToken();
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -58,8 +67,8 @@ export default function DashboardLayoutViewModel() {
     await postUseCase
       .validatePost(data)
       .then((response) => {
-        toast.success(response?.message || "Success return data", {
-          position: "top-center",
+        toast.success(response?.message || 'Success return data', {
+          position: 'top-center',
         });
       })
       .catch((error) => {

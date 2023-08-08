@@ -1,5 +1,6 @@
-import { IUserDataSource } from "@/Contracts/DataSource/IUserDataSource";
-import { IUserRepository } from "@/Contracts/Repository/IUserRepository";
+import { IUserDataSource } from '@/Contracts/DataSource/IUserDataSource';
+import { IUserRepository } from '@/Contracts/Repository/IUserRepository';
+import { IGETCurrentUserResponse } from '@/Contracts/Response/IUserResponse';
 
 export class UserRepositoryImpl implements IUserRepository {
   private dataSource: IUserDataSource;
@@ -8,7 +9,7 @@ export class UserRepositoryImpl implements IUserRepository {
     this.dataSource = _datasource;
   }
 
-  public getCurrentUser<T>(): Promise<T> {
+  public getCurrentUser(): Promise<IGETCurrentUserResponse> {
     return this.dataSource.getCurrentUser();
   }
 }

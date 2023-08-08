@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Modal } from "antd";
-import CheckSupportedBrowser from "@/utils/CheckSupportedBrowser";
-import NotificationLocalStorage from "@/Data/DataSource/LocalStorage/NotificationLocalStorage";
-import { useAppDispatch } from "@/Domain/Store/hooks";
-import { setNotificationPermission } from "@/Domain/Reducer/globalSlice";
+import React, { useState, useEffect } from 'react';
+import { Modal } from 'antd';
+import CheckSupportedBrowser from '@/utils/CheckSupportedBrowser';
+import NotificationLocalStorage from '@/Data/DataSource/LocalStorage/NotificationLocalStorage';
+import { useAppDispatch } from '@/Domain/Store/hooks';
+import { setNotificationPermission } from '@/Domain/Reducer/notificationSlice';
 
 const NotificationRequest: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const NotificationRequest: React.FC = () => {
       CheckSupportedBrowser.serviceWorker() &&
       CheckSupportedBrowser.pushManager()
     ) {
-      if (Notification.permission === "default") {
+      if (Notification.permission === 'default') {
         showModal();
       }
     }
@@ -31,21 +31,21 @@ const NotificationRequest: React.FC = () => {
 
   const requestNotificationPermission = async () => {
     await Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        NotificationLocalStorage.setNotifications("granted");
-        dispatch(setNotificationPermission("granted"));
+      if (permission === 'granted') {
+        NotificationLocalStorage.setNotifications('granted');
+        dispatch(setNotificationPermission('granted'));
         hideModal();
-      } else if (permission === "denied") {
-        NotificationLocalStorage.setNotifications("denied");
-        dispatch(setNotificationPermission("denied"));
+      } else if (permission === 'denied') {
+        NotificationLocalStorage.setNotifications('denied');
+        dispatch(setNotificationPermission('denied'));
         hideModal();
       }
     });
   };
 
   const rejectNotificationPermission = () => {
-    NotificationLocalStorage.setNotifications("denied");
-    dispatch(setNotificationPermission("denied"));
+    NotificationLocalStorage.setNotifications('denied');
+    dispatch(setNotificationPermission('denied'));
     hideModal();
   };
 
@@ -61,7 +61,7 @@ const NotificationRequest: React.FC = () => {
         closable={false}
         maskClosable={false}
         okButtonProps={{
-          style: { backgroundColor: "#00EBC7", color: "#00214D" },
+          style: { backgroundColor: '#00EBC7', color: '#00214D' },
         }}
       ></Modal>
     </>

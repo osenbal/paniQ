@@ -1,32 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
-import NotificationLocalStorage from "@/Data/DataSource/LocalStorage/NotificationLocalStorage";
-// import type { PayloadAction } from "@reduxjs/toolkit";
-// import type { RootState } from "../Store/store";
-
-// Define a type for the slice state
-
-const notificationPermission = NotificationLocalStorage.getNotifications();
-interface GlobalState {
-  notificationPermission: NotificationPermission;
-}
+import { createSlice } from '@reduxjs/toolkit';
+interface GlobalState {}
 
 // Define the initial state using that type
-const initialState: GlobalState = {
-  notificationPermission,
-};
+const initialState: GlobalState = {};
 
 export const globalSlice = createSlice({
-  name: "global",
+  name: 'global',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
-  reducers: {
-    setNotificationPermission: (state, action) => {
-      NotificationLocalStorage.setNotifications(action.payload);
-      state.notificationPermission = action.payload;
-    },
-  },
+  reducers: {},
 });
 
-export const { setNotificationPermission } = globalSlice.actions;
+// export const { setNotificationPermission } = globalSlice.actions;
 
 export default globalSlice.reducer;

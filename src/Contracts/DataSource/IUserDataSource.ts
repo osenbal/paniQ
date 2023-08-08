@@ -1,3 +1,4 @@
+import { IGETCurrentUserResponse } from '../Response/IUserResponse';
 export interface IUserDataSource {
-  getCurrentUser<T>(): Promise<T>;
+  getCurrentUser(): Promise<IGETCurrentUserResponse>;
 }

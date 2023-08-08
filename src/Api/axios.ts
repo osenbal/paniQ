@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   getRefreshToken,
   setAccessToken,
@@ -6,21 +6,21 @@ import {
   deleteRefreshToken,
   deleteIsAuth,
   getAccessToken,
-} from "@/Data/DataSource/Cookie/JWT.cookie";
-import { ILoginResponse } from "@/Contracts/Response/IAuthResponse";
-import { AUTH_END_POINT } from "./LIST_END_POINT";
+} from '@/Data/DataSource/Cookie/JWT.cookie';
+import { ILoginResponse } from '@/Contracts/Response/IAuthResponse';
+import { AUTH_END_POINT, NOTIFICATION_END_POINT } from './LIST_END_POINT';
+import NotificationLocalStorage from '@/Data/DataSource/LocalStorage/NotificationLocalStorage';
 
 // create instance of axios
 const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_API_URL,
-  timeout: 1000,
 });
 
 // handle request
 instance.interceptors.request.use(
   (config) => {
     // handle successful request here
-    if (getAccessToken() !== "") {
+    if (getAccessToken() !== '') {
       config.headers.Authorization = `Bearer ${getAccessToken()}`;
     }
     return config;
@@ -43,7 +43,7 @@ instance.interceptors.response.use(
       // handle error when server is not responding
       error.response = {
         data: {
-          message: "Server is not responding",
+          message: 'Server is not responding',
         },
       };
     }
@@ -52,7 +52,7 @@ instance.interceptors.response.use(
     switch (status) {
       case 400:
         error.response.data = {
-          message: "Bad request",
+          message: 'Bad request',
         };
         break;
       case 401:
@@ -70,7 +70,7 @@ instance.interceptors.response.use(
             AUTH_END_POINT.GET_REFRESH_TOKEN,
             {
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${refreshToken}`,
               },
             }
@@ -92,22 +92,37 @@ instance.interceptors.response.use(
           deleteAccessToken();
           deleteRefreshToken();
           deleteIsAuth();
+
+          const fcmClientToken = NotificationLocalStorage.getFcmClientToken();
+          if (fcmClientToken !== null) {
+            // unsubscribe to topic newPost
+            await instance.get(
+              NOTIFICATION_END_POINT.GET_UNSUBSCRIBE(fcmClientToken),
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              }
+            );
+          }
+
+          NotificationLocalStorage.removeFcmClientToken();
         }
         break;
       case 403:
         error.response.data = {
-          message: "Forbidden",
+          message: 'Forbidden',
         };
         break;
       case 404:
         error.response.data = {
-          message: "Not found",
+          message: 'Not found',
         };
         break;
       case 500:
         error.response = {
           data: {
-            message: "Internal server error",
+            message: 'Internal server error',
           },
         };
         break;

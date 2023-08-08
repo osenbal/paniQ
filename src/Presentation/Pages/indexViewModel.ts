@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "@/Domain/Store/hooks";
-import { asyncGetAllPost } from "@/Domain/Reducer/postSlice";
+import { useEffect, useState } from 'react';
+import { useAppSelector, useAppDispatch } from '@/Domain/Store/hooks';
+import { asyncGetAllPost } from '@/Domain/Reducer/postSlice';
 // import posts from "@/Data/DataSource/Dummy/Posts";
 
 const IndexViewModel = () => {
@@ -13,19 +13,22 @@ const IndexViewModel = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagePost, setPagePost] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
 
   // dummy data post
   // const postDummy: IGETListPostResponse = posts;
 
   useEffect(() => {
-    getAllPosts();
+    if (hasNextPage) {
+      getAllPosts();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagePost]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -45,13 +48,19 @@ const IndexViewModel = () => {
       setIsLoadingMore(true);
     }
 
-    dispatch(asyncGetAllPost(pagePost)).finally(() => {
-      setIsLoading(false);
-
-      setTimeout(() => {
-        setIsLoadingMore(false);
-      }, 1000);
-    });
+    dispatch(asyncGetAllPost(pagePost))
+      .unwrap()
+      .then((res) => {
+        if (res.length === 0) {
+          setHasNextPage(false);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoadingMore(false);
+        }, 1000);
+      });
   };
 
   return {

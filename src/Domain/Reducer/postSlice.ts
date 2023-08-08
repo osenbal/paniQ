@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../Store/store";
-import { toast } from "react-toastify";
-import { IPost } from "@/Contracts/Response/IPostsResponse";
-import PostUseCaseImpl from "@/Domain/UseCase/Posts/PostUseCaseImpl";
-import { ISearchPostRequest } from "@/Contracts/Requests/IPostRequest";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../Store/store';
+import { toast } from 'react-toastify';
+import { IPost } from '@/Contracts/Response/IPostsResponse';
+import PostUseCaseImpl from '@/Domain/UseCase/Posts/PostUseCaseImpl';
+import { ISearchPostRequest } from '@/Contracts/Requests/IPostRequest';
 
 const postUseCase = PostUseCaseImpl.getInstance();
 
@@ -18,7 +18,7 @@ interface IPostState {
 
 // Define the initial state using that type
 const initialState: IPostState = {
-  searchText: "",
+  searchText: '',
   posts: [],
   searchResult: [],
   isLoadingSearch: false,
@@ -26,11 +26,11 @@ const initialState: IPostState = {
 
 // methdos for Post
 export const postMethods = {
-  getAllPost: "/post/list",
-  searchPost: "/post/search",
-  requestValidatePost: "/post/request-validate",
-  getDetailPost: "/post/detail",
-  getPostByUserId: "/post/list/user_id",
+  getAllPost: '/post/list',
+  searchPost: '/post/search',
+  requestValidatePost: '/post/request-validate',
+  getDetailPost: '/post/detail',
+  getPostByUserId: '/post/list/user_id',
 };
 
 export const asyncGetAllPost = createAsyncThunk(
@@ -41,12 +41,13 @@ export const asyncGetAllPost = createAsyncThunk(
       if (res.status_code === 200) {
         return res.data;
       } else {
-        toast.error("Something went wrong");
-        return rejectWithValue("Something went wrong");
+        toast.error(res?.status_code || 'Something went wrong');
+        return rejectWithValue(res?.status_code || 'Something went wrong');
+        // return rejectWithValue('Something went wrong');
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      return rejectWithValue("Something went wrong");
+      toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   }
 );
@@ -61,12 +62,12 @@ export const asyncSearchPost = createAsyncThunk(
         return res.data;
       } else {
         // if res.status === false
-        toast.error("Something went wrong");
-        return rejectWithValue("Something went wrong");
+        toast.error('Something went wrong');
+        return rejectWithValue('Something went wrong');
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      return rejectWithValue("Something went wrong");
+      toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   }
 );
@@ -81,11 +82,11 @@ export const requestValidatePost = createAsyncThunk(
         return res.data;
       } else {
         // if res.status === false
-        return rejectWithValue("Something went wrong");
+        return rejectWithValue('Something went wrong');
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      return rejectWithValue("Something went wrong");
+      toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   }
 );
@@ -101,8 +102,8 @@ export const getDetailPost = createAsyncThunk(
         return null;
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      return rejectWithValue("Something went wrong");
+      toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   }
 );
@@ -124,17 +125,17 @@ export const asyncGetPostByUserId = createAsyncThunk(
       if (res.status_code === 200) {
         return res.data;
       } else {
-        return rejectWithValue("Something went wrong");
+        return rejectWithValue('Something went wrong');
       }
     } catch (error) {
-      toast.error("Something went wrong");
-      return rejectWithValue("Something went wrong");
+      toast.error('Something went wrong');
+      return rejectWithValue('Something went wrong');
     }
   }
 );
 
 export const postSlice = createSlice({
-  name: "post",
+  name: 'post',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {

@@ -1,7 +1,8 @@
-import { USER_END_POINT } from "@/Api/LIST_END_POINT";
-import { IUserDataSource } from "@/Contracts/DataSource/IUserDataSource";
-import axios from "@/Api/axios";
-import { getAccessToken } from "../Cookie/JWT.cookie";
+import { USER_END_POINT } from '@/Api/LIST_END_POINT';
+import { IUserDataSource } from '@/Contracts/DataSource/IUserDataSource';
+import request from '@/Api/request';
+import { isAxiosError } from 'axios';
+import { IGETCurrentUserResponse } from '@/Contracts/Response/IUserResponse';
 
 export class UserDataSourceImpl implements IUserDataSource {
   private static instance: UserDataSourceImpl;
@@ -13,19 +14,18 @@ export class UserDataSourceImpl implements IUserDataSource {
     return UserDataSourceImpl.instance;
   }
 
-  getCurrentUser<T>(): Promise<T> {
-    return axios
-      .get(USER_END_POINT.CURRENT_USER, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((err) => {
-        return err;
-      });
+  public async getCurrentUser(): Promise<IGETCurrentUserResponse> {
+    try {
+      const r = await request.get<IGETCurrentUserResponse>(
+        USER_END_POINT.CURRENT_USER
+      );
+
+      return r;
+    } catch (err) {
+      if (isAxiosError(err) && err.response) {
+        return err.response?.data;
+      }
+      throw err;
+    }
   }
 }
